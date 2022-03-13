@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hznu.xdd.dao.BoxDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.BoxDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="appeal" jdbcType="VARCHAR" property="appeal" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="age" jdbcType="SMALLINT" property="age" />
+    <result column="height" jdbcType="SMALLINT" property="height" />
+    <result column="weight" jdbcType="SMALLINT" property="weight" />
+    <result column="constellation" jdbcType="VARCHAR" property="constellation" />
+    <result column="expire" jdbcType="TIMESTAMP" property="expire" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="aboutme" jdbcType="VARCHAR" property="aboutme" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="gender" jdbcType="SMALLINT" property="gender" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, is_delete, image, appeal, college, age, height, weight, 
+    constellation, expire, contact, hobby, aboutme, user_id, gender, is_online
+  </sql>
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.BoxDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from box
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from box
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from box
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.BoxDOExample">
+    delete from box
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.BoxDO" useGeneratedKeys="true">
+    insert into box (create_time, update_time, is_delete, 
+      image, appeal, college, 
+      age, height, weight, 
+      constellation, expire, contact, 
+      hobby, aboutme, user_id, 
+      gender, is_online)
+    values (#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, 
+      #{image,jdbcType=VARCHAR}, #{appeal,jdbcType=VARCHAR}, #{college,jdbcType=VARCHAR}, 
+      #{age,jdbcType=SMALLINT}, #{height,jdbcType=SMALLINT}, #{weight,jdbcType=SMALLINT}, 
+      #{constellation,jdbcType=VARCHAR}, #{expire,jdbcType=TIMESTAMP}, #{contact,jdbcType=VARCHAR}, 
+      #{hobby,jdbcType=VARCHAR}, #{aboutme,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{gender,jdbcType=SMALLINT}, #{isOnline,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.BoxDO" useGeneratedKeys="true">
+    insert into box
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="appeal != null">
+        appeal,
+      </if>
+      <if test="college != null">
+        college,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="constellation != null">
+        constellation,
+      </if>
+      <if test="expire != null">
+        expire,
+      </if>
+      <if test="contact != null">
+        contact,
+      </if>
+      <if test="hobby != null">
+        hobby,
+      </if>
+      <if test="aboutme != null">
+        aboutme,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="isOnline != null">
+        is_online,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="appeal != null">
+        #{appeal,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null">
+        #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=SMALLINT},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=SMALLINT},
+      </if>
+      <if test="constellation != null">
+        #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="expire != null">
+        #{expire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="aboutme != null">
+        #{aboutme,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="isOnline != null">
+        #{isOnline,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.BoxDOExample" resultType="java.lang.Long">
+    select count(*) from box
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update box
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appeal != null">
+        appeal = #{record.appeal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.college != null">
+        college = #{record.college,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=SMALLINT},
+      </if>
+      <if test="record.height != null">
+        height = #{record.height,jdbcType=SMALLINT},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=SMALLINT},
+      </if>
+      <if test="record.constellation != null">
+        constellation = #{record.constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expire != null">
+        expire = #{record.expire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contact != null">
+        contact = #{record.contact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hobby != null">
+        hobby = #{record.hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aboutme != null">
+        aboutme = #{record.aboutme,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=SMALLINT},
+      </if>
+      <if test="record.isOnline != null">
+        is_online = #{record.isOnline,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update box
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      image = #{record.image,jdbcType=VARCHAR},
+      appeal = #{record.appeal,jdbcType=VARCHAR},
+      college = #{record.college,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=SMALLINT},
+      height = #{record.height,jdbcType=SMALLINT},
+      weight = #{record.weight,jdbcType=SMALLINT},
+      constellation = #{record.constellation,jdbcType=VARCHAR},
+      expire = #{record.expire,jdbcType=TIMESTAMP},
+      contact = #{record.contact,jdbcType=VARCHAR},
+      hobby = #{record.hobby,jdbcType=VARCHAR},
+      aboutme = #{record.aboutme,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      gender = #{record.gender,jdbcType=SMALLINT},
+      is_online = #{record.isOnline,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.BoxDO">
+    update box
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="appeal != null">
+        appeal = #{appeal,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null">
+        college = #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=SMALLINT},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=SMALLINT},
+      </if>
+      <if test="constellation != null">
+        constellation = #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="expire != null">
+        expire = #{expire,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="aboutme != null">
+        aboutme = #{aboutme,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="isOnline != null">
+        is_online = #{isOnline,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.BoxDO">
+    update box
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=BIT},
+      image = #{image,jdbcType=VARCHAR},
+      appeal = #{appeal,jdbcType=VARCHAR},
+      college = #{college,jdbcType=VARCHAR},
+      age = #{age,jdbcType=SMALLINT},
+      height = #{height,jdbcType=SMALLINT},
+      weight = #{weight,jdbcType=SMALLINT},
+      constellation = #{constellation,jdbcType=VARCHAR},
+      expire = #{expire,jdbcType=TIMESTAMP},
+      contact = #{contact,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      aboutme = #{aboutme,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=SMALLINT},
+      is_online = #{isOnline,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
