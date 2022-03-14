@@ -8,13 +8,13 @@ import lombok.Data;
 public class UgcDO implements Serializable {
     private Integer id;
 
-    private Date createTime;
+    private Date create_time;
 
-    private Date updateTime;
+    private Date update_time;
 
-    private Boolean isDelete;
+    private Boolean is_delete;
 
-    private Integer userId;
+    private Integer user_id;
 
     private String title;
 
@@ -28,10 +28,6 @@ public class UgcDO implements Serializable {
 
     private String params;
 
-    private String category;
-
-    private String classify;
-
     private Integer vote;
 
     private Integer exposure;
@@ -40,15 +36,9 @@ public class UgcDO implements Serializable {
 
     private Integer reply;
 
-    private Boolean isOnline;
+    private Boolean is_online;
 
     private Boolean anonymous;
-
-    private Integer pv;
-
-    private Integer uv;
-
-    private String uuid;
 
     private static final long serialVersionUID = 1L;
 }

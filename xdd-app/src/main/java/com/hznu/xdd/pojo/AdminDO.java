@@ -8,17 +8,17 @@ import lombok.Data;
 public class AdminDO implements Serializable {
     private Integer id;
 
-    private Date createTime;
+    private Date create_time;
 
-    private Date updateTime;
+    private Date update_time;
 
-    private Boolean isDelete;
+    private Boolean is_delete;
 
     private String username;
 
-    private String hashpwd;
+    private String password;
 
-    private String roles;
+    private String account_status;
 
     private static final long serialVersionUID = 1L;
 }

@@ -8,7 +8,7 @@ public enum StatusCode {
 
     // 20000～30000 预留系统状态
     SUCCESS(20000, "操作成功"),
-    FAILED(20001, "操作失败"),
+    NO_EXIST(20001, "用户不存在"),
     LOGOUT(20002, "退出登陆成功"),
     TOKEN_INVALID(20003, "token失效"),
     CONTENT_INVALID(20004, "内容非法"),
@@ -57,7 +57,7 @@ public enum StatusCode {
         return this.code;
     }
 
-    public String message() {
+    public String getMessage() {
         return this.message;
     }
 

@@ -1,5 +1,6 @@
 package com.hznu.xdd.util;
 
+import com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationToken;
 import com.hznu.xdd.pojo.UserDO;
 import org.springframework.security.core.Authentication;
 
@@ -11,17 +12,17 @@ public class UserInfoUtil {
     /**
      * 获取用户的WxOpenId
      */
-    public static String getWxOpenId(Authentication authentication){
+    public static String getWxOpenIdXiaododoMini(Authentication authentication){
         UserDO userDO= (UserDO) authentication.getPrincipal();
-        return userDO.getOpenId();
+        return userDO.getOpenIdXiaododoMini();
     }
 
     /**
      * 获取用户的SessionKey
      */
     public static String getSessionKey(Authentication authentication){
-        UserDO userDO= (UserDO) authentication.getPrincipal();
-        return userDO.getSessionId();
+        WeiXinMiniProgramAuthenticationToken token= (WeiXinMiniProgramAuthenticationToken) authentication;
+        return (String) token.getCredentials();
     }
 
 }

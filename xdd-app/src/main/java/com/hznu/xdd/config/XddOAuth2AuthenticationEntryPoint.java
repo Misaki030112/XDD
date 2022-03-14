@@ -1,5 +1,6 @@
 package com.hznu.xdd.config;
 
+import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Result;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,9 @@ public class XddOAuth2AuthenticationEntryPoint extends OAuth2AuthenticationEntry
         update.set("WWW-Authenticate", builder.toString());
         if(exception instanceof UnapprovedClientAuthenticationException)
         {
-            return new ResponseEntity<Object>(Result.error(null,exception.getMessage()), update, HttpStatus.OK);
+            return new ResponseEntity<Object>( new Result(StatusCode.SUCCESS.getCode(),exception.getMessage()), update, HttpStatus.OK);
         }
-        return new ResponseEntity<Object>(Result.error(null,"token过期，或者错误"), update, HttpStatus.OK);
+        return new ResponseEntity<Object>(new Result(StatusCode.TOKEN_INVALID), update, HttpStatus.OK);
     }
 
     private String extractTypePrefix(String header) {

@@ -10,71 +10,63 @@ import lombok.experimental.Accessors;
 public class UserDO implements Serializable {
     private Integer id;
 
-    private Date createTime;
+    private Date create_time;
 
-    private Date updateTime;
+    private Date update_time;
 
-    private Boolean isDelete;
+    private Boolean is_delete;
 
-    private String openId;
+    private String open_id_xiaododo_mini;
+
+    private String union_id;
+
+    private String open_id_xiaododo_official_account;
 
     private String avatar;
 
-    private String username;
+    private String nickname;
+
+    private Short gender;
+
+    private Date birthday;
+
+    private String province;
 
     private String city;
 
     private String district;
 
-    private String province;
-
-    private String unionId;
-
-    private Short gender;
+    private String address;
 
     private String school;
 
+    private String college;
+
     private String signature;
 
-    private Integer followNum;
+    private Integer follow_num;
 
-    private Integer fansNum;
+    private Integer fan_num;
 
-    private Integer publishNum;
+    private Integer publish_num;
 
-    private Integer collectNum;
+    private Integer collect_num;
 
-    private Integer voteNum;
+    private Integer vote_num;
 
-    private Integer receiveVoteNum;
+    private Integer receive_vote_num;
 
-    private String address;
+    private Integer account_status;
 
-    private String sessionId;
+    private Integer integral;
 
-    private Date birthday;
-
-    private String year;
+    private String access_year;
 
     private String role;
 
-    private String college;
+    private String phone;
 
-    private String certifyImgs;
-
-    private Short userVerify;
-
-    private Short votePush;
-
-    private Short replyPush;
-
-    private Short chatPush;
-
-    private String uuid;
-
-    private Short integral;
-
-    private String badge;
+    private String subscribe_scene;
 
     private static final long serialVersionUID = 1L;
 }

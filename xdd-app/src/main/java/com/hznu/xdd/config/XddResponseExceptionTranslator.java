@@ -1,5 +1,6 @@
 package com.hznu.xdd.config;
 
+import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -76,13 +77,13 @@ public class XddResponseExceptionTranslator implements WebResponseExceptionTrans
         if (e instanceof InvalidGrantException) {
             String message = e.getMessage();
             if (message.contains(Invalid_Refresh_Token)) {
-                return new ResponseEntity<>(Result.error(400,"无效，或错误的refresh_token"), headers, HttpStatus.OK);
+                return new ResponseEntity<>(new Result(400,"无效，或错误的refresh_token"), headers, HttpStatus.OK);
             }
-            return new ResponseEntity<>(Result.error(null,e.getMessage()), headers, HttpStatus.OK);
+            return new ResponseEntity<>(new Result(StatusCode.SUCCESS.getCode() ,e.getMessage()), headers, HttpStatus.OK);
         } else if (e instanceof ForbiddenException) {
-            return new ResponseEntity<>(Result.error(403,"禁止无权限操作"), headers, HttpStatus.OK);
+            return new ResponseEntity<>(new Result(403,"禁止无权限操作"), headers, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(Result.error(null,e.getMessage()), headers, HttpStatus.OK);
+            return new ResponseEntity<>(new Result(StatusCode.SUCCESS.getCode(),e.getMessage()), headers, HttpStatus.OK);
         }
     }
 

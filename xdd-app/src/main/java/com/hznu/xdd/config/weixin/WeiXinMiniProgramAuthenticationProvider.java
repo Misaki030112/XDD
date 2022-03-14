@@ -30,7 +30,7 @@ public class WeiXinMiniProgramAuthenticationProvider implements AuthenticationPr
             throw new WeiXinMiniProgramAuthenticationException("未发现可用的用户信息");
         }
         WeiXinMiniProgramAuthenticationToken weiXinMiniProgramAuthenticationToken1 =
-                new WeiXinMiniProgramAuthenticationToken(weiXinMiniProgramAuthenticationToken.getPrincipal(),weiXinMiniProgramAuthenticationToken.getOpenId(),null);
+                new WeiXinMiniProgramAuthenticationToken(weiXinMiniProgramAuthenticationToken.getPrincipal(),weiXinMiniProgramAuthenticationToken.getCredentials(),null);
         weiXinMiniProgramAuthenticationToken1.setDetails(weiXinMiniProgramAuthenticationToken.getDetails());
         return weiXinMiniProgramAuthenticationToken1;
     }

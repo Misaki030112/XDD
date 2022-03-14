@@ -57,7 +57,7 @@ public class WeiXinMiniProgramAuthenticationFilter extends
         //通过openid 获取用户信息
         JSONObject jsonObject = JSON.parseObject(wxOpenid.getBody());
        UserDO user= remoteClientInvoke(jsonObject);
-        WeiXinMiniProgramAuthenticationToken authRequest = new WeiXinMiniProgramAuthenticationToken(user,user.getOpenId());
+        WeiXinMiniProgramAuthenticationToken authRequest = new WeiXinMiniProgramAuthenticationToken(user,jsonObject.getString("session_key"));
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
@@ -65,7 +65,6 @@ public class WeiXinMiniProgramAuthenticationFilter extends
 
     private UserDO remoteClientInvoke(JSONObject object) {
         String openid = object.getString("openid");
-        String sessionKey=object.getString("session_key");
         String union_id=object.getString("unionid");
 //        System.out.println(encryptedData);
 //        if (StringUtils.isBlank(openid)) {
@@ -97,14 +96,14 @@ public class WeiXinMiniProgramAuthenticationFilter extends
         if(user==null){
             log.info("新用户注册!"+user);
             user = new UserDO();
-            user.setOpenId(openid).setCreateTime(new Date());
+            user.setOpen_id_xiaododo_mini(openid).setCreate_time(new Date());
             if(userService.addUser(user)){
                 log.info("新用户注册成功");
             }else throw new WeiXinMiniProgramAuthenticationException("用户注册失败");
         }
-        user.setSessionId(sessionKey);
-        user.setUnionId(union_id);
-        user.setUpdateTime(new Date());
+        user.setUnion_id(union_id);
+        user.setCreate_time(new Date());
+
 
         return user;
     }

@@ -94,7 +94,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
         }
 
-        response.getWriter().write(objectMapper.writeValueAsString(Result.ok(token,"登录成功")));
+        response.getWriter().write(objectMapper.writeValueAsString(Result.ok(token,"注册成功")));
 
     }
 

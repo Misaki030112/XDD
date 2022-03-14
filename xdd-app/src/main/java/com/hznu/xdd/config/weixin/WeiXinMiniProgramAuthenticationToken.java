@@ -56,7 +56,7 @@ public class WeiXinMiniProgramAuthenticationToken extends AbstractAuthentication
 
     public String getOpenId(){
         UserDO user = (UserDO) principal;
-        return user.getOpenId();
+        return user.getOpen_id_xiaododo_mini();
     }
 
 }

@@ -23,10 +23,25 @@ public class Result implements Serializable {
 
     private Result(){}
 
-    private Result(Integer code, Object data,String msg){
+    public Result(Integer code, Object data,String msg){
         this.code = code;
         this.data = data;
         this.msg=msg;
+    }
+
+    public Result(Integer code,String msg){
+        this.code=code;
+        this.msg=msg;
+    }
+
+    public Result(StatusCode statusCode,Object data){
+        this.code=statusCode.getCode();
+        this.msg=statusCode.getMessage();
+        this.data=data;
+    }
+    public Result(StatusCode statusCode){
+        this.code=statusCode.getCode();
+        this.msg=statusCode.getMessage();
     }
 
 
@@ -34,10 +49,6 @@ public class Result implements Serializable {
         return new Result(StatusCode.SUCCESS.getCode(), data,msg);
     }
 
-
-    public static Result error(Object data,String msg){
-        return new Result(StatusCode.FAILED.getCode(),data,msg);
-    }
 
 
 }

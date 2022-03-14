@@ -65,7 +65,7 @@
         <!--nullCatalogMeansCurrent=true 以前该属性默认为false 需要修改成true 只在逆向工程中使用，正常连接不适用
         如果逆向工程不添加该属性，则会扫描该数据库id下所有的数据库  即使给定数据库名称也不好用。-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://alndadudu.mysql.rds.aliyuncs.com:3306/weakee_xcx?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;serverTimezone=GMT%2B8&amp;nullCatalogMeansCurrent=true&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://alndadudu.mysql.rds.aliyuncs.com:3306/weakee_xcx_test?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;serverTimezone=GMT%2B8&amp;nullCatalogMeansCurrent=true&amp;useSSL=false"
                         userId="dudu"
                         password="dudu_weakee123" >
             <property name="useInformationSchema" value="true"/>
@@ -116,6 +116,7 @@
         </javaClientGenerator>
 
         <table  tableName="admin" domainObjectName="AdminDO">
+            <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
@@ -172,6 +173,7 @@
 <!--        </table>-->
 
         <table  tableName="ugc" domainObjectName="UgcDO">
+            <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
@@ -180,9 +182,14 @@
 <!--        </table>-->
 
         <table  tableName="user" domainObjectName="UserDO">
+            <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
+        <table  tableName="report" domainObjectName="reportDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
 <!--        <table  tableName="user_report" domainObjectName="UserReportDO">-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
@@ -190,6 +197,8 @@
 <!--        <table  tableName="vote_log" domainObjectName="VoteLogDO">-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
+
+
 
 
     </context>

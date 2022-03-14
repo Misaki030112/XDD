@@ -2,6 +2,7 @@ package com.hznu.xdd.config.handler;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,6 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
         log.error("login error:",exception);
         response.setStatus(HttpStatus.OK.value());
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(Result.error(null,exception.getMessage())));
+        response.getWriter().write(objectMapper.writeValueAsString(new Result(StatusCode.LOGIN_FAIL)));
     }
 }
