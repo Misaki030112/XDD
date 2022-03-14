@@ -14,7 +14,7 @@ public class UserInfoUtil {
      */
     public static String getWxOpenIdXiaododoMini(Authentication authentication){
         UserDO userDO= (UserDO) authentication.getPrincipal();
-        return userDO.getOpenIdXiaododoMini();
+        return userDO.getOpen_id_xiaododo_mini();
     }
 
     /**
