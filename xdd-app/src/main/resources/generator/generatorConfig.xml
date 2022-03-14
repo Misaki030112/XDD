@@ -191,20 +191,31 @@
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
 
-        <table  tableName="verify_email" domainObjectName="verify_emailDO">
+<!--        <table  tableName="verify_email" domainObjectName="verify_emailDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table  tableName="verify_image" domainObjectName="verify_imageDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table  tableName="verify_method" domainObjectName="verify_methodDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>        -->
+
+<!--        <table  tableName="question" domainObjectName="questionDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table> -->
+
+        <table  tableName="answer" domainObjectName="answerDO">
             <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table  tableName="verify_image" domainObjectName="verify_imageDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-
-        <table  tableName="verify_method" domainObjectName="verify_methodDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
 <!--        <table  tableName="user_report" domainObjectName="UserReportDO">-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
