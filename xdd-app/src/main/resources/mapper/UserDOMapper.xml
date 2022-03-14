@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hznu.xdd.dao2.UserDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.UserDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="gender" jdbcType="SMALLINT" property="gender" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="follow_num" jdbcType="INTEGER" property="followNum" />
+    <result column="fans_num" jdbcType="INTEGER" property="fansNum" />
+    <result column="publish_num" jdbcType="INTEGER" property="publishNum" />
+    <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="vote_num" jdbcType="INTEGER" property="voteNum" />
+    <result column="receive_vote_num" jdbcType="INTEGER" property="receiveVoteNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="certify_imgs" jdbcType="VARCHAR" property="certifyImgs" />
+    <result column="user_verify" jdbcType="SMALLINT" property="userVerify" />
+    <result column="vote_push" jdbcType="SMALLINT" property="votePush" />
+    <result column="reply_push" jdbcType="SMALLINT" property="replyPush" />
+    <result column="chat_push" jdbcType="SMALLINT" property="chatPush" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="integral" jdbcType="SMALLINT" property="integral" />
+    <result column="badge" jdbcType="VARCHAR" property="badge" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, is_delete, open_id, avatar, username, city, district, 
+    province, union_id, gender, school, signature, follow_num, fans_num, publish_num, 
+    collect_num, vote_num, receive_vote_num, address, session_id, birthday, year, role, 
+    college, certify_imgs, user_verify, vote_push, reply_push, chat_push, uuid, integral, 
+    badge
+  </sql>
+  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.UserDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.UserDOExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UserDO" useGeneratedKeys="true">
+    insert into user (create_time, update_time, is_delete, 
+      open_id, avatar, username, 
+      city, district, province, 
+      union_id, gender, school, 
+      signature, follow_num, fans_num, 
+      publish_num, collect_num, vote_num, 
+      receive_vote_num, address, session_id, 
+      birthday, year, role, 
+      college, certify_imgs, user_verify, 
+      vote_push, reply_push, chat_push, 
+      uuid, integral, badge
+      )
+    values (#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, 
+      #{openId,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{unionId,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, #{school,jdbcType=VARCHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{followNum,jdbcType=INTEGER}, #{fansNum,jdbcType=INTEGER}, 
+      #{publishNum,jdbcType=INTEGER}, #{collectNum,jdbcType=INTEGER}, #{voteNum,jdbcType=INTEGER}, 
+      #{receiveVoteNum,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{sessionId,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{year,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
+      #{college,jdbcType=VARCHAR}, #{certifyImgs,jdbcType=VARCHAR}, #{userVerify,jdbcType=SMALLINT}, 
+      #{votePush,jdbcType=SMALLINT}, #{replyPush,jdbcType=SMALLINT}, #{chatPush,jdbcType=SMALLINT}, 
+      #{uuid,jdbcType=VARCHAR}, #{integral,jdbcType=SMALLINT}, #{badge,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UserDO" useGeneratedKeys="true">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="followNum != null">
+        follow_num,
+      </if>
+      <if test="fansNum != null">
+        fans_num,
+      </if>
+      <if test="publishNum != null">
+        publish_num,
+      </if>
+      <if test="collectNum != null">
+        collect_num,
+      </if>
+      <if test="voteNum != null">
+        vote_num,
+      </if>
+      <if test="receiveVoteNum != null">
+        receive_vote_num,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="sessionId != null">
+        session_id,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="college != null">
+        college,
+      </if>
+      <if test="certifyImgs != null">
+        certify_imgs,
+      </if>
+      <if test="userVerify != null">
+        user_verify,
+      </if>
+      <if test="votePush != null">
+        vote_push,
+      </if>
+      <if test="replyPush != null">
+        reply_push,
+      </if>
+      <if test="chatPush != null">
+        chat_push,
+      </if>
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
+      <if test="badge != null">
+        badge,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="followNum != null">
+        #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null">
+        #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="publishNum != null">
+        #{publishNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null">
+        #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="voteNum != null">
+        #{voteNum,jdbcType=INTEGER},
+      </if>
+      <if test="receiveVoteNum != null">
+        #{receiveVoteNum,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null">
+        #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="certifyImgs != null">
+        #{certifyImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="userVerify != null">
+        #{userVerify,jdbcType=SMALLINT},
+      </if>
+      <if test="votePush != null">
+        #{votePush,jdbcType=SMALLINT},
+      </if>
+      <if test="replyPush != null">
+        #{replyPush,jdbcType=SMALLINT},
+      </if>
+      <if test="chatPush != null">
+        #{chatPush,jdbcType=SMALLINT},
+      </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=SMALLINT},
+      </if>
+      <if test="badge != null">
+        #{badge,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hznu.xdd.pojo.UserDOExample" resultType="java.lang.Long">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.openId != null">
+        open_id = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null">
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null">
+        union_id = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=SMALLINT},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signature != null">
+        signature = #{record.signature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.followNum != null">
+        follow_num = #{record.followNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.fansNum != null">
+        fans_num = #{record.fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.publishNum != null">
+        publish_num = #{record.publishNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectNum != null">
+        collect_num = #{record.collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.voteNum != null">
+        vote_num = #{record.voteNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiveVoteNum != null">
+        receive_vote_num = #{record.receiveVoteNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sessionId != null">
+        session_id = #{record.sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.role != null">
+        role = #{record.role,jdbcType=VARCHAR},
+      </if>
+      <if test="record.college != null">
+        college = #{record.college,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certifyImgs != null">
+        certify_imgs = #{record.certifyImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userVerify != null">
+        user_verify = #{record.userVerify,jdbcType=SMALLINT},
+      </if>
+      <if test="record.votePush != null">
+        vote_push = #{record.votePush,jdbcType=SMALLINT},
+      </if>
+      <if test="record.replyPush != null">
+        reply_push = #{record.replyPush,jdbcType=SMALLINT},
+      </if>
+      <if test="record.chatPush != null">
+        chat_push = #{record.chatPush,jdbcType=SMALLINT},
+      </if>
+      <if test="record.uuid != null">
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.integral != null">
+        integral = #{record.integral,jdbcType=SMALLINT},
+      </if>
+      <if test="record.badge != null">
+        badge = #{record.badge,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      open_id = #{record.openId,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      union_id = #{record.unionId,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=SMALLINT},
+      school = #{record.school,jdbcType=VARCHAR},
+      signature = #{record.signature,jdbcType=VARCHAR},
+      follow_num = #{record.followNum,jdbcType=INTEGER},
+      fans_num = #{record.fansNum,jdbcType=INTEGER},
+      publish_num = #{record.publishNum,jdbcType=INTEGER},
+      collect_num = #{record.collectNum,jdbcType=INTEGER},
+      vote_num = #{record.voteNum,jdbcType=INTEGER},
+      receive_vote_num = #{record.receiveVoteNum,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      session_id = #{record.sessionId,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      year = #{record.year,jdbcType=VARCHAR},
+      role = #{record.role,jdbcType=VARCHAR},
+      college = #{record.college,jdbcType=VARCHAR},
+      certify_imgs = #{record.certifyImgs,jdbcType=VARCHAR},
+      user_verify = #{record.userVerify,jdbcType=SMALLINT},
+      vote_push = #{record.votePush,jdbcType=SMALLINT},
+      reply_push = #{record.replyPush,jdbcType=SMALLINT},
+      chat_push = #{record.chatPush,jdbcType=SMALLINT},
+      uuid = #{record.uuid,jdbcType=VARCHAR},
+      integral = #{record.integral,jdbcType=SMALLINT},
+      badge = #{record.badge,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.UserDO">
+    update user
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="followNum != null">
+        follow_num = #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null">
+        fans_num = #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="publishNum != null">
+        publish_num = #{publishNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null">
+        collect_num = #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="voteNum != null">
+        vote_num = #{voteNum,jdbcType=INTEGER},
+      </if>
+      <if test="receiveVoteNum != null">
+        receive_vote_num = #{receiveVoteNum,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null">
+        college = #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="certifyImgs != null">
+        certify_imgs = #{certifyImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="userVerify != null">
+        user_verify = #{userVerify,jdbcType=SMALLINT},
+      </if>
+      <if test="votePush != null">
+        vote_push = #{votePush,jdbcType=SMALLINT},
+      </if>
+      <if test="replyPush != null">
+        reply_push = #{replyPush,jdbcType=SMALLINT},
+      </if>
+      <if test="chatPush != null">
+        chat_push = #{chatPush,jdbcType=SMALLINT},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=SMALLINT},
+      </if>
+      <if test="badge != null">
+        badge = #{badge,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.UserDO">
+    update user
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=BIT},
+      open_id = #{openId,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=SMALLINT},
+      school = #{school,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      follow_num = #{followNum,jdbcType=INTEGER},
+      fans_num = #{fansNum,jdbcType=INTEGER},
+      publish_num = #{publishNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      vote_num = #{voteNum,jdbcType=INTEGER},
+      receive_vote_num = #{receiveVoteNum,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      session_id = #{sessionId,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      year = #{year,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      college = #{college,jdbcType=VARCHAR},
+      certify_imgs = #{certifyImgs,jdbcType=VARCHAR},
+      user_verify = #{userVerify,jdbcType=SMALLINT},
+      vote_push = #{votePush,jdbcType=SMALLINT},
+      reply_push = #{replyPush,jdbcType=SMALLINT},
+      chat_push = #{chatPush,jdbcType=SMALLINT},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      integral = #{integral,jdbcType=SMALLINT},
+      badge = #{badge,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
