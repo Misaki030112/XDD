@@ -97,7 +97,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mapper2" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
             <!-- 设置一个根对象，
             如果设置了这个根对象，那么生成的keyClass或者recordClass会继承这个类；在Table的rootClass属性中可以覆盖该选项
@@ -119,77 +119,77 @@
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table  tableName="AlembicVersion" domainObjectName="AlembicVersionDO">
-            <generatedKey column="version_num" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="AlembicVersion" domainObjectName="AlembicVersionDO">-->
+<!--            <generatedKey column="version_num" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="box" domainObjectName="BoxDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="box" domainObjectName="BoxDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="box_record" domainObjectName="BoxRecordDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="box_record" domainObjectName="BoxRecordDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="chat_message" domainObjectName="ChatMessageDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="chat_message" domainObjectName="ChatMessageDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="collect_log" domainObjectName="CollectLogDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="collect_log" domainObjectName="CollectLogDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="config_center" domainObjectName="ConfigCenterDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="config_center" domainObjectName="ConfigCenterDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="fans_log" domainObjectName="FansLogDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="fans_log" domainObjectName="FansLogDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="news" domainObjectName="NewDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="news" domainObjectName="NewDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="notice" domainObjectName="NoticeDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="notice" domainObjectName="NoticeDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="operate_log" domainObjectName="OperateLogDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="operate_log" domainObjectName="OperateLogDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="reply" domainObjectName="ReplyDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="reply" domainObjectName="ReplyDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="slide" domainObjectName="SlideDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="slide" domainObjectName="SlideDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="tab" domainObjectName="TabDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="tab" domainObjectName="TabDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
         <table  tableName="ugc" domainObjectName="UgcDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table  tableName="ugc_join" domainObjectName="UgcJoinDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="ugc_join" domainObjectName="UgcJoinDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
         <table  tableName="user" domainObjectName="UserDO">
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table  tableName="user_report" domainObjectName="UserReportDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="user_report" domainObjectName="UserReportDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="vote_log" domainObjectName="VoteLogDO">
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="vote_log" domainObjectName="VoteLogDO">-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
 
     </context>
