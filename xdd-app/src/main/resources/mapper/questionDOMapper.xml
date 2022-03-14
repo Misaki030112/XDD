@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hznu.xdd.dao.questionDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.questionDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+    <result column="is_delete" jdbcType="BIT" property="is_delete" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="right_answer_id" jdbcType="INTEGER" property="right_answer_id" />
+    <result column="is_online" jdbcType="BIT" property="is_online" />
+    <result column="sub_title" jdbcType="VARCHAR" property="sub_title" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, is_delete, title, right_answer_id, is_online, sub_title
+  </sql>
+  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.questionDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.questionDOExample">
+    delete from question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.questionDO" useGeneratedKeys="true">
+    insert into question (create_time, update_time, is_delete, 
+      title, right_answer_id, is_online, 
+      sub_title)
+    values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
+      #{title,jdbcType=VARCHAR}, #{right_answer_id,jdbcType=INTEGER}, #{is_online,jdbcType=BIT}, 
+      #{sub_title,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.questionDO" useGeneratedKeys="true">
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="update_time != null">
+        update_time,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="right_answer_id != null">
+        right_answer_id,
+      </if>
+      <if test="is_online != null">
+        is_online,
+      </if>
+      <if test="sub_title != null">
+        sub_title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="right_answer_id != null">
+        #{right_answer_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_online != null">
+        #{is_online,jdbcType=BIT},
+      </if>
+      <if test="sub_title != null">
+        #{sub_title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hznu.xdd.pojo.questionDOExample" resultType="java.lang.Long">
+    select count(*) from question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update question
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_time != null">
+        create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.update_time != null">
+        update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.is_delete != null">
+        is_delete = #{record.is_delete,jdbcType=BIT},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.right_answer_id != null">
+        right_answer_id = #{record.right_answer_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_online != null">
+        is_online = #{record.is_online,jdbcType=BIT},
+      </if>
+      <if test="record.sub_title != null">
+        sub_title = #{record.sub_title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update question
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      is_delete = #{record.is_delete,jdbcType=BIT},
+      title = #{record.title,jdbcType=VARCHAR},
+      right_answer_id = #{record.right_answer_id,jdbcType=INTEGER},
+      is_online = #{record.is_online,jdbcType=BIT},
+      sub_title = #{record.sub_title,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.questionDO">
+    update question
+    <set>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="right_answer_id != null">
+        right_answer_id = #{right_answer_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_online != null">
+        is_online = #{is_online,jdbcType=BIT},
+      </if>
+      <if test="sub_title != null">
+        sub_title = #{sub_title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.questionDO">
+    update question
+    set create_time = #{create_time,jdbcType=TIMESTAMP},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      is_delete = #{is_delete,jdbcType=BIT},
+      title = #{title,jdbcType=VARCHAR},
+      right_answer_id = #{right_answer_id,jdbcType=INTEGER},
+      is_online = #{is_online,jdbcType=BIT},
+      sub_title = #{sub_title,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
