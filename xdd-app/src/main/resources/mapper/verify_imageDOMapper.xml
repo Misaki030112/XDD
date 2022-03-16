@@ -7,6 +7,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
     <result column="is_delete" jdbcType="BIT" property="is_delete" />
     <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, update_time, is_delete, image
+    id, create_time, update_time, is_delete, image, user_id
   </sql>
   <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_imageDOExample" resultMap="BaseResultMap">
     select
@@ -109,9 +110,9 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.verify_imageDO" useGeneratedKeys="true">
     insert into verify_image (create_time, update_time, is_delete, 
-      image)
+      image, user_id)
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{image,jdbcType=VARCHAR})
+      #{image,jdbcType=VARCHAR}, #{user_id,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.verify_imageDO" useGeneratedKeys="true">
     insert into verify_image
@@ -128,6 +129,9 @@
       <if test="image != null">
         image,
       </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
@@ -141,6 +145,9 @@
       </if>
       <if test="image != null">
         #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -168,6 +175,9 @@
       <if test="record.image != null">
         image = #{record.image,jdbcType=VARCHAR},
       </if>
+      <if test="record.user_id != null">
+        user_id = #{record.user_id,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -179,7 +189,8 @@
       create_time = #{record.create_time,jdbcType=TIMESTAMP},
       update_time = #{record.update_time,jdbcType=TIMESTAMP},
       is_delete = #{record.is_delete,jdbcType=BIT},
-      image = #{record.image,jdbcType=VARCHAR}
+      image = #{record.image,jdbcType=VARCHAR},
+      user_id = #{record.user_id,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -199,6 +210,9 @@
       <if test="image != null">
         image = #{image,jdbcType=VARCHAR},
       </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -207,7 +221,8 @@
     set create_time = #{create_time,jdbcType=TIMESTAMP},
       update_time = #{update_time,jdbcType=TIMESTAMP},
       is_delete = #{is_delete,jdbcType=BIT},
-      image = #{image,jdbcType=VARCHAR}
+      image = #{image,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

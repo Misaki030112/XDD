@@ -2,6 +2,8 @@ package com.hznu.xdd.service;
 
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.pojo.UserDO;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -25,4 +27,20 @@ public interface UserService {
     List<UserDO> searchUserByNickName(String nickName);
 
     boolean reportUser(reportDto reportDto);
+
+    /**
+     * 创建用户邮箱认证信息，如果已经存在则更新认证信息
+     */
+    boolean VerifyMailStudent(String wxOpenId,String email,String validCode);
+
+    /**
+     * 用户验证学生认证的验证码
+     */
+    boolean verifyStudentByCode(String code,String wxOpenId);
+
+    /**
+     * 用户验证学生认证的图片处理
+     */
+    boolean verifyStudentByPhotos(String[] photos,String wxOpenId);
+
 }

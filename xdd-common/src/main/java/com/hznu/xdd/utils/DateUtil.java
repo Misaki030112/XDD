@@ -120,4 +120,11 @@ public class DateUtil {
         return calendar.getTime();
     }
 
+    public static Date addSecond(int i,Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.SECOND, i);
+        return calendar.getTime();
+    }
+
 }
