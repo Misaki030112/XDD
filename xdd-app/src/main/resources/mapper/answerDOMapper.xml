@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hznu.xdd.dao.AdminDOMapper">
-  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.AdminDO">
+<mapper namespace="com.hznu.xdd.dao.answerDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.answerDO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
     <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
     <result column="is_delete" jdbcType="BIT" property="is_delete" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="account_status" jdbcType="VARCHAR" property="account_status" />
+    <result column="question_id" jdbcType="INTEGER" property="question_id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, update_time, is_delete, username, password, account_status
+    id, create_time, update_time, is_delete, question_id, content
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.AdminDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.answerDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from admin
+    from answer
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,29 +95,27 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from admin
+    from answer
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from admin
+    delete from answer
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.AdminDOExample">
-    delete from admin
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.answerDOExample">
+    delete from answer
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.AdminDO" useGeneratedKeys="true">
-    insert into admin (create_time, update_time, is_delete, 
-      username, password, account_status
-      )
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.answerDO" useGeneratedKeys="true">
+    insert into answer (create_time, update_time, is_delete, 
+      question_id, content)
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{account_status,jdbcType=VARCHAR}
-      )
+      #{question_id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.AdminDO" useGeneratedKeys="true">
-    insert into admin
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.answerDO" useGeneratedKeys="true">
+    insert into answer
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
         create_time,
@@ -129,14 +126,11 @@
       <if test="is_delete != null">
         is_delete,
       </if>
-      <if test="username != null">
-        username,
+      <if test="question_id != null">
+        question_id,
       </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="account_status != null">
-        account_status,
+      <if test="content != null">
+        content,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -149,25 +143,22 @@
       <if test="is_delete != null">
         #{is_delete,jdbcType=BIT},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="question_id != null">
+        #{question_id,jdbcType=INTEGER},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="account_status != null">
-        #{account_status,jdbcType=VARCHAR},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.AdminDOExample" resultType="java.lang.Long">
-    select count(*) from admin
+  <select id="countByExample" parameterType="com.hznu.xdd.pojo.answerDOExample" resultType="java.lang.Long">
+    select count(*) from answer
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update admin
+    update answer
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -181,14 +172,11 @@
       <if test="record.is_delete != null">
         is_delete = #{record.is_delete,jdbcType=BIT},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.question_id != null">
+        question_id = #{record.question_id,jdbcType=INTEGER},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.account_status != null">
-        account_status = #{record.account_status,jdbcType=VARCHAR},
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -196,20 +184,19 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update admin
+    update answer
     set id = #{record.id,jdbcType=INTEGER},
       create_time = #{record.create_time,jdbcType=TIMESTAMP},
       update_time = #{record.update_time,jdbcType=TIMESTAMP},
       is_delete = #{record.is_delete,jdbcType=BIT},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      account_status = #{record.account_status,jdbcType=VARCHAR}
+      question_id = #{record.question_id,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.AdminDO">
-    update admin
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.answerDO">
+    update answer
     <set>
       <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
@@ -220,26 +207,22 @@
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=BIT},
       </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
+      <if test="question_id != null">
+        question_id = #{question_id,jdbcType=INTEGER},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="account_status != null">
-        account_status = #{account_status,jdbcType=VARCHAR},
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.AdminDO">
-    update admin
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.answerDO">
+    update answer
     set create_time = #{create_time,jdbcType=TIMESTAMP},
       update_time = #{update_time,jdbcType=TIMESTAMP},
       is_delete = #{is_delete,jdbcType=BIT},
-      username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      account_status = #{account_status,jdbcType=VARCHAR}
+      question_id = #{question_id,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

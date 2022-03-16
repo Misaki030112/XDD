@@ -69,6 +69,7 @@
                         userId="dudu"
                         password="dudu_weakee123" >
             <property name="useInformationSchema" value="true"/>
+<!--            <property name="nullCatalogMeansCurrent" value="true"/>-->
         </jdbcConnection>
 
         <!-- java类型处理器
@@ -97,7 +98,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="mapper2" targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
             <!-- 设置一个根对象，
             如果设置了这个根对象，那么生成的keyClass或者recordClass会继承这个类；在Table的rootClass属性中可以覆盖该选项
@@ -115,10 +116,10 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table  tableName="admin" domainObjectName="AdminDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="admin" domainObjectName="AdminDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
 <!--        <table  tableName="AlembicVersion" domainObjectName="AlembicVersionDO">-->
 <!--            <generatedKey column="version_num" sqlStatement="JDBC" identity="true"/>-->
@@ -172,24 +173,50 @@
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
 
-        <table  tableName="ugc" domainObjectName="UgcDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="ugc" domainObjectName="UgcDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
 <!--        <table  tableName="ugc_join" domainObjectName="UgcJoinDO">-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
 
-        <table  tableName="user" domainObjectName="UserDO">
+<!--        <table  tableName="user" domainObjectName="UserDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table  tableName="report" domainObjectName="reportDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+
+        <table  tableName="verify_email" domainObjectName="verify_emailDO">
             <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
 
-        <table  tableName="report" domainObjectName="reportDO">
+        <table  tableName="verify_image" domainObjectName="verify_imageDO">
             <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
+
+        <table  tableName="verify_method" domainObjectName="verify_methodDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+        <table  tableName="question" domainObjectName="questionDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+        <table  tableName="answer" domainObjectName="answerDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+
 <!--        <table  tableName="user_report" domainObjectName="UserReportDO">-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
@@ -197,6 +224,8 @@
 <!--        <table  tableName="vote_log" domainObjectName="VoteLogDO">-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
+
+
 
 
 

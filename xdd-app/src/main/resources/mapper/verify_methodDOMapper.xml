@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hznu.xdd.dao.UgcDOMapper">
-  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.UgcDO">
+<mapper namespace="com.hznu.xdd.dao.verify_methodDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.verify_methodDO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
     <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
     <result column="is_delete" jdbcType="BIT" property="is_delete" />
-    <result column="user_id" jdbcType="INTEGER" property="user_id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="images" jdbcType="VARCHAR" property="images" />
-    <result column="video" jdbcType="VARCHAR" property="video" />
-    <result column="labels" jdbcType="VARCHAR" property="labels" />
-    <result column="params" jdbcType="VARCHAR" property="params" />
-    <result column="vote" jdbcType="INTEGER" property="vote" />
-    <result column="exposure" jdbcType="INTEGER" property="exposure" />
-    <result column="collect" jdbcType="INTEGER" property="collect" />
-    <result column="reply" jdbcType="INTEGER" property="reply" />
     <result column="is_online" jdbcType="BIT" property="is_online" />
-    <result column="anonymous" jdbcType="BIT" property="anonymous" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,16 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, update_time, is_delete, user_id, title, content, images, video, 
-    labels, params, vote, exposure, collect, reply, is_online, anonymous
+    id, create_time, update_time, is_delete, title, content, is_online
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.verify_methodDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ugc
+    from verify_method
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -107,35 +96,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ugc
+    from verify_method
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from ugc
+    delete from verify_method
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample">
-    delete from ugc
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.verify_methodDOExample">
+    delete from verify_method
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UgcDO" useGeneratedKeys="true">
-    insert into ugc (create_time, update_time, is_delete, 
-      user_id, title, content, 
-      images, video, labels, 
-      params, vote, exposure, 
-      collect, reply, is_online, 
-      anonymous)
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.verify_methodDO" useGeneratedKeys="true">
+    insert into verify_method (create_time, update_time, is_delete, 
+      title, content, is_online
+      )
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{user_id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{images,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, #{labels,jdbcType=VARCHAR}, 
-      #{params,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, #{exposure,jdbcType=INTEGER}, 
-      #{collect,jdbcType=INTEGER}, #{reply,jdbcType=INTEGER}, #{is_online,jdbcType=BIT}, 
-      #{anonymous,jdbcType=BIT})
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{is_online,jdbcType=BIT}
+      )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UgcDO" useGeneratedKeys="true">
-    insert into ugc
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.verify_methodDO" useGeneratedKeys="true">
+    insert into verify_method
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
         create_time,
@@ -146,44 +129,14 @@
       <if test="is_delete != null">
         is_delete,
       </if>
-      <if test="user_id != null">
-        user_id,
-      </if>
       <if test="title != null">
         title,
       </if>
       <if test="content != null">
         content,
       </if>
-      <if test="images != null">
-        images,
-      </if>
-      <if test="video != null">
-        video,
-      </if>
-      <if test="labels != null">
-        labels,
-      </if>
-      <if test="params != null">
-        params,
-      </if>
-      <if test="vote != null">
-        vote,
-      </if>
-      <if test="exposure != null">
-        exposure,
-      </if>
-      <if test="collect != null">
-        collect,
-      </if>
-      <if test="reply != null">
-        reply,
-      </if>
       <if test="is_online != null">
         is_online,
-      </if>
-      <if test="anonymous != null">
-        anonymous,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -196,55 +149,25 @@
       <if test="is_delete != null">
         #{is_delete,jdbcType=BIT},
       </if>
-      <if test="user_id != null">
-        #{user_id,jdbcType=INTEGER},
-      </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="images != null">
-        #{images,jdbcType=VARCHAR},
-      </if>
-      <if test="video != null">
-        #{video,jdbcType=VARCHAR},
-      </if>
-      <if test="labels != null">
-        #{labels,jdbcType=VARCHAR},
-      </if>
-      <if test="params != null">
-        #{params,jdbcType=VARCHAR},
-      </if>
-      <if test="vote != null">
-        #{vote,jdbcType=INTEGER},
-      </if>
-      <if test="exposure != null">
-        #{exposure,jdbcType=INTEGER},
-      </if>
-      <if test="collect != null">
-        #{collect,jdbcType=INTEGER},
-      </if>
-      <if test="reply != null">
-        #{reply,jdbcType=INTEGER},
-      </if>
       <if test="is_online != null">
         #{is_online,jdbcType=BIT},
       </if>
-      <if test="anonymous != null">
-        #{anonymous,jdbcType=BIT},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample" resultType="java.lang.Long">
-    select count(*) from ugc
+  <select id="countByExample" parameterType="com.hznu.xdd.pojo.verify_methodDOExample" resultType="java.lang.Long">
+    select count(*) from verify_method
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ugc
+    update verify_method
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -258,44 +181,14 @@
       <if test="record.is_delete != null">
         is_delete = #{record.is_delete,jdbcType=BIT},
       </if>
-      <if test="record.user_id != null">
-        user_id = #{record.user_id,jdbcType=INTEGER},
-      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.images != null">
-        images = #{record.images,jdbcType=VARCHAR},
-      </if>
-      <if test="record.video != null">
-        video = #{record.video,jdbcType=VARCHAR},
-      </if>
-      <if test="record.labels != null">
-        labels = #{record.labels,jdbcType=VARCHAR},
-      </if>
-      <if test="record.params != null">
-        params = #{record.params,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vote != null">
-        vote = #{record.vote,jdbcType=INTEGER},
-      </if>
-      <if test="record.exposure != null">
-        exposure = #{record.exposure,jdbcType=INTEGER},
-      </if>
-      <if test="record.collect != null">
-        collect = #{record.collect,jdbcType=INTEGER},
-      </if>
-      <if test="record.reply != null">
-        reply = #{record.reply,jdbcType=INTEGER},
-      </if>
       <if test="record.is_online != null">
         is_online = #{record.is_online,jdbcType=BIT},
-      </if>
-      <if test="record.anonymous != null">
-        anonymous = #{record.anonymous,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -303,30 +196,20 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ugc
+    update verify_method
     set id = #{record.id,jdbcType=INTEGER},
       create_time = #{record.create_time,jdbcType=TIMESTAMP},
       update_time = #{record.update_time,jdbcType=TIMESTAMP},
       is_delete = #{record.is_delete,jdbcType=BIT},
-      user_id = #{record.user_id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
-      images = #{record.images,jdbcType=VARCHAR},
-      video = #{record.video,jdbcType=VARCHAR},
-      labels = #{record.labels,jdbcType=VARCHAR},
-      params = #{record.params,jdbcType=VARCHAR},
-      vote = #{record.vote,jdbcType=INTEGER},
-      exposure = #{record.exposure,jdbcType=INTEGER},
-      collect = #{record.collect,jdbcType=INTEGER},
-      reply = #{record.reply,jdbcType=INTEGER},
-      is_online = #{record.is_online,jdbcType=BIT},
-      anonymous = #{record.anonymous,jdbcType=BIT}
+      is_online = #{record.is_online,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.UgcDO">
-    update ugc
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.verify_methodDO">
+    update verify_method
     <set>
       <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
@@ -337,66 +220,26 @@
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=BIT},
       </if>
-      <if test="user_id != null">
-        user_id = #{user_id,jdbcType=INTEGER},
-      </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="images != null">
-        images = #{images,jdbcType=VARCHAR},
-      </if>
-      <if test="video != null">
-        video = #{video,jdbcType=VARCHAR},
-      </if>
-      <if test="labels != null">
-        labels = #{labels,jdbcType=VARCHAR},
-      </if>
-      <if test="params != null">
-        params = #{params,jdbcType=VARCHAR},
-      </if>
-      <if test="vote != null">
-        vote = #{vote,jdbcType=INTEGER},
-      </if>
-      <if test="exposure != null">
-        exposure = #{exposure,jdbcType=INTEGER},
-      </if>
-      <if test="collect != null">
-        collect = #{collect,jdbcType=INTEGER},
-      </if>
-      <if test="reply != null">
-        reply = #{reply,jdbcType=INTEGER},
-      </if>
       <if test="is_online != null">
         is_online = #{is_online,jdbcType=BIT},
-      </if>
-      <if test="anonymous != null">
-        anonymous = #{anonymous,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.UgcDO">
-    update ugc
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.verify_methodDO">
+    update verify_method
     set create_time = #{create_time,jdbcType=TIMESTAMP},
       update_time = #{update_time,jdbcType=TIMESTAMP},
       is_delete = #{is_delete,jdbcType=BIT},
-      user_id = #{user_id,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      images = #{images,jdbcType=VARCHAR},
-      video = #{video,jdbcType=VARCHAR},
-      labels = #{labels,jdbcType=VARCHAR},
-      params = #{params,jdbcType=VARCHAR},
-      vote = #{vote,jdbcType=INTEGER},
-      exposure = #{exposure,jdbcType=INTEGER},
-      collect = #{collect,jdbcType=INTEGER},
-      reply = #{reply,jdbcType=INTEGER},
-      is_online = #{is_online,jdbcType=BIT},
-      anonymous = #{anonymous,jdbcType=BIT}
+      is_online = #{is_online,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
