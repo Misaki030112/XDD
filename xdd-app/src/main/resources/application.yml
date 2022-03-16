@@ -10,7 +10,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://alndadudu.mysql.rds.aliyuncs.com:3306/weakee_xcx?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://alndadudu.mysql.rds.aliyuncs.com:3306/weakee_xcx_test?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=Asia/Shanghai
     username: dudu
     password: dudu_weakee123
     initialSize: 1

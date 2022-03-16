@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Xdd_Application.class)
+@SpringBootTest
 @MapperScan("com.hznu.xdd.dao.answerDOMapper")
 public class classTest {
 
@@ -30,7 +30,7 @@ public class classTest {
         questionDO questionDO = new questionDO();
         questionDO.setId(1);
 
-        com.hznu.xdd.pojo.questionDO questionDO1 = new questionDO();
+        questionDO questionDO1 = new questionDO();
         questionDO1.setId(2);
 
         answerDO answerDO = new answerDO();
