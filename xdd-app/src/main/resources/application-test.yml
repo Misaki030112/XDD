@@ -19,3 +19,12 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     filters: stat,slf4j
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+#邮箱的相关配置
+  mail:
+    protocol: smtp
+    host: smtp.qq.com
+    port: 465
+    username: 2914883754@qq.com
+    password: cxetzvrtfaqsdhdi
+    default-encoding: UTF-8

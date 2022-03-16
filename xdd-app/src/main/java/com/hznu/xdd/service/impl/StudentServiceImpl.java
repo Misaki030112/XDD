@@ -65,7 +65,7 @@ public class StudentServiceImpl implements StudentService {
         questionDOS.forEach((q)->{
             QuestionVO questionVO = new QuestionVO(q);
             List<AnswerVO> answerVOS = new ArrayList<>();
-            answerDOS.stream().filter(a -> Objects.equals(a.getQuestion_id(), q.getId())).collect(Collectors.toList()).forEach((a)->{
+            answerDOS.stream().filter(a -> Objects.equals(a.getQuestion_id(), q.getId())).forEach((a)->{
                 answerVOS.add(new AnswerVO(a));
             });
             questionVO.setAnswer(answerVOS);

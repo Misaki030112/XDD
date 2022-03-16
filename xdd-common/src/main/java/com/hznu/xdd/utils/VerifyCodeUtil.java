@@ -2,6 +2,8 @@ package com.hznu.xdd.utils;
 
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -61,6 +63,6 @@ public class VerifyCodeUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(generateVerifyCode(8,false));
+
     }
 }

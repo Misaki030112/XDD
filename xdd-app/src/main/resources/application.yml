@@ -18,6 +18,6 @@ mybatis:
 
 validCode:
   length: 8
-  NoNumber: false
+  time: 300    # 5分钟
 
 
