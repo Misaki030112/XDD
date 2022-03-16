@@ -29,6 +29,9 @@ public class MailServiceImpl implements MailService {
     @Value("${validCode.length}")
     private Integer ValidCodeLength;
 
+    @Value("${spring.mail.username}")
+    private String from;
+
 
     @Override
     public boolean SendValidCode(String email,String wxOpenId) throws MessagingException {
@@ -44,7 +47,7 @@ public class MailServiceImpl implements MailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
         mimeMessageHelper.setSubject("验证码");
-        mimeMessageHelper.setFrom("校嘟嘟");
+        mimeMessageHelper.setFrom(from);
         mimeMessageHelper.setTo(email);
         mimeMessageHelper.setText("<div>"+validCode+"</div>");
         javaMailSender.send(mimeMessageHelper.getMimeMessage());
