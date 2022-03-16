@@ -1,10 +1,10 @@
-package com.hznu.xdd.pojo;
+package com.hznu.xdd.domain.pojoExam;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class verify_methodDOExample {
+public class verify_imageDOExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +15,7 @@ public class verify_methodDOExample {
 
     protected Integer rows;
 
-    public verify_methodDOExample() {
+    public verify_imageDOExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -86,18 +86,18 @@ public class verify_methodDOExample {
         return this.rows;
     }
 
-    public verify_methodDOExample limit(Integer rows) {
+    public verify_imageDOExample limit(Integer rows) {
         this.rows = rows;
         return this;
     }
 
-    public verify_methodDOExample limit(Integer offset, Integer rows) {
+    public verify_imageDOExample limit(Integer offset, Integer rows) {
         this.offset = offset;
         this.rows = rows;
         return this;
     }
 
-    public verify_methodDOExample page(Integer page, Integer pageSize) {
+    public verify_imageDOExample page(Integer page, Integer pageSize) {
         this.offset = page * pageSize;
         this.rows = pageSize;
         return this;
@@ -384,203 +384,73 @@ public class verify_methodDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andTitleIsNull() {
-            addCriterion("title is null");
+        public Criteria andImageIsNull() {
+            addCriterion("image is null");
             return (Criteria) this;
         }
 
-        public Criteria andTitleIsNotNull() {
-            addCriterion("title is not null");
+        public Criteria andImageIsNotNull() {
+            addCriterion("image is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTitleEqualTo(String value) {
-            addCriterion("title =", value, "title");
+        public Criteria andImageEqualTo(String value) {
+            addCriterion("image =", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotEqualTo(String value) {
-            addCriterion("title <>", value, "title");
+        public Criteria andImageNotEqualTo(String value) {
+            addCriterion("image <>", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleGreaterThan(String value) {
-            addCriterion("title >", value, "title");
+        public Criteria andImageGreaterThan(String value) {
+            addCriterion("image >", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleGreaterThanOrEqualTo(String value) {
-            addCriterion("title >=", value, "title");
+        public Criteria andImageGreaterThanOrEqualTo(String value) {
+            addCriterion("image >=", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLessThan(String value) {
-            addCriterion("title <", value, "title");
+        public Criteria andImageLessThan(String value) {
+            addCriterion("image <", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLessThanOrEqualTo(String value) {
-            addCriterion("title <=", value, "title");
+        public Criteria andImageLessThanOrEqualTo(String value) {
+            addCriterion("image <=", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLike(String value) {
-            addCriterion("title like", value, "title");
+        public Criteria andImageLike(String value) {
+            addCriterion("image like", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotLike(String value) {
-            addCriterion("title not like", value, "title");
+        public Criteria andImageNotLike(String value) {
+            addCriterion("image not like", value, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleIn(List<String> values) {
-            addCriterion("title in", values, "title");
+        public Criteria andImageIn(List<String> values) {
+            addCriterion("image in", values, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotIn(List<String> values) {
-            addCriterion("title not in", values, "title");
+        public Criteria andImageNotIn(List<String> values) {
+            addCriterion("image not in", values, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleBetween(String value1, String value2) {
-            addCriterion("title between", value1, value2, "title");
+        public Criteria andImageBetween(String value1, String value2) {
+            addCriterion("image between", value1, value2, "image");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotBetween(String value1, String value2) {
-            addCriterion("title not between", value1, value2, "title");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentIsNull() {
-            addCriterion("content is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentIsNotNull() {
-            addCriterion("content is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentEqualTo(String value) {
-            addCriterion("content =", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotEqualTo(String value) {
-            addCriterion("content <>", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentGreaterThan(String value) {
-            addCriterion("content >", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentGreaterThanOrEqualTo(String value) {
-            addCriterion("content >=", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentLessThan(String value) {
-            addCriterion("content <", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentLessThanOrEqualTo(String value) {
-            addCriterion("content <=", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentLike(String value) {
-            addCriterion("content like", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotLike(String value) {
-            addCriterion("content not like", value, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentIn(List<String> values) {
-            addCriterion("content in", values, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotIn(List<String> values) {
-            addCriterion("content not in", values, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentBetween(String value1, String value2) {
-            addCriterion("content between", value1, value2, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andContentNotBetween(String value1, String value2) {
-            addCriterion("content not between", value1, value2, "content");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineIsNull() {
-            addCriterion("is_online is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineIsNotNull() {
-            addCriterion("is_online is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineEqualTo(Boolean value) {
-            addCriterion("is_online =", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineNotEqualTo(Boolean value) {
-            addCriterion("is_online <>", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineGreaterThan(Boolean value) {
-            addCriterion("is_online >", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_online >=", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineLessThan(Boolean value) {
-            addCriterion("is_online <", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_online <=", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineIn(List<Boolean> values) {
-            addCriterion("is_online in", values, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineNotIn(List<Boolean> values) {
-            addCriterion("is_online not in", values, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_online between", value1, value2, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_online not between", value1, value2, "is_online");
+        public Criteria andImageNotBetween(String value1, String value2) {
+            addCriterion("image not between", value1, value2, "image");
             return (Criteria) this;
         }
     }

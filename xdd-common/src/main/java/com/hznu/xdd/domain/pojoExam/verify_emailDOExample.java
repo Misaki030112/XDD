@@ -1,10 +1,10 @@
-package com.hznu.xdd.pojo;
+package com.hznu.xdd.domain.pojoExam;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class answerDOExample {
+public class verify_emailDOExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +15,7 @@ public class answerDOExample {
 
     protected Integer rows;
 
-    public answerDOExample() {
+    public verify_emailDOExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -86,18 +86,18 @@ public class answerDOExample {
         return this.rows;
     }
 
-    public answerDOExample limit(Integer rows) {
+    public verify_emailDOExample limit(Integer rows) {
         this.rows = rows;
         return this;
     }
 
-    public answerDOExample limit(Integer offset, Integer rows) {
+    public verify_emailDOExample limit(Integer offset, Integer rows) {
         this.offset = offset;
         this.rows = rows;
         return this;
     }
 
-    public answerDOExample page(Integer page, Integer pageSize) {
+    public verify_emailDOExample page(Integer page, Integer pageSize) {
         this.offset = page * pageSize;
         this.rows = pageSize;
         return this;
@@ -384,133 +384,203 @@ public class answerDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idIsNull() {
-            addCriterion("question_id is null");
+        public Criteria andEmailIsNull() {
+            addCriterion("email is null");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idIsNotNull() {
-            addCriterion("question_id is not null");
+        public Criteria andEmailIsNotNull() {
+            addCriterion("email is not null");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idEqualTo(Integer value) {
-            addCriterion("question_id =", value, "question_id");
+        public Criteria andEmailEqualTo(String value) {
+            addCriterion("email =", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idNotEqualTo(Integer value) {
-            addCriterion("question_id <>", value, "question_id");
+        public Criteria andEmailNotEqualTo(String value) {
+            addCriterion("email <>", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idGreaterThan(Integer value) {
-            addCriterion("question_id >", value, "question_id");
+        public Criteria andEmailGreaterThan(String value) {
+            addCriterion("email >", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("question_id >=", value, "question_id");
+        public Criteria andEmailGreaterThanOrEqualTo(String value) {
+            addCriterion("email >=", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idLessThan(Integer value) {
-            addCriterion("question_id <", value, "question_id");
+        public Criteria andEmailLessThan(String value) {
+            addCriterion("email <", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idLessThanOrEqualTo(Integer value) {
-            addCriterion("question_id <=", value, "question_id");
+        public Criteria andEmailLessThanOrEqualTo(String value) {
+            addCriterion("email <=", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idIn(List<Integer> values) {
-            addCriterion("question_id in", values, "question_id");
+        public Criteria andEmailLike(String value) {
+            addCriterion("email like", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idNotIn(List<Integer> values) {
-            addCriterion("question_id not in", values, "question_id");
+        public Criteria andEmailNotLike(String value) {
+            addCriterion("email not like", value, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idBetween(Integer value1, Integer value2) {
-            addCriterion("question_id between", value1, value2, "question_id");
+        public Criteria andEmailIn(List<String> values) {
+            addCriterion("email in", values, "email");
             return (Criteria) this;
         }
 
-        public Criteria andQuestion_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("question_id not between", value1, value2, "question_id");
+        public Criteria andEmailNotIn(List<String> values) {
+            addCriterion("email not in", values, "email");
             return (Criteria) this;
         }
 
-        public Criteria andContentIsNull() {
-            addCriterion("content is null");
+        public Criteria andEmailBetween(String value1, String value2) {
+            addCriterion("email between", value1, value2, "email");
             return (Criteria) this;
         }
 
-        public Criteria andContentIsNotNull() {
-            addCriterion("content is not null");
+        public Criteria andEmailNotBetween(String value1, String value2) {
+            addCriterion("email not between", value1, value2, "email");
             return (Criteria) this;
         }
 
-        public Criteria andContentEqualTo(String value) {
-            addCriterion("content =", value, "content");
+        public Criteria andSession_keyIsNull() {
+            addCriterion("session_key is null");
             return (Criteria) this;
         }
 
-        public Criteria andContentNotEqualTo(String value) {
-            addCriterion("content <>", value, "content");
+        public Criteria andSession_keyIsNotNull() {
+            addCriterion("session_key is not null");
             return (Criteria) this;
         }
 
-        public Criteria andContentGreaterThan(String value) {
-            addCriterion("content >", value, "content");
+        public Criteria andSession_keyEqualTo(String value) {
+            addCriterion("session_key =", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentGreaterThanOrEqualTo(String value) {
-            addCriterion("content >=", value, "content");
+        public Criteria andSession_keyNotEqualTo(String value) {
+            addCriterion("session_key <>", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentLessThan(String value) {
-            addCriterion("content <", value, "content");
+        public Criteria andSession_keyGreaterThan(String value) {
+            addCriterion("session_key >", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentLessThanOrEqualTo(String value) {
-            addCriterion("content <=", value, "content");
+        public Criteria andSession_keyGreaterThanOrEqualTo(String value) {
+            addCriterion("session_key >=", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentLike(String value) {
-            addCriterion("content like", value, "content");
+        public Criteria andSession_keyLessThan(String value) {
+            addCriterion("session_key <", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentNotLike(String value) {
-            addCriterion("content not like", value, "content");
+        public Criteria andSession_keyLessThanOrEqualTo(String value) {
+            addCriterion("session_key <=", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentIn(List<String> values) {
-            addCriterion("content in", values, "content");
+        public Criteria andSession_keyLike(String value) {
+            addCriterion("session_key like", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentNotIn(List<String> values) {
-            addCriterion("content not in", values, "content");
+        public Criteria andSession_keyNotLike(String value) {
+            addCriterion("session_key not like", value, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentBetween(String value1, String value2) {
-            addCriterion("content between", value1, value2, "content");
+        public Criteria andSession_keyIn(List<String> values) {
+            addCriterion("session_key in", values, "session_key");
             return (Criteria) this;
         }
 
-        public Criteria andContentNotBetween(String value1, String value2) {
-            addCriterion("content not between", value1, value2, "content");
+        public Criteria andSession_keyNotIn(List<String> values) {
+            addCriterion("session_key not in", values, "session_key");
+            return (Criteria) this;
+        }
+
+        public Criteria andSession_keyBetween(String value1, String value2) {
+            addCriterion("session_key between", value1, value2, "session_key");
+            return (Criteria) this;
+        }
+
+        public Criteria andSession_keyNotBetween(String value1, String value2) {
+            addCriterion("session_key not between", value1, value2, "session_key");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeIsNull() {
+            addCriterion("expire_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeIsNotNull() {
+            addCriterion("expire_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeEqualTo(Date value) {
+            addCriterion("expire_time =", value, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeNotEqualTo(Date value) {
+            addCriterion("expire_time <>", value, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeGreaterThan(Date value) {
+            addCriterion("expire_time >", value, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeGreaterThanOrEqualTo(Date value) {
+            addCriterion("expire_time >=", value, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeLessThan(Date value) {
+            addCriterion("expire_time <", value, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeLessThanOrEqualTo(Date value) {
+            addCriterion("expire_time <=", value, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeIn(List<Date> values) {
+            addCriterion("expire_time in", values, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeNotIn(List<Date> values) {
+            addCriterion("expire_time not in", values, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeBetween(Date value1, Date value2) {
+            addCriterion("expire_time between", value1, value2, "expire_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpire_timeNotBetween(Date value1, Date value2) {
+            addCriterion("expire_time not between", value1, value2, "expire_time");
             return (Criteria) this;
         }
     }

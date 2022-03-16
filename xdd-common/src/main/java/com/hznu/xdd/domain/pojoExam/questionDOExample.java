@@ -1,10 +1,10 @@
-package com.hznu.xdd.pojo;
+package com.hznu.xdd.domain.pojoExam;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class verify_imageDOExample {
+public class questionDOExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +15,7 @@ public class verify_imageDOExample {
 
     protected Integer rows;
 
-    public verify_imageDOExample() {
+    public questionDOExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -86,18 +86,18 @@ public class verify_imageDOExample {
         return this.rows;
     }
 
-    public verify_imageDOExample limit(Integer rows) {
+    public questionDOExample limit(Integer rows) {
         this.rows = rows;
         return this;
     }
 
-    public verify_imageDOExample limit(Integer offset, Integer rows) {
+    public questionDOExample limit(Integer offset, Integer rows) {
         this.offset = offset;
         this.rows = rows;
         return this;
     }
 
-    public verify_imageDOExample page(Integer page, Integer pageSize) {
+    public questionDOExample page(Integer page, Integer pageSize) {
         this.offset = page * pageSize;
         this.rows = pageSize;
         return this;
@@ -384,73 +384,263 @@ public class verify_imageDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andImageIsNull() {
-            addCriterion("image is null");
+        public Criteria andTitleIsNull() {
+            addCriterion("title is null");
             return (Criteria) this;
         }
 
-        public Criteria andImageIsNotNull() {
-            addCriterion("image is not null");
+        public Criteria andTitleIsNotNull() {
+            addCriterion("title is not null");
             return (Criteria) this;
         }
 
-        public Criteria andImageEqualTo(String value) {
-            addCriterion("image =", value, "image");
+        public Criteria andTitleEqualTo(String value) {
+            addCriterion("title =", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageNotEqualTo(String value) {
-            addCriterion("image <>", value, "image");
+        public Criteria andTitleNotEqualTo(String value) {
+            addCriterion("title <>", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageGreaterThan(String value) {
-            addCriterion("image >", value, "image");
+        public Criteria andTitleGreaterThan(String value) {
+            addCriterion("title >", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageGreaterThanOrEqualTo(String value) {
-            addCriterion("image >=", value, "image");
+        public Criteria andTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("title >=", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageLessThan(String value) {
-            addCriterion("image <", value, "image");
+        public Criteria andTitleLessThan(String value) {
+            addCriterion("title <", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageLessThanOrEqualTo(String value) {
-            addCriterion("image <=", value, "image");
+        public Criteria andTitleLessThanOrEqualTo(String value) {
+            addCriterion("title <=", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageLike(String value) {
-            addCriterion("image like", value, "image");
+        public Criteria andTitleLike(String value) {
+            addCriterion("title like", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageNotLike(String value) {
-            addCriterion("image not like", value, "image");
+        public Criteria andTitleNotLike(String value) {
+            addCriterion("title not like", value, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageIn(List<String> values) {
-            addCriterion("image in", values, "image");
+        public Criteria andTitleIn(List<String> values) {
+            addCriterion("title in", values, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageNotIn(List<String> values) {
-            addCriterion("image not in", values, "image");
+        public Criteria andTitleNotIn(List<String> values) {
+            addCriterion("title not in", values, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageBetween(String value1, String value2) {
-            addCriterion("image between", value1, value2, "image");
+        public Criteria andTitleBetween(String value1, String value2) {
+            addCriterion("title between", value1, value2, "title");
             return (Criteria) this;
         }
 
-        public Criteria andImageNotBetween(String value1, String value2) {
-            addCriterion("image not between", value1, value2, "image");
+        public Criteria andTitleNotBetween(String value1, String value2) {
+            addCriterion("title not between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idIsNull() {
+            addCriterion("right_answer_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idIsNotNull() {
+            addCriterion("right_answer_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idEqualTo(Integer value) {
+            addCriterion("right_answer_id =", value, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idNotEqualTo(Integer value) {
+            addCriterion("right_answer_id <>", value, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idGreaterThan(Integer value) {
+            addCriterion("right_answer_id >", value, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idGreaterThanOrEqualTo(Integer value) {
+            addCriterion("right_answer_id >=", value, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idLessThan(Integer value) {
+            addCriterion("right_answer_id <", value, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idLessThanOrEqualTo(Integer value) {
+            addCriterion("right_answer_id <=", value, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idIn(List<Integer> values) {
+            addCriterion("right_answer_id in", values, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idNotIn(List<Integer> values) {
+            addCriterion("right_answer_id not in", values, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idBetween(Integer value1, Integer value2) {
+            addCriterion("right_answer_id between", value1, value2, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andRight_answer_idNotBetween(Integer value1, Integer value2) {
+            addCriterion("right_answer_id not between", value1, value2, "right_answer_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineIsNull() {
+            addCriterion("is_online is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineIsNotNull() {
+            addCriterion("is_online is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineEqualTo(Boolean value) {
+            addCriterion("is_online =", value, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineNotEqualTo(Boolean value) {
+            addCriterion("is_online <>", value, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineGreaterThan(Boolean value) {
+            addCriterion("is_online >", value, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_online >=", value, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineLessThan(Boolean value) {
+            addCriterion("is_online <", value, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_online <=", value, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineIn(List<Boolean> values) {
+            addCriterion("is_online in", values, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineNotIn(List<Boolean> values) {
+            addCriterion("is_online not in", values, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online between", value1, value2, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andIs_onlineNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online not between", value1, value2, "is_online");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleIsNull() {
+            addCriterion("sub_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleIsNotNull() {
+            addCriterion("sub_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleEqualTo(String value) {
+            addCriterion("sub_title =", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleNotEqualTo(String value) {
+            addCriterion("sub_title <>", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleGreaterThan(String value) {
+            addCriterion("sub_title >", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleGreaterThanOrEqualTo(String value) {
+            addCriterion("sub_title >=", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleLessThan(String value) {
+            addCriterion("sub_title <", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleLessThanOrEqualTo(String value) {
+            addCriterion("sub_title <=", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleLike(String value) {
+            addCriterion("sub_title like", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleNotLike(String value) {
+            addCriterion("sub_title not like", value, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleIn(List<String> values) {
+            addCriterion("sub_title in", values, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleNotIn(List<String> values) {
+            addCriterion("sub_title not in", values, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleBetween(String value1, String value2) {
+            addCriterion("sub_title between", value1, value2, "sub_title");
+            return (Criteria) this;
+        }
+
+        public Criteria andSub_titleNotBetween(String value1, String value2) {
+            addCriterion("sub_title not between", value1, value2, "sub_title");
             return (Criteria) this;
         }
     }
