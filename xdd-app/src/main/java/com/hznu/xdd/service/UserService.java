@@ -2,6 +2,7 @@ package com.hznu.xdd.service;
 
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.pojo.UserDO;
+import org.springframework.security.core.Authentication;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -25,4 +26,6 @@ public interface UserService {
     List<UserDO> searchUserByNickName(String nickName);
 
     boolean reportUser(reportDto reportDto);
+
+
 }

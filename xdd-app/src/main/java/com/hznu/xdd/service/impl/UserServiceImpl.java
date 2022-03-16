@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hznu.xdd.dao.UserDOMapper;
 import com.hznu.xdd.dao.reportDOMapper;
+import com.hznu.xdd.dao.verify_emailDOMapper;
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.domain.WeiXinOpenID;
 import com.hznu.xdd.domain.pojoExam.UserDOExample;
@@ -45,6 +46,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Autowired
     reportDOMapper reportDOMapper;
+
+    @Autowired
+    verify_emailDOMapper verify_emailDOMapper;
 
 
     @Override
@@ -106,6 +110,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         int insert = reportDOMapper.insert(reportDO);
         return insert == 1;
     }
+
+
 
 
 }
