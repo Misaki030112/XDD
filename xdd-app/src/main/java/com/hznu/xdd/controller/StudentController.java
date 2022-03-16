@@ -10,10 +10,7 @@ import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.util.List;
@@ -64,7 +61,7 @@ public class StudentController {
     }
 
     @PostMapping("/post/student/verify/photo")
-    public Result VerifyStudentPhoto(@RequestBody String[] photos,Authentication authentication){
+    public Result VerifyStudentPhoto(@RequestParam String[] photos, Authentication authentication){
         boolean flag = userService.verifyStudentByPhotos(photos, UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag) return Result.ok("null","提交成功");
         else return new Result(20005,"提交失败");

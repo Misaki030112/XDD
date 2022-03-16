@@ -72,7 +72,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         UserDOExample userDOExample = new UserDOExample();
         UserDOExample.Criteria criteria = userDOExample.createCriteria();
         criteria.andOpen_id_xiaododo_miniEqualTo(wxOpenId);
-        return userDOMapper.selectByExample(userDOExample).get(0);
+        List<UserDO> userDOS = userDOMapper.selectByExample(userDOExample);
+        return userDOS.size() == 0 ? null : userDOS.get(0);
     }
 
     @Override
@@ -148,6 +149,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     .setCreate_time(date)
                     .setUpdate_time(date)
                     .setExpire_time(DateUtil.addSecond(expire_time,date))
+                    .setIs_delete(false)
                     .setSession_key(validCode);
             int i = verify_emailDOMapper.insert(verify_emailDO);
             return i>0;
