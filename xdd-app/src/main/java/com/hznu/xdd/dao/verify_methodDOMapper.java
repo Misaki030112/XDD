@@ -1,7 +1,7 @@
 package com.hznu.xdd.dao;
 
 import com.hznu.xdd.pojo.verify_methodDO;
-import com.hznu.xdd.pojo.verify_methodDOExample;
+import com.hznu.xdd.domain.pojoExam.verify_methodDOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

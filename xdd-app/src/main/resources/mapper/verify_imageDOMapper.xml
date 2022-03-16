@@ -69,7 +69,7 @@
   <sql id="Base_Column_List">
     id, create_time, update_time, is_delete, image
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.verify_imageDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_imageDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -101,7 +101,7 @@
     delete from verify_image
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.verify_imageDOExample">
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_imageDOExample">
     delete from verify_image
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -144,7 +144,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.pojo.verify_imageDOExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_imageDOExample" resultType="java.lang.Long">
     select count(*) from verify_image
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

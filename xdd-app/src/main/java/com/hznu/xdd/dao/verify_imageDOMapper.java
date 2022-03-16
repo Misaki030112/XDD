@@ -1,7 +1,7 @@
 package com.hznu.xdd.dao;
 
 import com.hznu.xdd.pojo.verify_imageDO;
-import com.hznu.xdd.pojo.verify_imageDOExample;
+import com.hznu.xdd.domain.pojoExam.verify_imageDOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

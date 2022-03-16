@@ -71,7 +71,7 @@
   <sql id="Base_Column_List">
     id, create_time, update_time, is_delete, title, content, is_online
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.verify_methodDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_methodDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -103,7 +103,7 @@
     delete from verify_method
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.verify_methodDOExample">
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_methodDOExample">
     delete from verify_method
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -160,7 +160,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.pojo.verify_methodDOExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_methodDOExample" resultType="java.lang.Long">
     select count(*) from verify_method
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

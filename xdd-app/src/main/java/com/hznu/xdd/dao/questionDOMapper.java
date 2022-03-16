@@ -1,7 +1,7 @@
 package com.hznu.xdd.dao;
 
 import com.hznu.xdd.pojo.questionDO;
-import com.hznu.xdd.pojo.questionDOExample;
+import com.hznu.xdd.domain.pojoExam.questionDOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

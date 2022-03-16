@@ -72,7 +72,7 @@
   <sql id="Base_Column_List">
     id, create_time, update_time, is_delete, title, right_answer_id, is_online, sub_title
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.pojo.questionDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.questionDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -104,7 +104,7 @@
     delete from question
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.pojo.questionDOExample">
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.questionDOExample">
     delete from question
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -167,7 +167,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.pojo.questionDOExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.questionDOExample" resultType="java.lang.Long">
     select count(*) from question
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

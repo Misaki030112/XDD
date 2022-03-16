@@ -1,10 +1,9 @@
 package com.hznu.xdd;
 
-import com.hznu.xdd.dao.answerDOMapper;
 import com.hznu.xdd.domain.VO.AnswerVO;
 import com.hznu.xdd.domain.VO.QuestionVO;
 import com.hznu.xdd.pojo.answerDO;
-import com.hznu.xdd.pojo.answerDOExample;
+import com.hznu.xdd.domain.pojoExam.answerDOExample;
 import com.hznu.xdd.pojo.questionDO;
 import org.junit.Test;
 import org.junit.runner.RunWith;

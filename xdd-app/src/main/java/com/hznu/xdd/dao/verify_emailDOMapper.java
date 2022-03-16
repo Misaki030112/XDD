@@ -1,7 +1,7 @@
 package com.hznu.xdd.dao;
 
 import com.hznu.xdd.pojo.verify_emailDO;
-import com.hznu.xdd.pojo.verify_emailDOExample;
+import com.hznu.xdd.domain.pojoExam.verify_emailDOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
