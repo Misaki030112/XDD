@@ -15,10 +15,7 @@ public class testClass {
     UserDOMapper userDOMapper;
 
 
-    @Test
-    public void test01(){
-        System.out.println(userDOMapper.selectByPrimaryKey(1));
-    }
+
 
 
 }

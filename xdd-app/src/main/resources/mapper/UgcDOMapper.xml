@@ -11,14 +11,16 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="images" jdbcType="VARCHAR" property="images" />
     <result column="video" jdbcType="VARCHAR" property="video" />
-    <result column="labels" jdbcType="VARCHAR" property="labels" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="params" jdbcType="VARCHAR" property="params" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
     <result column="exposure" jdbcType="INTEGER" property="exposure" />
     <result column="collect" jdbcType="INTEGER" property="collect" />
-    <result column="reply" jdbcType="INTEGER" property="reply" />
+    <result column="comment" jdbcType="INTEGER" property="comment" />
     <result column="is_online" jdbcType="BIT" property="is_online" />
     <result column="anonymous" jdbcType="BIT" property="anonymous" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="topic" jdbcType="VARCHAR" property="topic" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,7 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, create_time, update_time, is_delete, user_id, title, content, images, video, 
-    labels, params, vote, exposure, collect, reply, is_online, anonymous
+    label, params, vote, exposure, collect, comment, is_online, anonymous, location, 
+    topic
   </sql>
   <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample" resultMap="BaseResultMap">
     select
@@ -123,16 +126,18 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UgcDO" useGeneratedKeys="true">
     insert into ugc (create_time, update_time, is_delete, 
       user_id, title, content, 
-      images, video, labels, 
+      images, video, label, 
       params, vote, exposure, 
-      collect, reply, is_online, 
-      anonymous)
+      collect, comment, is_online, 
+      anonymous, location, topic
+      )
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
       #{user_id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{images,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, #{labels,jdbcType=VARCHAR}, 
+      #{images,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
       #{params,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, #{exposure,jdbcType=INTEGER}, 
-      #{collect,jdbcType=INTEGER}, #{reply,jdbcType=INTEGER}, #{is_online,jdbcType=BIT}, 
-      #{anonymous,jdbcType=BIT})
+      #{collect,jdbcType=INTEGER}, #{comment,jdbcType=INTEGER}, #{is_online,jdbcType=BIT}, 
+      #{anonymous,jdbcType=BIT}, #{location,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UgcDO" useGeneratedKeys="true">
     insert into ugc
@@ -161,8 +166,8 @@
       <if test="video != null">
         video,
       </if>
-      <if test="labels != null">
-        labels,
+      <if test="label != null">
+        label,
       </if>
       <if test="params != null">
         params,
@@ -176,14 +181,20 @@
       <if test="collect != null">
         collect,
       </if>
-      <if test="reply != null">
-        reply,
+      <if test="comment != null">
+        comment,
       </if>
       <if test="is_online != null">
         is_online,
       </if>
       <if test="anonymous != null">
         anonymous,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="topic != null">
+        topic,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -211,8 +222,8 @@
       <if test="video != null">
         #{video,jdbcType=VARCHAR},
       </if>
-      <if test="labels != null">
-        #{labels,jdbcType=VARCHAR},
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
       </if>
       <if test="params != null">
         #{params,jdbcType=VARCHAR},
@@ -226,14 +237,20 @@
       <if test="collect != null">
         #{collect,jdbcType=INTEGER},
       </if>
-      <if test="reply != null">
-        #{reply,jdbcType=INTEGER},
+      <if test="comment != null">
+        #{comment,jdbcType=INTEGER},
       </if>
       <if test="is_online != null">
         #{is_online,jdbcType=BIT},
       </if>
       <if test="anonymous != null">
         #{anonymous,jdbcType=BIT},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -273,8 +290,8 @@
       <if test="record.video != null">
         video = #{record.video,jdbcType=VARCHAR},
       </if>
-      <if test="record.labels != null">
-        labels = #{record.labels,jdbcType=VARCHAR},
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
       </if>
       <if test="record.params != null">
         params = #{record.params,jdbcType=VARCHAR},
@@ -288,14 +305,20 @@
       <if test="record.collect != null">
         collect = #{record.collect,jdbcType=INTEGER},
       </if>
-      <if test="record.reply != null">
-        reply = #{record.reply,jdbcType=INTEGER},
+      <if test="record.comment != null">
+        comment = #{record.comment,jdbcType=INTEGER},
       </if>
       <if test="record.is_online != null">
         is_online = #{record.is_online,jdbcType=BIT},
       </if>
       <if test="record.anonymous != null">
         anonymous = #{record.anonymous,jdbcType=BIT},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topic != null">
+        topic = #{record.topic,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -313,14 +336,16 @@
       content = #{record.content,jdbcType=VARCHAR},
       images = #{record.images,jdbcType=VARCHAR},
       video = #{record.video,jdbcType=VARCHAR},
-      labels = #{record.labels,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
       params = #{record.params,jdbcType=VARCHAR},
       vote = #{record.vote,jdbcType=INTEGER},
       exposure = #{record.exposure,jdbcType=INTEGER},
       collect = #{record.collect,jdbcType=INTEGER},
-      reply = #{record.reply,jdbcType=INTEGER},
+      comment = #{record.comment,jdbcType=INTEGER},
       is_online = #{record.is_online,jdbcType=BIT},
-      anonymous = #{record.anonymous,jdbcType=BIT}
+      anonymous = #{record.anonymous,jdbcType=BIT},
+      location = #{record.location,jdbcType=VARCHAR},
+      topic = #{record.topic,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -352,8 +377,8 @@
       <if test="video != null">
         video = #{video,jdbcType=VARCHAR},
       </if>
-      <if test="labels != null">
-        labels = #{labels,jdbcType=VARCHAR},
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
       </if>
       <if test="params != null">
         params = #{params,jdbcType=VARCHAR},
@@ -367,14 +392,20 @@
       <if test="collect != null">
         collect = #{collect,jdbcType=INTEGER},
       </if>
-      <if test="reply != null">
-        reply = #{reply,jdbcType=INTEGER},
+      <if test="comment != null">
+        comment = #{comment,jdbcType=INTEGER},
       </if>
       <if test="is_online != null">
         is_online = #{is_online,jdbcType=BIT},
       </if>
       <if test="anonymous != null">
         anonymous = #{anonymous,jdbcType=BIT},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -389,14 +420,16 @@
       content = #{content,jdbcType=VARCHAR},
       images = #{images,jdbcType=VARCHAR},
       video = #{video,jdbcType=VARCHAR},
-      labels = #{labels,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
       params = #{params,jdbcType=VARCHAR},
       vote = #{vote,jdbcType=INTEGER},
       exposure = #{exposure,jdbcType=INTEGER},
       collect = #{collect,jdbcType=INTEGER},
-      reply = #{reply,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=INTEGER},
       is_online = #{is_online,jdbcType=BIT},
-      anonymous = #{anonymous,jdbcType=BIT}
+      anonymous = #{anonymous,jdbcType=BIT},
+      location = #{location,jdbcType=VARCHAR},
+      topic = #{topic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

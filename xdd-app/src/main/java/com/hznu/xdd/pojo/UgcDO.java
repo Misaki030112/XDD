@@ -24,7 +24,7 @@ public class UgcDO implements Serializable {
 
     private String video;
 
-    private String labels;
+    private String label;
 
     private String params;
 
@@ -34,11 +34,15 @@ public class UgcDO implements Serializable {
 
     private Integer collect;
 
-    private Integer reply;
+    private Integer comment;
 
     private Boolean is_online;
 
     private Boolean anonymous;
+
+    private String location;
+
+    private String topic;
 
     private static final long serialVersionUID = 1L;
 }
