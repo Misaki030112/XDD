@@ -173,6 +173,10 @@
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
 
+        <table  tableName="ugc" domainObjectName="UgcDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
 <!--        <table  tableName="ugc" domainObjectName="UgcDO">-->
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
@@ -192,15 +196,15 @@
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
 
-        <table  tableName="verify_email" domainObjectName="verify_emailDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="verify_email" domainObjectName="verify_emailDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
-        <table  tableName="verify_image" domainObjectName="verify_imageDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="verify_image" domainObjectName="verify_imageDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 
 <!--        <table  tableName="verify_method" domainObjectName="verify_methodDO">-->
 <!--            <property name="useActualColumnNames" value="true" />-->
