@@ -252,8 +252,24 @@ public class UGCServiceImpl implements UGCService {
             ugcvo.setTopic(txt.getTopic());
             ugcvo.setContent(txt.getContent());
             ugcvo.setAttachmentList(attachmentDtos);
-            ugcvo.set_collect(true);
-            ugcvo.set_vote(true);
+            voteLogDOExample voteLogDOExample = new voteLogDOExample();
+            com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
+            criteria.andUser_idEqualTo(txt.getUser_id());
+            criteria.andVote_to_idEqualTo(txt.getId());
+            if (voteLogDOMapper.selectByExample(voteLogDOExample).size() != 0){
+                ugcvo.set_vote(true);
+            }else {
+                ugcvo.set_vote(false);
+            }
+            collectLogDOExample collectLogDOExample = new collectLogDOExample();
+            com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria3 = collectLogDOExample.createCriteria();
+            criteria3.andCollect_to_idEqualTo(txt.getId());
+            criteria3.andUser_idEqualTo(txt.getUser_id());
+            if (collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0){
+                ugcvo.set_collect(true);
+            }else {
+                ugcvo.set_collect(false);
+            }
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
             UserVO userVO = new UserVO();
             userVO.setId(user_id);
