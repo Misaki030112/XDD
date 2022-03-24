@@ -186,9 +186,6 @@ public class UGCServiceImpl implements UGCService {
             }
             criteria1.andIdIn(integers);
             criteria2.andIdIn(integers);
-        } else if (fun == 3){
-            criteria1.andIdEqualTo(user_id);
-            criteria2.andIdEqualTo(user_id);
         }else if (fun == 4){
             collectLogDOExample collectLogDOExample = new collectLogDOExample();
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
