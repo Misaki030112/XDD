@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 spring:
   application:
     name: xdd-app
@@ -19,5 +19,6 @@ mybatis:
 validCode:
   length: 8
   time: 300    # 5分钟
+
 
 

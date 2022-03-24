@@ -19,8 +19,11 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     filters: stat,slf4j
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
-#邮箱的相关配置
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+  #邮箱的相关配置
   mail:
     protocol: smtp
     host: smtp.qq.com
