@@ -112,7 +112,7 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public Integer deleteUGC(Integer id) {
         UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(id);
-        ugcDO.setIs_delete(false);
+        ugcDO.setIs_delete(true);
         return ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
     }
 
@@ -124,19 +124,21 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public Integer updateUGC(UGCDto UGCDto) {
         UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(UGCDto.getId());
-        UGCDto.getAttachment().forEach(attachment -> {
-            if (attachment.getAttachment_type().equals("image")){
-                if (ugcDO.getImages() != null){
-                    ugcDO.setImages(ugcDO.getImages() + ',' + attachment.getAttachment_url());
+        if (UGCDto.getAttachment() != null){
+            UGCDto.getAttachment().forEach(attachment -> {
+                if (attachment.getAttachment_type().equals("image")){
+                    if (ugcDO.getImages() != null){
+                        ugcDO.setImages(ugcDO.getImages() + ',' + attachment.getAttachment_url());
+                    }
+                    ugcDO.setImages(attachment.getAttachment_url());
+                }else {
+                    if (ugcDO.getVideo() != null){
+                        ugcDO.setVideo(ugcDO.getVideo() + ',' + attachment.getAttachment_url());
+                    }
+                    ugcDO.setVideo(attachment.getAttachment_url());
                 }
-                ugcDO.setImages(attachment.getAttachment_url());
-            }else {
-                if (ugcDO.getVideo() != null){
-                    ugcDO.setVideo(ugcDO.getVideo() + ',' + attachment.getAttachment_url());
-                }
-                ugcDO.setVideo(attachment.getAttachment_url());
-            }
-        });
+            });
+        }
         if (UGCDto.getTitle() != null){
             ugcDO.setTitle(UGCDto.getTitle());
         }
