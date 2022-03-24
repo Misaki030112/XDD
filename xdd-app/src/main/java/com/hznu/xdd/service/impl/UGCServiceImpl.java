@@ -71,19 +71,21 @@ public class UGCServiceImpl implements UGCService {
     public Integer createUGC(UGCDto UGCDto) {
         UgcDO ugcDO = new UgcDO();
         System.out.println(UGCDto.getAttachment());
-        UGCDto.getAttachment().forEach(attachment -> {
-            if (attachment.getAttachment_type().equals("image")){
-                if (ugcDO.getImages() != null){
-                    ugcDO.setImages(ugcDO.getImages() + ',' + attachment.getAttachment_url());
+        if (UGCDto.getAttachment() != null){
+            UGCDto.getAttachment().forEach(attachment -> {
+                if (attachment.getAttachment_type().equals("image")){
+                    if (ugcDO.getImages() != null){
+                        ugcDO.setImages(ugcDO.getImages() + ',' + attachment.getAttachment_url());
+                    }
+                    ugcDO.setImages(attachment.getAttachment_url());
+                }else {
+                    if (ugcDO.getVideo() != null){
+                        ugcDO.setVideo(ugcDO.getVideo() + ',' + attachment.getAttachment_url());
+                    }
+                    ugcDO.setVideo(attachment.getAttachment_url());
                 }
-                ugcDO.setImages(attachment.getAttachment_url());
-            }else {
-                if (ugcDO.getVideo() != null){
-                    ugcDO.setVideo(ugcDO.getVideo() + ',' + attachment.getAttachment_url());
-                }
-                ugcDO.setVideo(attachment.getAttachment_url());
-            }
-        });
+            });
+        }
         if (UGCDto.getTitle() != null){
             ugcDO.setTitle(UGCDto.getTitle());
         }
