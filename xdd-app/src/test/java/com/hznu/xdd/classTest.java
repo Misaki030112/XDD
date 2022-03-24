@@ -30,5 +30,4 @@ import java.util.List;
 @SpringBootTest(classes = Xdd_Application.class)
 public class classTest {
 
-
 }
