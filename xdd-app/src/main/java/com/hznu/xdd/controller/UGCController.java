@@ -69,7 +69,7 @@ public class UGCController {
     }
 
     @GetMapping(value = "/get/ugc/user/publish",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByPublish(@RequestParam(value = "user_id", required = false) Integer user_id,
+    public Result listAllUGCByPublish(@RequestParam(value = "user_id") Integer user_id,
                                  @RequestParam(value = "key", required = false) String key,
                                  @RequestParam(value = "label", required = false) String label,
                                  @RequestParam(value = "topic", required = false) String topic,
@@ -78,7 +78,7 @@ public class UGCController {
         return Result.ok(ugcvoList,"获取成功");
     }
     @GetMapping(value = "/get/ugc/user/vote",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByVote(@RequestParam(value = "user_id", required = false) Integer user_id,
+    public Result listAllUGCByVote(@RequestParam(value = "user_id") Integer user_id,
                                  @RequestParam(value = "key", required = false) String key,
                                  @RequestParam(value = "label", required = false) String label,
                                  @RequestParam(value = "topic", required = false) String topic,
