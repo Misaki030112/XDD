@@ -17,5 +17,12 @@ public interface UGCService {
 
     Integer updateUGC(UGCDto UGCDto);
 
-    List<UGCVO> listPublishUGCById(Integer id,String key,String label, String topic,String order_by);
+    List<UGCVO> listPublishUGCById(Integer user_id,String key,String label, String topic,String order_by,Integer fun);
+
+    Integer addComment(String content,Integer parent_id,String to_type,Integer to_id,Integer user_id);
+
+    Integer voteUGC(Integer to_id,boolean status,Integer user_id);
+
+    Integer collectUGC(Integer to_id,boolean status,Integer user_id);
+
 }

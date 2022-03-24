@@ -5,6 +5,7 @@ import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,9 +21,9 @@ public class UGCVO {
 
     private String content;
 
-    private String create_time;
+    private Date create_time;
 
-    private String update_time;
+    private Date update_time;
 
     private List<attachmentDto> attachmentList;
 
