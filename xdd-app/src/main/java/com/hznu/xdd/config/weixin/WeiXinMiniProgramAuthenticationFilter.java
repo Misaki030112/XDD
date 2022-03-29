@@ -56,7 +56,7 @@ public class WeiXinMiniProgramAuthenticationFilter extends
         ResponseEntity<String> wxOpenid = restTemplate.getForEntity(url,String.class);
         //通过openid 获取用户信息
         JSONObject jsonObject = JSON.parseObject(wxOpenid.getBody());
-       UserDO user= remoteClientInvoke(jsonObject);
+        UserDO user= remoteClientInvoke(jsonObject);
         WeiXinMiniProgramAuthenticationToken authRequest = new WeiXinMiniProgramAuthenticationToken(user,jsonObject.getString("session_key"));
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);

@@ -6,14 +6,20 @@
         <artifactId>XDD</artifactId>
         <groupId>com.hznu.xdd</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xdd-common</artifactId>
 
     <properties>
-
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
     </properties>
+
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -36,12 +42,21 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <classifier>exec</classifier>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.zzh.demo.EntiyApplication</mainClass>
+                    <layout>ZIP</layout>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

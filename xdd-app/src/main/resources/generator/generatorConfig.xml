@@ -177,18 +177,24 @@
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
+
 <!--        <table  tableName="ugc_comment" domainObjectName="ugcCommentDO">-->
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>    -->
+
+        <table  tableName="topic" domainObjectName="topicDO">
+        <property name="useActualColumnNames" value="true" />
+        <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+    </table>
+<!--        <table  tableName="vote_log" domainObjectName="voteLogDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
-        <table  tableName="vote_log" domainObjectName="voteLogDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table  tableName="collect_log" domainObjectName="collectLogDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table  tableName="collect_log" domainObjectName="collectLogDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 <!--        <table  tableName="ugc" domainObjectName="UgcDO">-->
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->

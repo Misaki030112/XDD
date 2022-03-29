@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hznu.xdd.dao.ugcCommentDOMapper">
-  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.ugcCommentDO">
+<mapper namespace="com.hznu.xdd.dao.topicDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.topicDO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
     <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
     <result column="is_delete" jdbcType="BIT" property="is_delete" />
-    <result column="parent_id" jdbcType="INTEGER" property="parent_id" />
-    <result column="user_id" jdbcType="INTEGER" property="user_id" />
-    <result column="vote" jdbcType="INTEGER" property="vote" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="ugc_id" jdbcType="INTEGER" property="ugc_id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="sub_title" jdbcType="VARCHAR" property="sub_title" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, update_time, is_delete, parent_id, user_id, vote, content, ugc_id
+    id, create_time, update_time, is_delete, title, sub_title, label, image
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.ugcCommentDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.topicDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ugc_comment
+    from topic
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -98,29 +97,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ugc_comment
+    from topic
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from ugc_comment
+    delete from topic
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.ugcCommentDOExample">
-    delete from ugc_comment
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.topicDOExample">
+    delete from topic
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.ugcCommentDO" useGeneratedKeys="true">
-    insert into ugc_comment (create_time, update_time, is_delete, 
-      parent_id, user_id, vote, 
-      content, ugc_id)
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.topicDO" useGeneratedKeys="true">
+    insert into topic (create_time, update_time, is_delete, 
+      title, sub_title, label, 
+      image)
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{parent_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{vote,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{ugc_id,jdbcType=INTEGER})
+      #{title,jdbcType=VARCHAR}, #{sub_title,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.ugcCommentDO" useGeneratedKeys="true">
-    insert into ugc_comment
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.topicDO" useGeneratedKeys="true">
+    insert into topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
         create_time,
@@ -131,20 +130,17 @@
       <if test="is_delete != null">
         is_delete,
       </if>
-      <if test="parent_id != null">
-        parent_id,
+      <if test="title != null">
+        title,
       </if>
-      <if test="user_id != null">
-        user_id,
+      <if test="sub_title != null">
+        sub_title,
       </if>
-      <if test="vote != null">
-        vote,
+      <if test="label != null">
+        label,
       </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="ugc_id != null">
-        ugc_id,
+      <if test="image != null">
+        image,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -157,31 +153,28 @@
       <if test="is_delete != null">
         #{is_delete,jdbcType=BIT},
       </if>
-      <if test="parent_id != null">
-        #{parent_id,jdbcType=INTEGER},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
-      <if test="user_id != null">
-        #{user_id,jdbcType=INTEGER},
+      <if test="sub_title != null">
+        #{sub_title,jdbcType=VARCHAR},
       </if>
-      <if test="vote != null">
-        #{vote,jdbcType=INTEGER},
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="ugc_id != null">
-        #{ugc_id,jdbcType=INTEGER},
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.ugcCommentDOExample" resultType="java.lang.Long">
-    select count(*) from ugc_comment
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.topicDOExample" resultType="java.lang.Long">
+    select count(*) from topic
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ugc_comment
+    update topic
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -195,20 +188,17 @@
       <if test="record.is_delete != null">
         is_delete = #{record.is_delete,jdbcType=BIT},
       </if>
-      <if test="record.parent_id != null">
-        parent_id = #{record.parent_id,jdbcType=INTEGER},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.user_id != null">
-        user_id = #{record.user_id,jdbcType=INTEGER},
+      <if test="record.sub_title != null">
+        sub_title = #{record.sub_title,jdbcType=VARCHAR},
       </if>
-      <if test="record.vote != null">
-        vote = #{record.vote,jdbcType=INTEGER},
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
       </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ugc_id != null">
-        ugc_id = #{record.ugc_id,jdbcType=INTEGER},
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -216,22 +206,21 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ugc_comment
+    update topic
     set id = #{record.id,jdbcType=INTEGER},
       create_time = #{record.create_time,jdbcType=TIMESTAMP},
       update_time = #{record.update_time,jdbcType=TIMESTAMP},
       is_delete = #{record.is_delete,jdbcType=BIT},
-      parent_id = #{record.parent_id,jdbcType=INTEGER},
-      user_id = #{record.user_id,jdbcType=INTEGER},
-      vote = #{record.vote,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR},
-      ugc_id = #{record.ugc_id,jdbcType=INTEGER}
+      title = #{record.title,jdbcType=VARCHAR},
+      sub_title = #{record.sub_title,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.ugcCommentDO">
-    update ugc_comment
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.topicDO">
+    update topic
     <set>
       <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
@@ -242,34 +231,30 @@
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=BIT},
       </if>
-      <if test="parent_id != null">
-        parent_id = #{parent_id,jdbcType=INTEGER},
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="user_id != null">
-        user_id = #{user_id,jdbcType=INTEGER},
+      <if test="sub_title != null">
+        sub_title = #{sub_title,jdbcType=VARCHAR},
       </if>
-      <if test="vote != null">
-        vote = #{vote,jdbcType=INTEGER},
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="ugc_id != null">
-        ugc_id = #{ugc_id,jdbcType=INTEGER},
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.ugcCommentDO">
-    update ugc_comment
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.topicDO">
+    update topic
     set create_time = #{create_time,jdbcType=TIMESTAMP},
       update_time = #{update_time,jdbcType=TIMESTAMP},
       is_delete = #{is_delete,jdbcType=BIT},
-      parent_id = #{parent_id,jdbcType=INTEGER},
-      user_id = #{user_id,jdbcType=INTEGER},
-      vote = #{vote,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR},
-      ugc_id = #{ugc_id,jdbcType=INTEGER}
+      title = #{title,jdbcType=VARCHAR},
+      sub_title = #{sub_title,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
