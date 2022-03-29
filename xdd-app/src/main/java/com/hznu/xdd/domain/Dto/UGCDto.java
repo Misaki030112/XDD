@@ -11,7 +11,7 @@ public class UGCDto {
 
     private Integer id;
 
-    private Integer userId;
+    private Integer user_id;
 
     private locationDto location;
 
@@ -22,6 +22,22 @@ public class UGCDto {
     private String content;
 
     private String title;
+
+    private String key;
+
+    private String order_by;
+
+    private Integer parent_id;
+
+    private String to_type;
+
+    private Integer to_id;
+
+    private boolean status;
+
+    private Integer page;
+
+    private Integer offset;
 
     private boolean anonymous;
 

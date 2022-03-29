@@ -1,7 +1,7 @@
 package com.hznu.xdd.dao;
 
-import com.hznu.xdd.domain.pojoExam.ugcCommentDOExample;
 import com.hznu.xdd.pojo.ugcCommentDO;
+import com.hznu.xdd.domain.pojoExam.ugcCommentDOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

@@ -36,4 +36,7 @@ public class UGCVO {
     private boolean is_vote;
 
     private boolean is_collect;
+
+    private Double score;
+
 }

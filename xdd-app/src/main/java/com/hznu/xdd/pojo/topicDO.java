@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ugcCommentDO implements Serializable {
+public class topicDO implements Serializable {
     private Integer id;
 
     private Date create_time;
@@ -14,15 +14,13 @@ public class ugcCommentDO implements Serializable {
 
     private Boolean is_delete;
 
-    private Integer parent_id;
+    private String title;
 
-    private Integer user_id;
+    private String sub_title;
 
-    private Integer vote;
+    private String label;
 
-    private String content;
-
-    private Integer ugc_id;
+    private String image;
 
     private static final long serialVersionUID = 1L;
 }

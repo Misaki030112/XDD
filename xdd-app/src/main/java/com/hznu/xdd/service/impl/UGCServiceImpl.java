@@ -6,21 +6,19 @@ import com.hznu.xdd.dao.UserDOMapper;
 import com.hznu.xdd.dao.ugcCommentDOMapper;
 import com.hznu.xdd.dao.voteLogDOMapper;
 import com.hznu.xdd.dao.collectLogDOMapper;
+import com.hznu.xdd.dao.topicDOMapper;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.Dto.attachmentDto;
+import com.hznu.xdd.domain.VO.CommentVO;
 import com.hznu.xdd.domain.VO.UGCVO;
 import com.hznu.xdd.domain.VO.UserVO;
-import com.hznu.xdd.domain.pojoExam.UgcDOExample;
-import com.hznu.xdd.domain.pojoExam.collectLogDOExample;
-import com.hznu.xdd.domain.pojoExam.voteLogDOExample;
+import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UGCServiceImpl implements UGCService {
@@ -39,6 +37,9 @@ public class UGCServiceImpl implements UGCService {
 
     @Autowired
     collectLogDOMapper collectLogDOMapper;
+
+    @Autowired
+    topicDOMapper topicDOMapper;
 
     /**
      * 获取所有评论
@@ -97,7 +98,7 @@ public class UGCServiceImpl implements UGCService {
         }
         ugcDO.setLabel(UGCDto.getLabel());
         ugcDO.setContent(UGCDto.getContent());
-        ugcDO.setUser_id(UGCDto.getUserId());
+        ugcDO.setUser_id(UGCDto.getUser_id());
         ugcDO.setIs_delete(false);
 
         return ugcDOMapper.insertSelective(ugcDO);
@@ -158,17 +159,19 @@ public class UGCServiceImpl implements UGCService {
     }
 
     /**
-     * 根据fun获取用户发布或是点赞的评论
+     * 获取UGC
      * @param user_id
      * @param key
      * @param label
      * @param topic
      * @param order_by
+     * @param page
+     * @param offset
      * @param fun
      * @return
      */
     @Override
-    public List<UGCVO> listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by,Integer fun) {
+    public List<UGCVO> listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by,Integer page,Integer offset ,Integer fun) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         UgcDOExample.Criteria criteria1 = ugcDOExample.createCriteria();
         UgcDOExample.Criteria criteria2 = ugcDOExample.createCriteria();
@@ -220,12 +223,40 @@ public class UGCServiceImpl implements UGCService {
             criteria1.andTopicEqualTo(topic);
             criteria2.andTopicEqualTo(topic);
         }
-        ugcDOExample.or(criteria2);
         if (order_by != null){
             ugcDOExample.setOrderByClause(order_by);
         }
+        ugcDOExample.or(criteria2);
+        ugcDOExample.setOffset(page);
+        ugcDOExample.setRows(offset);
         List<UGCVO> ugcvos = new ArrayList<UGCVO>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
+        BatchUGC(ugcDOS, ugcvos);
+        return ugcvos;
+    }
+
+    /**
+     * 获取热门帖子
+     * @param page
+     * @param offset
+     * @return
+     */
+    @Override
+    public List<UGCVO> getHotUGC(Integer page, Integer offset) {
+        UgcDOExample ugcDOExample = new UgcDOExample();
+        List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
+        List<UGCVO> ugcvos = new ArrayList<UGCVO>();
+        BatchUGC(ugcDOS, ugcvos);
+        Collections.sort(ugcvos, new Comparator<UGCVO>() {
+            @Override
+            public int compare(UGCVO o1, UGCVO o2) {
+                return o2.getScore().compareTo(o1.getScore());
+            }
+        });
+        return ugcvos.subList(page * offset - offset,page * offset);
+    }
+
+    private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos) {
         ugcDOS.forEach((txt)->{
             UGCVO ugcvo = new UGCVO();
             List<attachmentDto> attachmentDtos = new ArrayList<attachmentDto>();
@@ -272,15 +303,15 @@ public class UGCServiceImpl implements UGCService {
             }
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
             UserVO userVO = new UserVO();
-            userVO.setId(user_id);
+            userVO.setId(userDO.getId());
             userVO.setAvatar(userDO.getAvatar());
             userVO.setNickname(userDO.getNickname());
             userVO.setGender(userDO.getGender());
             userVO.setRole(userDO.getRole());
             ugcvo.setUser(userVO);
+            ugcvo.setScore(txt.getExposure() * 0.2 + txt.getVote() * 0.3 + txt.getComment() * 0.5);
             ugcvos.add(ugcvo);
         });
-        return ugcvos;
     }
 
     /**
@@ -299,6 +330,7 @@ public class UGCServiceImpl implements UGCService {
         ugcCommentDO.setParent_id(parent_id);
         ugcCommentDO.setIs_delete(false);
         ugcCommentDO.setUser_id(user_id);
+        ugcCommentDO.setUgc_id(to_id);
         return ugcCommentDOMapper.insert(ugcCommentDO);
     }
 
@@ -361,4 +393,66 @@ public class UGCServiceImpl implements UGCService {
         }
         return count;
     }
+
+    /**
+     * 获取UGC评论并生成评论树
+     * @param id
+     * @return
+     */
+    @Override
+    public List<CommentVO> getCommentById(Integer id) {
+        ugcCommentDOExample ugcCommentDOExample = new ugcCommentDOExample();
+        com.hznu.xdd.domain.pojoExam.ugcCommentDOExample.Criteria criteria = ugcCommentDOExample.createCriteria();
+        criteria.andUgc_idEqualTo(id);
+        //获取所有评论
+        List<ugcCommentDO> ugcCommentDOS = ugcCommentDOMapper.selectByExample(ugcCommentDOExample);
+        List<CommentVO> commentVOS = new ArrayList<CommentVO>();
+        ugcCommentDOS.forEach((txt)->{
+            if (txt.getParent_id() == -1){
+                UserDOExample userDOExample = new UserDOExample();
+                UserDOExample.Criteria criteria1 = userDOExample.createCriteria();
+                criteria1.andIdEqualTo(txt.getUser_id());
+                List<UserDO> userDOS = userDOMapper.selectByExample(userDOExample);
+                CommentVO commentVO = new CommentVO();
+                commentVO.setCreate_time(txt.getCreate_time());
+                commentVO.setVote_num(txt.getVote());
+                commentVO.setUserVO(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(txt.getUser_id()));
+                commentVO.setContent(txt.getContent());
+                commentVO.setId(txt.getId());
+                commentVOS.add(commentVO);
+            }else {
+                setChild(commentVOS,txt);
+            }
+        });
+        return commentVOS;
+    }
+
+    @Override
+    public List<topicDO> getTopic(Integer page, Integer offset) {
+        topicDOExample topicDOExample = new topicDOExample();
+        com.hznu.xdd.domain.pojoExam.topicDOExample.Criteria criteria = topicDOExample.createCriteria();
+        criteria.andIs_deleteEqualTo(false);
+        topicDOExample.setRows(offset);
+        topicDOExample.setOffset(page);
+        List<topicDO> topicDOS = topicDOMapper.selectByExample(topicDOExample);
+        return topicDOS;
+    }
+
+    private void setChild(List<CommentVO> commentVOS,ugcCommentDO ugcCommentDO){
+        for (int i = 0; i < commentVOS.size(); i++) {
+            if (ugcCommentDO.getParent_id().equals(commentVOS.get(i).getId())){
+                UserDOExample userDOExample = new UserDOExample();
+                UserDOExample.Criteria criteria1 = userDOExample.createCriteria();
+                criteria1.andIdEqualTo(ugcCommentDO.getUser_id());
+                List<UserDO> userDOS = userDOMapper.selectByExample(userDOExample);
+                CommentVO commentVO = new CommentVO();
+                commentVO.setId(ugcCommentDO.getId());
+                commentVO.setCreate_time(ugcCommentDO.getCreate_time());
+                commentVO.setVote_num(ugcCommentDO.getVote());
+                commentVO.setUserVO(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(ugcCommentDO.getUser_id()));
+                commentVO.setContent(ugcCommentDO.getContent());
+            }
+        }
+    }
+
 }

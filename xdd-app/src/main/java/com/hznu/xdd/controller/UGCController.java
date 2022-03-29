@@ -3,9 +3,11 @@ package com.hznu.xdd.controller;
 import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Result;
 import com.hznu.xdd.domain.Dto.UGCDto;
+import com.hznu.xdd.domain.VO.CommentVO;
 import com.hznu.xdd.domain.VO.UGCVO;
 import com.hznu.xdd.pojo.UgcDO;
 import com.hznu.xdd.pojo.UserDO;
+import com.hznu.xdd.pojo.topicDO;
 import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
@@ -25,12 +27,9 @@ public class UGCController {
     UGCService ugcService;
 
     @GetMapping(value = "/get/ugc",produces = {"application/json;charset=UTF-8"})
-    public Result getAllUGC(@RequestParam(value = "id",required = false) Integer id,
-                            @RequestParam(value = "key", required = false) String key,
-                            @RequestParam(value = "label", required = false) String label,
-                            @RequestParam(value = "topic", required = false) String topic,
-                            @RequestParam(value = "order_by", required = false) String order_by){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(id, key, label, topic, order_by,3);
+    public Result getAllUGC(@RequestBody UGCDto ugcDto){
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+                ugcDto.getPage(),ugcDto.getOffset(),3);
         return Result.ok(ugcvoList,"获取成功");
     }
 
@@ -39,20 +38,20 @@ public class UGCController {
     public Result createUGC(@RequestBody UGCDto UGCDto,
                             Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        UGCDto.setUserId(userDO.getId());
+        UGCDto.setUser_id(userDO.getId());
         Integer count = ugcService.createUGC(UGCDto);
         return Result.ok(count,"创建成功");
     }
 
     @PostMapping(value = "/post/ugc/delete",produces = {"application/json;charset=UTF-8"})
-    public Result deleteUGC(@RequestParam("id") Integer id,
+    public Result deleteUGC(@RequestBody UGCDto ugcDto,
                             Authentication authentication){
-        UgcDO ugc = ugcService.findById(id);
+        UgcDO ugc = ugcService.findById(ugcDto.getId());
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if (!userDO.getId().equals(ugc.getUser_id())){
             return new Result(StatusCode.VISIT_INVALID);
         }
-        Integer deleteUGC = ugcService.deleteUGC(id);
+        Integer deleteUGC = ugcService.deleteUGC(ugcDto.getId());
         return Result.ok(deleteUGC,"删除成功");
     }
 
@@ -69,79 +68,83 @@ public class UGCController {
     }
 
     @GetMapping(value = "/get/ugc/user/publish",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByPublish(@RequestParam(value = "user_id") Integer user_id,
-                                 @RequestParam(value = "key", required = false) String key,
-                                 @RequestParam(value = "label", required = false) String label,
-                                 @RequestParam(value = "topic", required = false) String topic,
-                                 @RequestParam(value = "order_by", required = false) String order_by){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,1);
+    public Result listAllUGCByPublish(@RequestBody UGCDto ugcDto){
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+                ugcDto.getPage(),ugcDto.getOffset(),1);
         return Result.ok(ugcvoList,"获取成功");
     }
+
     @GetMapping(value = "/get/ugc/user/vote",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByVote(@RequestParam(value = "user_id") Integer user_id,
-                                 @RequestParam(value = "key", required = false) String key,
-                                 @RequestParam(value = "label", required = false) String label,
-                                 @RequestParam(value = "topic", required = false) String topic,
-                                 @RequestParam(value = "order_by", required = false) String order_by){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,2);
+    public Result listAllUGCByVote(@RequestBody UGCDto ugcDto){
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+                ugcDto.getPage(),ugcDto.getOffset(),2);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @PostMapping(value = "/post/ugc/my/vote",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByVote(@RequestParam(value = "key", required = false) String key,
-                                   @RequestParam(value = "label", required = false) String label,
-                                   @RequestParam(value = "topic", required = false) String topic,
-                                   @RequestParam(value = "order_by", required = false) String order_by,
+    public Result listAllUGCByVote(@RequestBody UGCDto ugcDto,
                                    Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), key, label, topic, order_by,2);
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+                ugcDto.getPage(),ugcDto.getOffset(),3);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @PostMapping(value = "/post/ugc/my/publish",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByPublish(@RequestParam(value = "key", required = false) String key,
-                                   @RequestParam(value = "label", required = false) String label,
-                                   @RequestParam(value = "topic", required = false) String topic,
-                                   @RequestParam(value = "order_by", required = false) String order_by,
-                                   Authentication authentication){
+    public Result listAllUGCByPublish(@RequestBody UGCDto ugcDto,
+                                      Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), key, label, topic, order_by,1);
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+                ugcDto.getPage(),ugcDto.getOffset(),1);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @PostMapping(value = "/post/ugc/my/collect",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByCollect(@RequestParam(value = "key", required = false) String key,
-                                      @RequestParam(value = "label", required = false) String label,
-                                      @RequestParam(value = "topic", required = false) String topic,
-                                      @RequestParam(value = "order_by", required = false) String order_by,
+    public Result listAllUGCByCollect(@RequestBody UGCDto ugcDto,
                                       Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), key, label, topic, order_by,4);
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+                ugcDto.getPage(),ugcDto.getOffset(),4);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @PostMapping(value = "/post/ugc/comment",produces = {"application/json;charset=UTF-8"})
-    public Result addComment(@RequestParam(value = "content") String content,
-                             @RequestParam(value = "parent_id") Integer parent_id,
-                             @RequestParam(value = "to_type") String to_type,
-                             @RequestParam(value = "to_id") Integer to_id,
+    public Result addComment(@RequestBody UGCDto ugcDto,
                              Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        Integer count = ugcService.addComment(content,parent_id,to_type,to_id,userDO.getId());
+        Integer count = ugcService.addComment(ugcDto.getContent(),ugcDto.getParent_id(),ugcDto.getTo_type(),ugcDto.getTo_id(),userDO.getId());
         return Result.ok(count,"评论成功");
     }
 
     @PostMapping(value = "/post/ugc/vote",produces = {"application/json;charset=UTF-8"})
-    public Result voteUGC(Integer to_id,boolean status,
+    public Result voteUGC(@RequestBody UGCDto ugcDto,
                           Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        return Result.ok(ugcService.voteUGC(to_id,status,userDO.getId()),"点赞成功");
+        return Result.ok(ugcService.voteUGC(ugcDto.getTo_id(),ugcDto.isStatus(),userDO.getId()),"点赞成功");
     }
 
     @PostMapping(value = "/post/ugc/collect",produces = {"application/json;charset=UTF-8"})
-    public Result collectUGC(Integer to_id,boolean status,
-                          Authentication authentication){
+    public Result collectUGC(@RequestBody UGCDto ugcDto,
+                             Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        return Result.ok(ugcService.collectUGC(to_id,status,userDO.getId()),"收藏成功");
+        return Result.ok(ugcService.collectUGC(ugcDto.getTo_id(),ugcDto.isStatus(),userDO.getId()),"收藏成功");
+    }
+
+    @GetMapping(value = "/get/ugc/hot",produces = {"application/json;charset=UTF-8"})
+    public Result getHotUGC(@RequestBody UGCDto ugcDto){
+        List<UGCVO> ugcvoList = ugcService.getHotUGC(ugcDto.getPage(),ugcDto.getOffset());
+        return Result.ok(ugcvoList,"获取成功");
+    }
+
+    @GetMapping(value = "/get/ugc/comment",produces = {"application/json;charset=UTF-8"})
+    public Result getUGCComment(@RequestBody UGCDto ugcDto){
+        List<CommentVO> commentById = ugcService.getCommentById(ugcDto.getId());
+        return Result.ok(commentById,"获取成功");
+    }
+
+    @GetMapping(value = "/get/ugc/topic",produces = {"application/json;charset=UTF-8"})
+    public Result getTopic(@RequestBody UGCDto ugcDto){
+        List<topicDO> topic = ugcService.getTopic(ugcDto.getPage(), ugcDto.getOffset());
+        return Result.ok(topic,"获取成功");
     }
 }
