@@ -227,12 +227,10 @@ public class UGCServiceImpl implements UGCService {
             ugcDOExample.setOrderByClause(order_by);
         }
         ugcDOExample.or(criteria2);
-        ugcDOExample.setOffset(page);
-        ugcDOExample.setRows(offset);
         List<UGCVO> ugcvos = new ArrayList<UGCVO>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         BatchUGC(ugcDOS, ugcvos);
-        return ugcvos;
+        return ugcvos.subList(page * offset - offset,page * offset);
     }
 
     /**
@@ -348,8 +346,11 @@ public class UGCServiceImpl implements UGCService {
         com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andVote_to_idEqualTo(to_id);
-        if (voteLogDOMapper.selectByExample(voteLogDOExample) == null){
+        System.out.println(voteLogDOMapper.selectByExample(voteLogDOExample));
+        if (voteLogDOMapper.selectByExample(voteLogDOExample).size() == 0){
             voteLogDO voteLogDO = new voteLogDO();
+            voteLogDO.setUpdate_time(new Date());
+            voteLogDO.setCreate_time(new Date());
             voteLogDO.setVote_to_id(to_id);
             voteLogDO.setVote_type("ugc");
             voteLogDO.setIs_delete(status);
@@ -358,6 +359,7 @@ public class UGCServiceImpl implements UGCService {
         }else {
             List<voteLogDO> voteLogDOS = voteLogDOMapper.selectByExample(voteLogDOExample);
             voteLogDO voteLogDO = voteLogDOS.get(0);
+            voteLogDO.setUpdate_time(new Date());
             voteLogDO.setIs_delete(status);
             count = voteLogDOMapper.updateByPrimaryKey(voteLogDO);
         }
@@ -378,8 +380,10 @@ public class UGCServiceImpl implements UGCService {
         com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andCollect_to_idEqualTo(to_id);
-        if (collectLogDOMapper.selectByExample(collectLogDOExample) == null){
+        if (collectLogDOMapper.selectByExample(collectLogDOExample).size() == 0){
             collectLogDO collectLogDO = new collectLogDO();
+            collectLogDO.setCreate_time(new Date());
+            collectLogDO.setUpdate_time(new Date());
             collectLogDO.setCollect_to_id(to_id);
             collectLogDO.setCollect_type("ugc");
             collectLogDO.setIs_delete(status);
@@ -389,6 +393,7 @@ public class UGCServiceImpl implements UGCService {
             List<collectLogDO> collectLogDOs = collectLogDOMapper.selectByExample(collectLogDOExample);
             collectLogDO collectLogDO = collectLogDOs.get(0);
             collectLogDO.setIs_delete(status);
+            collectLogDO.setUpdate_time(new Date());
             count = collectLogDOMapper.updateByPrimaryKey(collectLogDO);
         }
         return count;
@@ -432,10 +437,8 @@ public class UGCServiceImpl implements UGCService {
         topicDOExample topicDOExample = new topicDOExample();
         com.hznu.xdd.domain.pojoExam.topicDOExample.Criteria criteria = topicDOExample.createCriteria();
         criteria.andIs_deleteEqualTo(false);
-        topicDOExample.setRows(offset);
-        topicDOExample.setOffset(page);
         List<topicDO> topicDOS = topicDOMapper.selectByExample(topicDOExample);
-        return topicDOS;
+        return topicDOS.subList(page * offset - offset,page * offset);
     }
 
     private void setChild(List<CommentVO> commentVOS,ugcCommentDO ugcCommentDO){

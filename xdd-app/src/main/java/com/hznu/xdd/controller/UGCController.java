@@ -69,14 +69,14 @@ public class UGCController {
 
     @GetMapping(value = "/get/ugc/user/publish",produces = {"application/json;charset=UTF-8"})
     public Result listAllUGCByPublish(@RequestBody UGCDto ugcDto){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getUser_id(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),1);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @GetMapping(value = "/get/ugc/user/vote",produces = {"application/json;charset=UTF-8"})
     public Result listAllUGCByVote(@RequestBody UGCDto ugcDto){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getUser_id(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),2);
         return Result.ok(ugcvoList,"获取成功");
     }
@@ -86,7 +86,7 @@ public class UGCController {
                                    Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         List<UGCVO> ugcvoList = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
-                ugcDto.getPage(),ugcDto.getOffset(),3);
+                ugcDto.getPage(),ugcDto.getOffset(),2);
         return Result.ok(ugcvoList,"获取成功");
     }
 
