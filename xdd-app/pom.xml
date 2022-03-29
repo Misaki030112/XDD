@@ -6,19 +6,12 @@
         <artifactId>XDD</artifactId>
         <groupId>com.hznu.xdd</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xdd-app</artifactId>
 
-    <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-    </properties>
 
 
     <dependencies>
@@ -74,7 +67,7 @@
             <version>1.3.7</version>
         </dependency>
         <dependency>
-            <groupId>com.itfsw</groupId>
+            <groupId>com.hznu.xdd</groupId>
             <artifactId>mybatis-generator-plugin</artifactId>
             <version>1.3.11-SNAPSHOT</version>
         </dependency>
@@ -96,17 +89,19 @@
         </dependency>
 
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <classifier>exec</classifier>
                     <!-- 指定该Main Class为全局的唯一入口 -->
                     <mainClass>com.hznu.xdd.Xdd_Application</mainClass>
-                    <layout>ZIP</layout>
                 </configuration>
                 <executions>
                     <execution>
@@ -118,4 +113,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

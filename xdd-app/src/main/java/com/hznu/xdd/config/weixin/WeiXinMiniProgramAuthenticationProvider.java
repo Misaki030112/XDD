@@ -20,6 +20,7 @@ public class WeiXinMiniProgramAuthenticationProvider implements AuthenticationPr
     @Getter
     private UserService userService;
 
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         WeiXinMiniProgramAuthenticationToken weiXinMiniProgramAuthenticationToken =

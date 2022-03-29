@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public UserDO initUserInfoByWxOpenId(String wxOpenId, String encryptedData, String iv,String sessionKey) throws InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidKeyException {
+    public UserDO initUserInfoByWxOpenId(String wxOpenId, String encryptedData, String iv,String sessionKey)throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidParameterSpecException, BadPaddingException, InvalidKeyException {
        JSONObject jsonObject = JSON.parseObject(WeChatUtil.decryptData(encryptedData, sessionKey, iv));
         UserDO userDO = getUserByWxOpenId(wxOpenId);
         userDO.setNickname(jsonObject.getString("nickname"))
@@ -105,7 +105,16 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public List<UserDO> searchUserByNickName(String nickName) {
         UserDOExample example = new UserDOExample();
         UserDOExample.Criteria criteria = example.createCriteria();
-        criteria.andNicknameEqualTo(nickName);
+        criteria.andNicknameLike(nickName);
+        return userDOMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<UserDO> searchUserByNickName(String nickName, Integer page, Integer offset) {
+        UserDOExample example = new UserDOExample();
+        UserDOExample.Criteria criteria = example.createCriteria();
+        criteria.andNicknameLike(nickName);
+        example.page(page,offset);
         return userDOMapper.selectByExample(example);
     }
 
@@ -197,6 +206,30 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             int i = verify_imageDOMapper.insert(verify_imageDO);
             return i>0;
         }
+    }
+
+    @Override
+    public UserDO changeUserInfo(String wxOpenId,String nickName, String avatar, String signature, Date birthday, String province, String city, String district) {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        user.setNickname(nickName)
+                .setAvatar(avatar)
+                .setSignature(signature)
+                .setBirthday(birthday)
+                .setProvince(province)
+                .setCity(city)
+                .setDistrict(district);
+        int i = userDOMapper.updateByPrimaryKey(user);
+        return i>0?user:null;
+    }
+
+    @Override
+    public List<UserDO> getFocusUser(String wxOpenId, Integer page, Integer offset) {
+        return null;
+    }
+
+    @Override
+    public List<UserDO> getFocusedUser(String wxOpenId, Integer page, Integer offset) {
+        return null;
     }
 
 

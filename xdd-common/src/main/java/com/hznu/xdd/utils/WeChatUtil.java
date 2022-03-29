@@ -33,7 +33,7 @@ public class WeChatUtil {
     private static Key key;
     private static Cipher cipher;
 
-    public static String decryptData(String encryptDataB64, String sessionKeyB64, String ivB64) throws BadPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidParameterSpecException {
+    public static String decryptData(String encryptDataB64, String sessionKeyB64, String ivB64) throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidParameterSpecException, BadPaddingException, InvalidKeyException {
         return new String(
                 decryptOfDiyIV(
                         Base64.decode(encryptDataB64),
@@ -73,7 +73,7 @@ public class WeChatUtil {
      * @param ivs           自定义对称解密算法初始向量 iv
      * @return 解密后的字节数组
      */
-    private static byte[] decryptOfDiyIV(byte[] encryptedData, byte[] keyBytes, byte[] ivs) throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidParameterSpecException {
+    private static byte[] decryptOfDiyIV(byte[] encryptedData, byte[] keyBytes, byte[] ivs) throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidParameterSpecException, BadPaddingException, InvalidKeyException {
         byte[] encryptedText;
         init(keyBytes);
         try {
@@ -82,7 +82,7 @@ public class WeChatUtil {
             cipher.init(Cipher.DECRYPT_MODE, key, parameters);
             encryptedText = cipher.doFinal(encryptedData);
         } catch (Exception e) {
-            throw e;
+           throw e;
         }
         return encryptedText;
     }
