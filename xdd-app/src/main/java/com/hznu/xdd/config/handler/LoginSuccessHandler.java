@@ -34,7 +34,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     @Autowired
     private ClientDetailsService clientDetailsService;
 
-    @Resource
+    @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
 
     @Autowired
