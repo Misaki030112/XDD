@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hznu.xdd.dao.UgcDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.UgcDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+    <result column="is_delete" jdbcType="BIT" property="is_delete" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="images" jdbcType="VARCHAR" property="images" />
+    <result column="video" jdbcType="VARCHAR" property="video" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="vote" jdbcType="INTEGER" property="vote" />
+    <result column="exposure" jdbcType="INTEGER" property="exposure" />
+    <result column="collect" jdbcType="INTEGER" property="collect" />
+    <result column="comment" jdbcType="INTEGER" property="comment" />
+    <result column="is_online" jdbcType="BIT" property="is_online" />
+    <result column="anonymous" jdbcType="BIT" property="anonymous" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="topic" jdbcType="VARCHAR" property="topic" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, is_delete, user_id, title, content, images, video, 
+    label, params, vote, exposure, collect, comment, is_online, anonymous, location, 
+    topic
+  </sql>
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ugc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ugc
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ugc
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample">
+    delete from ugc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UgcDO" useGeneratedKeys="true">
+    insert into ugc (create_time, update_time, is_delete, 
+      user_id, title, content, 
+      images, video, label, 
+      params, vote, exposure, 
+      collect, comment, is_online, 
+      anonymous, location, topic
+      )
+    values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
+      #{user_id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{images,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
+      #{params,jdbcType=VARCHAR}, #{vote,jdbcType=INTEGER}, #{exposure,jdbcType=INTEGER}, 
+      #{collect,jdbcType=INTEGER}, #{comment,jdbcType=INTEGER}, #{is_online,jdbcType=BIT}, 
+      #{anonymous,jdbcType=BIT}, #{location,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UgcDO" useGeneratedKeys="true">
+    insert into ugc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="update_time != null">
+        update_time,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="images != null">
+        images,
+      </if>
+      <if test="video != null">
+        video,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="vote != null">
+        vote,
+      </if>
+      <if test="exposure != null">
+        exposure,
+      </if>
+      <if test="collect != null">
+        collect,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="is_online != null">
+        is_online,
+      </if>
+      <if test="anonymous != null">
+        anonymous,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="topic != null">
+        topic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null">
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="vote != null">
+        #{vote,jdbcType=INTEGER},
+      </if>
+      <if test="exposure != null">
+        #{exposure,jdbcType=INTEGER},
+      </if>
+      <if test="collect != null">
+        #{collect,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=INTEGER},
+      </if>
+      <if test="is_online != null">
+        #{is_online,jdbcType=BIT},
+      </if>
+      <if test="anonymous != null">
+        #{anonymous,jdbcType=BIT},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.UgcDOExample" resultType="java.lang.Long">
+    select count(*) from ugc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ugc
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_time != null">
+        create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.update_time != null">
+        update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.is_delete != null">
+        is_delete = #{record.is_delete,jdbcType=BIT},
+      </if>
+      <if test="record.user_id != null">
+        user_id = #{record.user_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.images != null">
+        images = #{record.images,jdbcType=VARCHAR},
+      </if>
+      <if test="record.video != null">
+        video = #{record.video,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vote != null">
+        vote = #{record.vote,jdbcType=INTEGER},
+      </if>
+      <if test="record.exposure != null">
+        exposure = #{record.exposure,jdbcType=INTEGER},
+      </if>
+      <if test="record.collect != null">
+        collect = #{record.collect,jdbcType=INTEGER},
+      </if>
+      <if test="record.comment != null">
+        comment = #{record.comment,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_online != null">
+        is_online = #{record.is_online,jdbcType=BIT},
+      </if>
+      <if test="record.anonymous != null">
+        anonymous = #{record.anonymous,jdbcType=BIT},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topic != null">
+        topic = #{record.topic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ugc
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      is_delete = #{record.is_delete,jdbcType=BIT},
+      user_id = #{record.user_id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      images = #{record.images,jdbcType=VARCHAR},
+      video = #{record.video,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
+      params = #{record.params,jdbcType=VARCHAR},
+      vote = #{record.vote,jdbcType=INTEGER},
+      exposure = #{record.exposure,jdbcType=INTEGER},
+      collect = #{record.collect,jdbcType=INTEGER},
+      comment = #{record.comment,jdbcType=INTEGER},
+      is_online = #{record.is_online,jdbcType=BIT},
+      anonymous = #{record.anonymous,jdbcType=BIT},
+      location = #{record.location,jdbcType=VARCHAR},
+      topic = #{record.topic,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.UgcDO">
+    update ugc
+    <set>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null">
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="vote != null">
+        vote = #{vote,jdbcType=INTEGER},
+      </if>
+      <if test="exposure != null">
+        exposure = #{exposure,jdbcType=INTEGER},
+      </if>
+      <if test="collect != null">
+        collect = #{collect,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=INTEGER},
+      </if>
+      <if test="is_online != null">
+        is_online = #{is_online,jdbcType=BIT},
+      </if>
+      <if test="anonymous != null">
+        anonymous = #{anonymous,jdbcType=BIT},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.UgcDO">
+    update ugc
+    set create_time = #{create_time,jdbcType=TIMESTAMP},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      is_delete = #{is_delete,jdbcType=BIT},
+      user_id = #{user_id,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      vote = #{vote,jdbcType=INTEGER},
+      exposure = #{exposure,jdbcType=INTEGER},
+      collect = #{collect,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=INTEGER},
+      is_online = #{is_online,jdbcType=BIT},
+      anonymous = #{anonymous,jdbcType=BIT},
+      location = #{location,jdbcType=VARCHAR},
+      topic = #{topic,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

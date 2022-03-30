@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hznu.xdd.dao.UserDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.UserDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+    <result column="is_delete" jdbcType="BIT" property="is_delete" />
+    <result column="open_id_xiaododo_mini" jdbcType="VARCHAR" property="open_id_xiaododo_mini" />
+    <result column="union_id" jdbcType="VARCHAR" property="union_id" />
+    <result column="open_id_xiaododo_official_account" jdbcType="VARCHAR" property="open_id_xiaododo_official_account" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="gender" jdbcType="SMALLINT" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="follow_num" jdbcType="INTEGER" property="follow_num" />
+    <result column="fan_num" jdbcType="INTEGER" property="fan_num" />
+    <result column="publish_num" jdbcType="INTEGER" property="publish_num" />
+    <result column="collect_num" jdbcType="INTEGER" property="collect_num" />
+    <result column="vote_num" jdbcType="INTEGER" property="vote_num" />
+    <result column="receive_vote_num" jdbcType="INTEGER" property="receive_vote_num" />
+    <result column="account_status" jdbcType="INTEGER" property="account_status" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="access_year" jdbcType="VARCHAR" property="access_year" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="subscribe_scene" jdbcType="VARCHAR" property="subscribe_scene" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, update_time, is_delete, open_id_xiaododo_mini, union_id, open_id_xiaododo_official_account, 
+    avatar, nickname, gender, birthday, province, city, district, address, school, college, 
+    signature, follow_num, fan_num, publish_num, collect_num, vote_num, receive_vote_num, 
+    account_status, integral, access_year, role, phone, subscribe_scene
+  </sql>
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.UserDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.UserDOExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UserDO" useGeneratedKeys="true">
+    insert into user (create_time, update_time, is_delete, 
+      open_id_xiaododo_mini, union_id, open_id_xiaododo_official_account, 
+      avatar, nickname, gender, 
+      birthday, province, city, 
+      district, address, school, 
+      college, signature, follow_num, 
+      fan_num, publish_num, collect_num, 
+      vote_num, receive_vote_num, account_status, 
+      integral, access_year, role, 
+      phone, subscribe_scene)
+    values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
+      #{open_id_xiaododo_mini,jdbcType=VARCHAR}, #{union_id,jdbcType=VARCHAR}, #{open_id_xiaododo_official_account,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, 
+      #{birthday,jdbcType=DATE}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{college,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, #{follow_num,jdbcType=INTEGER}, 
+      #{fan_num,jdbcType=INTEGER}, #{publish_num,jdbcType=INTEGER}, #{collect_num,jdbcType=INTEGER}, 
+      #{vote_num,jdbcType=INTEGER}, #{receive_vote_num,jdbcType=INTEGER}, #{account_status,jdbcType=INTEGER}, 
+      #{integral,jdbcType=INTEGER}, #{access_year,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{subscribe_scene,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UserDO" useGeneratedKeys="true">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="update_time != null">
+        update_time,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="open_id_xiaododo_mini != null">
+        open_id_xiaododo_mini,
+      </if>
+      <if test="union_id != null">
+        union_id,
+      </if>
+      <if test="open_id_xiaododo_official_account != null">
+        open_id_xiaododo_official_account,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="college != null">
+        college,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="follow_num != null">
+        follow_num,
+      </if>
+      <if test="fan_num != null">
+        fan_num,
+      </if>
+      <if test="publish_num != null">
+        publish_num,
+      </if>
+      <if test="collect_num != null">
+        collect_num,
+      </if>
+      <if test="vote_num != null">
+        vote_num,
+      </if>
+      <if test="receive_vote_num != null">
+        receive_vote_num,
+      </if>
+      <if test="account_status != null">
+        account_status,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
+      <if test="access_year != null">
+        access_year,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="subscribe_scene != null">
+        subscribe_scene,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="open_id_xiaododo_mini != null">
+        #{open_id_xiaododo_mini,jdbcType=VARCHAR},
+      </if>
+      <if test="union_id != null">
+        #{union_id,jdbcType=VARCHAR},
+      </if>
+      <if test="open_id_xiaododo_official_account != null">
+        #{open_id_xiaododo_official_account,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null">
+        #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="follow_num != null">
+        #{follow_num,jdbcType=INTEGER},
+      </if>
+      <if test="fan_num != null">
+        #{fan_num,jdbcType=INTEGER},
+      </if>
+      <if test="publish_num != null">
+        #{publish_num,jdbcType=INTEGER},
+      </if>
+      <if test="collect_num != null">
+        #{collect_num,jdbcType=INTEGER},
+      </if>
+      <if test="vote_num != null">
+        #{vote_num,jdbcType=INTEGER},
+      </if>
+      <if test="receive_vote_num != null">
+        #{receive_vote_num,jdbcType=INTEGER},
+      </if>
+      <if test="account_status != null">
+        #{account_status,jdbcType=INTEGER},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="access_year != null">
+        #{access_year,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe_scene != null">
+        #{subscribe_scene,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.UserDOExample" resultType="java.lang.Long">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_time != null">
+        create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.update_time != null">
+        update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.is_delete != null">
+        is_delete = #{record.is_delete,jdbcType=BIT},
+      </if>
+      <if test="record.open_id_xiaododo_mini != null">
+        open_id_xiaododo_mini = #{record.open_id_xiaododo_mini,jdbcType=VARCHAR},
+      </if>
+      <if test="record.union_id != null">
+        union_id = #{record.union_id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.open_id_xiaododo_official_account != null">
+        open_id_xiaododo_official_account = #{record.open_id_xiaododo_official_account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=SMALLINT},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null">
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null">
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.college != null">
+        college = #{record.college,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signature != null">
+        signature = #{record.signature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.follow_num != null">
+        follow_num = #{record.follow_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.fan_num != null">
+        fan_num = #{record.fan_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.publish_num != null">
+        publish_num = #{record.publish_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.collect_num != null">
+        collect_num = #{record.collect_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.vote_num != null">
+        vote_num = #{record.vote_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.receive_vote_num != null">
+        receive_vote_num = #{record.receive_vote_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.account_status != null">
+        account_status = #{record.account_status,jdbcType=INTEGER},
+      </if>
+      <if test="record.integral != null">
+        integral = #{record.integral,jdbcType=INTEGER},
+      </if>
+      <if test="record.access_year != null">
+        access_year = #{record.access_year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.role != null">
+        role = #{record.role,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subscribe_scene != null">
+        subscribe_scene = #{record.subscribe_scene,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      is_delete = #{record.is_delete,jdbcType=BIT},
+      open_id_xiaododo_mini = #{record.open_id_xiaododo_mini,jdbcType=VARCHAR},
+      union_id = #{record.union_id,jdbcType=VARCHAR},
+      open_id_xiaododo_official_account = #{record.open_id_xiaododo_official_account,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=SMALLINT},
+      birthday = #{record.birthday,jdbcType=DATE},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      college = #{record.college,jdbcType=VARCHAR},
+      signature = #{record.signature,jdbcType=VARCHAR},
+      follow_num = #{record.follow_num,jdbcType=INTEGER},
+      fan_num = #{record.fan_num,jdbcType=INTEGER},
+      publish_num = #{record.publish_num,jdbcType=INTEGER},
+      collect_num = #{record.collect_num,jdbcType=INTEGER},
+      vote_num = #{record.vote_num,jdbcType=INTEGER},
+      receive_vote_num = #{record.receive_vote_num,jdbcType=INTEGER},
+      account_status = #{record.account_status,jdbcType=INTEGER},
+      integral = #{record.integral,jdbcType=INTEGER},
+      access_year = #{record.access_year,jdbcType=VARCHAR},
+      role = #{record.role,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      subscribe_scene = #{record.subscribe_scene,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.UserDO">
+    update user
+    <set>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="open_id_xiaododo_mini != null">
+        open_id_xiaododo_mini = #{open_id_xiaododo_mini,jdbcType=VARCHAR},
+      </if>
+      <if test="union_id != null">
+        union_id = #{union_id,jdbcType=VARCHAR},
+      </if>
+      <if test="open_id_xiaododo_official_account != null">
+        open_id_xiaododo_official_account = #{open_id_xiaododo_official_account,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=SMALLINT},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="college != null">
+        college = #{college,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="follow_num != null">
+        follow_num = #{follow_num,jdbcType=INTEGER},
+      </if>
+      <if test="fan_num != null">
+        fan_num = #{fan_num,jdbcType=INTEGER},
+      </if>
+      <if test="publish_num != null">
+        publish_num = #{publish_num,jdbcType=INTEGER},
+      </if>
+      <if test="collect_num != null">
+        collect_num = #{collect_num,jdbcType=INTEGER},
+      </if>
+      <if test="vote_num != null">
+        vote_num = #{vote_num,jdbcType=INTEGER},
+      </if>
+      <if test="receive_vote_num != null">
+        receive_vote_num = #{receive_vote_num,jdbcType=INTEGER},
+      </if>
+      <if test="account_status != null">
+        account_status = #{account_status,jdbcType=INTEGER},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="access_year != null">
+        access_year = #{access_year,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribe_scene != null">
+        subscribe_scene = #{subscribe_scene,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.UserDO">
+    update user
+    set create_time = #{create_time,jdbcType=TIMESTAMP},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      is_delete = #{is_delete,jdbcType=BIT},
+      open_id_xiaododo_mini = #{open_id_xiaododo_mini,jdbcType=VARCHAR},
+      union_id = #{union_id,jdbcType=VARCHAR},
+      open_id_xiaododo_official_account = #{open_id_xiaododo_official_account,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=SMALLINT},
+      birthday = #{birthday,jdbcType=DATE},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      college = #{college,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      follow_num = #{follow_num,jdbcType=INTEGER},
+      fan_num = #{fan_num,jdbcType=INTEGER},
+      publish_num = #{publish_num,jdbcType=INTEGER},
+      collect_num = #{collect_num,jdbcType=INTEGER},
+      vote_num = #{vote_num,jdbcType=INTEGER},
+      receive_vote_num = #{receive_vote_num,jdbcType=INTEGER},
+      account_status = #{account_status,jdbcType=INTEGER},
+      integral = #{integral,jdbcType=INTEGER},
+      access_year = #{access_year,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      subscribe_scene = #{subscribe_scene,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
