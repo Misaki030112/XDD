@@ -32,6 +32,8 @@
     <result column="role" jdbcType="VARCHAR" property="role" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="subscribe_scene" jdbcType="VARCHAR" property="subscribe_scene" />
+    <result column="verify_method" jdbcType="VARCHAR" property="verify_method" />
+    <result column="student_email" jdbcType="VARCHAR" property="student_email" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -95,7 +97,8 @@
     id, create_time, update_time, is_delete, open_id_xiaododo_mini, union_id, open_id_xiaododo_official_account, 
     avatar, nickname, gender, birthday, province, city, district, address, school, college, 
     signature, follow_num, fan_num, publish_num, collect_num, vote_num, receive_vote_num, 
-    account_status, integral, access_year, role, phone, subscribe_scene
+    account_status, integral, access_year, role, phone, subscribe_scene, verify_method, 
+    student_email
   </sql>
   <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.UserDOExample" resultMap="BaseResultMap">
     select
@@ -145,7 +148,8 @@
       fan_num, publish_num, collect_num, 
       vote_num, receive_vote_num, account_status, 
       integral, access_year, role, 
-      phone, subscribe_scene)
+      phone, subscribe_scene, verify_method, 
+      student_email)
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
       #{open_id_xiaododo_mini,jdbcType=VARCHAR}, #{union_id,jdbcType=VARCHAR}, #{open_id_xiaododo_official_account,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=SMALLINT}, 
@@ -155,7 +159,8 @@
       #{fan_num,jdbcType=INTEGER}, #{publish_num,jdbcType=INTEGER}, #{collect_num,jdbcType=INTEGER}, 
       #{vote_num,jdbcType=INTEGER}, #{receive_vote_num,jdbcType=INTEGER}, #{account_status,jdbcType=INTEGER}, 
       #{integral,jdbcType=INTEGER}, #{access_year,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{subscribe_scene,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{subscribe_scene,jdbcType=VARCHAR}, #{verify_method,jdbcType=VARCHAR}, 
+      #{student_email,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.UserDO" useGeneratedKeys="true">
     insert into user
@@ -247,6 +252,12 @@
       <if test="subscribe_scene != null">
         subscribe_scene,
       </if>
+      <if test="verify_method != null">
+        verify_method,
+      </if>
+      <if test="student_email != null">
+        student_email,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
@@ -335,6 +346,12 @@
       </if>
       <if test="subscribe_scene != null">
         #{subscribe_scene,jdbcType=VARCHAR},
+      </if>
+      <if test="verify_method != null">
+        #{verify_method,jdbcType=VARCHAR},
+      </if>
+      <if test="student_email != null">
+        #{student_email,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -437,6 +454,12 @@
       <if test="record.subscribe_scene != null">
         subscribe_scene = #{record.subscribe_scene,jdbcType=VARCHAR},
       </if>
+      <if test="record.verify_method != null">
+        verify_method = #{record.verify_method,jdbcType=VARCHAR},
+      </if>
+      <if test="record.student_email != null">
+        student_email = #{record.student_email,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -473,7 +496,9 @@
       access_year = #{record.access_year,jdbcType=VARCHAR},
       role = #{record.role,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
-      subscribe_scene = #{record.subscribe_scene,jdbcType=VARCHAR}
+      subscribe_scene = #{record.subscribe_scene,jdbcType=VARCHAR},
+      verify_method = #{record.verify_method,jdbcType=VARCHAR},
+      student_email = #{record.student_email,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -568,6 +593,12 @@
       <if test="subscribe_scene != null">
         subscribe_scene = #{subscribe_scene,jdbcType=VARCHAR},
       </if>
+      <if test="verify_method != null">
+        verify_method = #{verify_method,jdbcType=VARCHAR},
+      </if>
+      <if test="student_email != null">
+        student_email = #{student_email,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -601,7 +632,9 @@
       access_year = #{access_year,jdbcType=VARCHAR},
       role = #{role,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      subscribe_scene = #{subscribe_scene,jdbcType=VARCHAR}
+      subscribe_scene = #{subscribe_scene,jdbcType=VARCHAR},
+      verify_method = #{verify_method,jdbcType=VARCHAR},
+      student_email = #{student_email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

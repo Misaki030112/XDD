@@ -1,7 +1,9 @@
 package com.hznu.xdd.controller;
 
 
+import com.hznu.xdd.domain.Dto.UserDto;
 import com.hznu.xdd.domain.Result;
+import com.hznu.xdd.domain.VO.Message;
 import com.hznu.xdd.domain.VO.QuestionVO;
 import com.hznu.xdd.domain.VO.VerifyMethodVO;
 import com.hznu.xdd.service.MailService;
@@ -42,9 +44,9 @@ public class StudentController {
     }
 
     @PostMapping("/post/student/verify/email/code/send")
-    public Result SendVerifyEmailCode(Authentication authentication,String email){
+    public Result SendVerifyEmailCode(Authentication authentication,@RequestBody UserDto userDto){
         try {
-            boolean flag = mailService.SendValidCode(email, UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+            boolean flag = mailService.SendValidCode(userDto.getEmail(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
             if(flag) return Result.ok(null,"提交成功");
             else return new Result(20005,"数据库操作失败");
         } catch (MessagingException e) {
@@ -54,18 +56,41 @@ public class StudentController {
     }
 
     @PostMapping("/post/student/verify/email/code/verify")
-    public Result VerifyStudentCode(String code,Authentication authentication){
-        boolean flag = userService.verifyStudentByCode(code, UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+    public Result VerifyStudentCode(@RequestBody UserDto userDto,Authentication authentication){
+        boolean flag = userService.verifyStudentByCode(userDto.getCode(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag) return Result.ok("null","验证成功");
         else return new Result(20010,"验证失败");
     }
 
     @PostMapping("/post/student/verify/photo")
-    public Result VerifyStudentPhoto(@RequestParam String[] photos, Authentication authentication){
-        boolean flag = userService.verifyStudentByPhotos(photos, UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+    public Result VerifyStudentPhoto(@RequestBody UserDto userDto, Authentication authentication){
+        boolean flag = userService.verifyStudentByPhotos(userDto.getPhotos(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag) return Result.ok("null","提交成功");
         else return new Result(20005,"提交失败");
     }
+
+    @PostMapping("/post/student/phone")
+    public Result bindPhone(@RequestBody UserDto userDto,Authentication authentication){
+       if( userService.bindPhone(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),userDto.getEncryptedData(),userDto.getIv(),userDto.getCode())){
+           return Result.ok(null,"绑定成功");
+       }else{
+           return new Result(20003,"绑定失败");
+       }
+    }
+
+    @PostMapping("/post/student/verify/status")
+    public Result verifyStatus(Authentication authentication){
+        int flag = userService.verifyStudent(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        if(flag==2){
+            return Result.ok(null,"账号状态修改成功");
+        }else if(flag==1){
+            return Result.ok(new Message("小喇叭收到，将在1-2个工作日内完成审核～"),"状态状态修改申请成功");
+        }else{
+            return new Result(20001,"修改失败");
+        }
+    }
+
+
 
 
 }

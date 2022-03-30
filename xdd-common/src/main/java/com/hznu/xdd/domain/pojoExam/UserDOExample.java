@@ -2130,6 +2130,146 @@ public class UserDOExample {
             addCriterion("subscribe_scene not between", value1, value2, "subscribe_scene");
             return (Criteria) this;
         }
+
+        public Criteria andVerify_methodIsNull() {
+            addCriterion("verify_method is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodIsNotNull() {
+            addCriterion("verify_method is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodEqualTo(String value) {
+            addCriterion("verify_method =", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodNotEqualTo(String value) {
+            addCriterion("verify_method <>", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodGreaterThan(String value) {
+            addCriterion("verify_method >", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodGreaterThanOrEqualTo(String value) {
+            addCriterion("verify_method >=", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodLessThan(String value) {
+            addCriterion("verify_method <", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodLessThanOrEqualTo(String value) {
+            addCriterion("verify_method <=", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodLike(String value) {
+            addCriterion("verify_method like", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodNotLike(String value) {
+            addCriterion("verify_method not like", value, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodIn(List<String> values) {
+            addCriterion("verify_method in", values, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodNotIn(List<String> values) {
+            addCriterion("verify_method not in", values, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodBetween(String value1, String value2) {
+            addCriterion("verify_method between", value1, value2, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andVerify_methodNotBetween(String value1, String value2) {
+            addCriterion("verify_method not between", value1, value2, "verify_method");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailIsNull() {
+            addCriterion("student_email is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailIsNotNull() {
+            addCriterion("student_email is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailEqualTo(String value) {
+            addCriterion("student_email =", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailNotEqualTo(String value) {
+            addCriterion("student_email <>", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailGreaterThan(String value) {
+            addCriterion("student_email >", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailGreaterThanOrEqualTo(String value) {
+            addCriterion("student_email >=", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailLessThan(String value) {
+            addCriterion("student_email <", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailLessThanOrEqualTo(String value) {
+            addCriterion("student_email <=", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailLike(String value) {
+            addCriterion("student_email like", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailNotLike(String value) {
+            addCriterion("student_email not like", value, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailIn(List<String> values) {
+            addCriterion("student_email in", values, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailNotIn(List<String> values) {
+            addCriterion("student_email not in", values, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailBetween(String value1, String value2) {
+            addCriterion("student_email between", value1, value2, "student_email");
+            return (Criteria) this;
+        }
+
+        public Criteria andStudent_emailNotBetween(String value1, String value2) {
+            addCriterion("student_email not between", value1, value2, "student_email");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

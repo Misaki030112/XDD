@@ -1,9 +1,10 @@
 package com.hznu.xdd.service;
 
 import com.hznu.xdd.domain.Dto.reportDto;
+import com.hznu.xdd.domain.VO.Collect_ugc_VO;
+import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.Authentication;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -11,6 +12,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -20,11 +22,13 @@ public interface UserService {
 
     boolean addUser(UserDO userDO);
 
-    UserDO initUserInfoByWxOpenId(String wxOpenId,String encryptedData,String iv,String sessionKey) throws InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidKeyException;
+    UserDO initUserInfoByWxOpenId(String wxOpenId,String encryptedData,String iv,String sessionKey) throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidParameterSpecException, BadPaddingException, InvalidKeyException;
 
     UserDO getUserById(Integer id);
 
     List<UserDO> searchUserByNickName(String nickName);
+
+    List<UserDO> searchUserByNickName(String nickName,Integer page,Integer offset);
 
     boolean reportUser(reportDto reportDto);
 
@@ -43,4 +47,20 @@ public interface UserService {
      */
     boolean verifyStudentByPhotos(String[] photos,String wxOpenId);
 
+    UserDO changeUserInfo(String wxOpenId, String nickName, String avatar, String signature, Date birthday, String province, String city, String district);
+
+
+    List<UserDO> getFocusUser(String wxOpenId,Integer page,Integer offset);
+
+    List<UserDO> getFocusedUser(String wxOpenId,Integer page,Integer offset);
+
+    List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset);
+
+    List<CommentedVO> getCommentUgcLog(String wxOpenId, Integer page, Integer offset);
+
+    List<Collect_ugc_VO> getCollectUgcLog(String wxOpenId, Integer page, Integer offset);
+
+    boolean bindPhone(String wxOpenId,String encryptedData,String iv,String code);
+
+    int verifyStudent(String wxOpenId);
 }

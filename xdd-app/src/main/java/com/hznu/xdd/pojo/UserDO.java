@@ -68,5 +68,9 @@ public class UserDO implements Serializable {
 
     private String subscribe_scene;
 
+    private String verify_method;
+
+    private String student_email;
+
     private static final long serialVersionUID = 1L;
 }

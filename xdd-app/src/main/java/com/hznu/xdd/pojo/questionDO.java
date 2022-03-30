@@ -3,8 +3,10 @@ package com.hznu.xdd.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class questionDO implements Serializable {
     private Integer id;
 
