@@ -2,40 +2,40 @@ package com.hznu.xdd.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.hznu.xdd.dao.UserDOMapper;
-import com.hznu.xdd.dao.reportDOMapper;
-import com.hznu.xdd.dao.verify_emailDOMapper;
-import com.hznu.xdd.dao.verify_imageDOMapper;
+import com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationFilter;
+import com.hznu.xdd.dao.*;
 import com.hznu.xdd.domain.Dto.reportDto;
-import com.hznu.xdd.domain.WeiXinOpenID;
-import com.hznu.xdd.domain.pojoExam.UserDOExample;
-import com.hznu.xdd.domain.pojoExam.verify_emailDOExample;
-import com.hznu.xdd.domain.pojoExam.verify_imageDOExample;
-import com.hznu.xdd.exception.WeChatAuthenticationException;
-import com.hznu.xdd.pojo.UserDO;
-import com.hznu.xdd.pojo.reportDO;
-import com.hznu.xdd.pojo.verify_emailDO;
-import com.hznu.xdd.pojo.verify_imageDO;
+import com.hznu.xdd.domain.VO.Collect_ugc_VO;
+import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
+import com.hznu.xdd.domain.pojoExam.*;
+import com.hznu.xdd.pojo.*;
+import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.utils.DateUtil;
 import com.hznu.xdd.utils.WeChatUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
+import java.math.BigDecimal;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("xddUserService")
 public class UserServiceImpl implements UserService , UserDetailsService {
@@ -43,18 +43,25 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Autowired
     RestTemplate restTemplate;
-
     @Autowired
     UserDOMapper userDOMapper;
-
     @Autowired
     reportDOMapper reportDOMapper;
-
     @Autowired
     verify_emailDOMapper verify_emailDOMapper;
-
     @Autowired
     verify_imageDOMapper verify_imageDOMapper;
+    @Autowired
+    voteLogDOMapper vote_logDOMapper;
+    @Autowired
+    UgcDOMapper ugcDOMapper;
+    @Autowired
+    UGCService ugcService;
+    @Autowired
+    ugcCommentDOMapper ugcCommentDOMapper;
+    @Autowired
+    collectLogDOMapper collectLogDOMapper;
+
 
     @Value("${validCode.time}")
     private Integer expire_time;
@@ -90,7 +97,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 .setAvatar(jsonObject.getString("avatarUrl"))
                 .setGender(jsonObject.getShort("gender"))
                 .setProvince(jsonObject.getString("province"))
-                .setCity(jsonObject.getString("city"));
+                .setCity(jsonObject.getString("city"))
+                        .setAccount_status(0);
         userDOMapper.updateByPrimaryKey(userDO);
         return userDO;
     }
@@ -184,7 +192,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public boolean verifyStudentByPhotos(String[] photos, String wxOpenId) {
-        Integer user_id = getUserByWxOpenId(wxOpenId).getId();
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        user.setAccount_status(1);
+        int user_id = user.getId();
         verify_imageDOExample verify_imageDOExample = new verify_imageDOExample();
         verify_imageDOExample.Criteria criteria = verify_imageDOExample.createCriteria();
         criteria.andIs_deleteEqualTo(false);
@@ -204,6 +214,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     .setIs_delete(false)
                     .setImage(Arrays.toString(photos));
             int i = verify_imageDOMapper.insert(verify_imageDO);
+
             return i>0;
         }
     }
@@ -230,6 +241,139 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public List<UserDO> getFocusedUser(String wxOpenId, Integer page, Integer offset) {
         return null;
+    }
+
+    @Override
+    public List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset) {
+        int user_id = getUserByWxOpenId(wxOpenId).getId();
+        voteLogDOExample voteLogExample = new voteLogDOExample();
+        voteLogDOExample.Criteria criteria = voteLogExample.createCriteria();
+        criteria.andVote_to_idEqualTo(user_id);
+        criteria.andVote_typeEqualTo("ugc");
+        voteLogExample.page(page,offset);
+        List<voteLogDO> voteLogDOS = vote_logDOMapper.selectByExample(voteLogExample);
+        List<Vote_ugc_LogVO> voteUgcLogVOS = new ArrayList<>();
+        voteLogDOS.forEach((v)->{
+            Vote_ugc_LogVO voteUgcLogVO = new Vote_ugc_LogVO();
+            voteUgcLogVO.setId(v.getId())
+                    .setCreate_time(v.getCreate_time())
+                    .setUser_info(userDOMapper.selectByPrimaryKey(v.getUser_id()))
+                    .setTo(ugcDOMapper.selectByPrimaryKey(v.getVote_to_id()));
+            voteUgcLogVOS.add(voteUgcLogVO);
+        });
+
+        return voteUgcLogVOS;
+    }
+
+    @Override
+    public List<CommentedVO> getCommentUgcLog(String wxOpenId, Integer page, Integer offset) {
+        int user_id = getUserByWxOpenId(wxOpenId).getId();
+
+        UgcDOExample example = new UgcDOExample();
+        UgcDOExample.Criteria criteria1 = example.createCriteria();
+        criteria1.andUser_idEqualTo(user_id);
+        List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(example);
+        HashMap<Integer, UgcDO> ugcDOHashMap = new HashMap<>();
+        ugcDOS.forEach((u)->{ugcDOHashMap.put(u.getId(), u);});
+        List<ugcCommentDO> ugcCommentDOS = new ArrayList<>();
+        ugcDOS.forEach((u)->{
+            ugcCommentDOExample ugcCommentDOExample = new ugcCommentDOExample();
+            com.hznu.xdd.domain.pojoExam.ugcCommentDOExample.Criteria criteria = ugcCommentDOExample.createCriteria();
+            criteria.andUgc_idEqualTo(u.getId());
+            ugcCommentDOS.addAll(ugcCommentDOMapper.selectByExample(ugcCommentDOExample));
+        });
+
+        ugcCommentDOS.sort((a,b)->{
+            return DateUtil.dateDiff(b.getCreate_time(),a.getCreate_time()).compareTo(BigDecimal.ZERO);
+        });
+
+        List<ugcCommentDO> collect = ugcCommentDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
+
+        List<CommentedVO> commentedVOS = new ArrayList<>();
+        collect.forEach((u)->{
+            CommentedVO commentedVO = new CommentedVO();
+            commentedVO.setId(u.getId())
+                    .setCreate_time(u.getCreate_time())
+                    .setUser_info(userDOMapper.selectByPrimaryKey(u.getUser_id()))
+                    .setTo(ugcDOHashMap.get(u.getUgc_id()));
+            commentedVOS.add(commentedVO);
+        });
+        return commentedVOS;
+    }
+
+    @Override
+    public List<Collect_ugc_VO> getCollectUgcLog(String wxOpenId, Integer page, Integer offset) {
+        int user_id = getUserByWxOpenId(wxOpenId).getId();
+        UgcDOExample example = new UgcDOExample();
+        UgcDOExample.Criteria criteria1 = example.createCriteria();
+        criteria1.andUser_idEqualTo(user_id);
+        List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(example);
+        HashMap<Integer, UgcDO> ugcDOHashMap = new HashMap<>();
+        ugcDOS.forEach((u)->{ugcDOHashMap.put(u.getId(), u);});
+
+        List<collectLogDO> collectLogDOS = new ArrayList<>();
+        ugcDOS.forEach((u)->{
+            collectLogDOExample collectLogDOExample = new collectLogDOExample();
+            com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
+            criteria.andCollect_typeEqualTo("ugc");
+            criteria.andCollect_to_idEqualTo(u.getId());
+            collectLogDOS.addAll(collectLogDOMapper.selectByExample(collectLogDOExample));
+        });
+
+        collectLogDOS.sort((a,b)->{
+            return DateUtil.dateDiff(b.getCreate_time(),a.getCreate_time()).compareTo(BigDecimal.ZERO);
+        });
+
+        List<collectLogDO> collect = collectLogDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
+
+        List<Collect_ugc_VO> collect_ugc_vos = new ArrayList<>();
+        collect.forEach((c)->{
+            Collect_ugc_VO collect_ugc_vo = new Collect_ugc_VO();
+            collect_ugc_vo.setId(c.getId())
+                    .setCreate_time(c.getCreate_time())
+                    .setUser_info(userDOMapper.selectByPrimaryKey(c.getUser_id()))
+                    .setTo(ugcDOHashMap.get(c.getCollect_to_id()));
+            collect_ugc_vos.add(collect_ugc_vo);
+        });
+
+        return collect_ugc_vos;
+    }
+
+    @Override
+    public boolean bindPhone(String wxOpenId, String encryptedData, String iv, String code) {
+        if(code!=null){
+            try {
+                ResponseEntity<String> entity = restTemplate.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa9d951513d7ca374&secret=d992c9c01bb01269624071b165ba99f3", String.class);
+                String access_token = JSONObject.parseObject(entity.getBody()).getString("access_token");
+                MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+                paramMap.add("code",code);
+                HttpHeaders headers = new HttpHeaders();
+                HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(paramMap,headers);
+                ResponseEntity<String> entity1 = restTemplate.postForEntity("https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=" + access_token, httpEntity, String.class);
+                String phoneNumber = JSONObject.parseObject(entity1.getBody()).getString("purePhoneNumber");
+                UserDO user = getUserByWxOpenId(wxOpenId);
+                user.setPhone(phoneNumber);
+                int i = userDOMapper.updateByPrimaryKey(user);
+                return i>0;
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int verifyStudent(String wxOpenId) {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        if(user.getPhone()!=null&&user.getVerify_method()!=null){
+            user.setAccount_status(2);
+            userDOMapper.updateByPrimaryKey(user);
+            return 2;
+        }else if(user.getPhone()!=null&&user.getVerify_method()==null){
+            return 1;
+        }else return 0;
     }
 
 

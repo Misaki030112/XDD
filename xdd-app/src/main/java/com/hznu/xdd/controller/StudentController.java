@@ -3,6 +3,7 @@ package com.hznu.xdd.controller;
 
 import com.hznu.xdd.domain.Dto.UserDto;
 import com.hznu.xdd.domain.Result;
+import com.hznu.xdd.domain.VO.Message;
 import com.hznu.xdd.domain.VO.QuestionVO;
 import com.hznu.xdd.domain.VO.VerifyMethodVO;
 import com.hznu.xdd.service.MailService;
@@ -66,6 +67,27 @@ public class StudentController {
         boolean flag = userService.verifyStudentByPhotos(userDto.getPhotos(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag) return Result.ok("null","提交成功");
         else return new Result(20005,"提交失败");
+    }
+
+    @PostMapping("/post/student/phone")
+    public Result bindPhone(@RequestBody UserDto userDto,Authentication authentication){
+       if( userService.bindPhone(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),userDto.getEncryptedData(),userDto.getIv(),userDto.getCode())){
+           return Result.ok(null,"绑定成功");
+       }else{
+           return new Result(20003,"绑定失败");
+       }
+    }
+
+    @PostMapping("/post/student/verify/status")
+    public Result verifyStatus(Authentication authentication){
+        int flag = userService.verifyStudent(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        if(flag==2){
+            return Result.ok(null,"账号状态修改成功");
+        }else if(flag==1){
+            return Result.ok(new Message("小喇叭收到，将在1-2个工作日内完成审核～"),"状态状态修改申请成功");
+        }else{
+            return new Result(20001,"修改失败");
+        }
     }
 
 

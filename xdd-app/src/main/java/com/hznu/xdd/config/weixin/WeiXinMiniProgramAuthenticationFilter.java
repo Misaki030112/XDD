@@ -115,7 +115,7 @@ public class WeiXinMiniProgramAuthenticationFilter extends
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 
-    protected String getUrl(String code) {
+    public static String  getUrl(String code) {
         Map<String,Object> map = new HashMap<>(4);
         map.put("appid",WxAppId);
         map.put("secret",WxAppSecret);

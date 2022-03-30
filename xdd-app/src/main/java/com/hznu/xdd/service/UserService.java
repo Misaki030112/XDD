@@ -1,9 +1,10 @@
 package com.hznu.xdd.service;
 
 import com.hznu.xdd.domain.Dto.reportDto;
+import com.hznu.xdd.domain.VO.Collect_ugc_VO;
+import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.Authentication;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -53,4 +54,13 @@ public interface UserService {
 
     List<UserDO> getFocusedUser(String wxOpenId,Integer page,Integer offset);
 
+    List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset);
+
+    List<CommentedVO> getCommentUgcLog(String wxOpenId, Integer page, Integer offset);
+
+    List<Collect_ugc_VO> getCollectUgcLog(String wxOpenId, Integer page, Integer offset);
+
+    boolean bindPhone(String wxOpenId,String encryptedData,String iv,String code);
+
+    int verifyStudent(String wxOpenId);
 }

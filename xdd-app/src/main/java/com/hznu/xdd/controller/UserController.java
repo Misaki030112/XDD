@@ -4,18 +4,19 @@ import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Dto.UserDto;
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.domain.Result;
+import com.hznu.xdd.domain.VO.Collect_ugc_VO;
+import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import javax.servlet.http.HttpServletResponse;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -43,6 +44,9 @@ public class UserController {
             return new Result(StatusCode.INVALID_PARAMS);
         }
     }
+
+
+
 
 
     @PostMapping(value = "/post/user/login",produces = { "application/json;charset=UTF-8" })
@@ -95,11 +99,25 @@ public class UserController {
         }
     }
 
-
-    @PostMapping(value = "/post/user/focus")
-    public Result getMyFocusedPeople(@RequestBody UserDto userDto){
-        return null;
+    @PostMapping(value="/post/user/my/voted")
+    public Result getVoteUgcLog(@RequestBody UserDto userDto,Authentication authentication){
+        List<Vote_ugc_LogVO> voteUgcLog = userService.getVoteUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        return Result.ok(voteUgcLog,"获取成功");
     }
+
+    @PostMapping(value = "/post/user/my/commented")
+    public Result getCommentLog(@RequestBody UserDto userDto,Authentication authentication){
+        List<CommentedVO> commentUgcLog = userService.getCommentUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        return Result.ok(commentUgcLog,"获取成功");
+    }
+
+    @PostMapping(value = "/post/user/my/collected")
+    public Result getCommentUgcLog(@RequestBody UserDto userDto,Authentication authentication){
+        List<Collect_ugc_VO> collectUgcLog = userService.getCollectUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        return Result.ok(collectUgcLog,"获取成功");
+    }
+
+
 
 
 
