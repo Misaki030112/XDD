@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class verify_methodDO implements Serializable {
+public class courseDO implements Serializable {
     private Integer id;
 
     private Date create_time;
@@ -16,9 +16,9 @@ public class verify_methodDO implements Serializable {
 
     private Boolean is_delete;
 
-    private String title;
+    private String name;
 
-    private String content;
+    private Double credit;
 
     private Boolean is_online;
 
