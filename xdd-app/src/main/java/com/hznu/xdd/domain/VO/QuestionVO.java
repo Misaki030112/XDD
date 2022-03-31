@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class QuestionVO{
+public class QuestionVO implements Serializable {
     private Integer id;
 
     private String title;

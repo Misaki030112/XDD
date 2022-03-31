@@ -4,11 +4,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class CommentVO {
+public class CommentVO implements Serializable {
     private Integer id;
 
     private UserVO userVO;

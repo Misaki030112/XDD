@@ -5,11 +5,12 @@ import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Accessors(chain = true)
-public class Collect_ugc_VO {
+public class Collect_ugc_VO  implements Serializable {
     private Integer id;
     private Date create_time;
     private Collect_ugc_VO.user_info user_info;
@@ -17,7 +18,7 @@ public class Collect_ugc_VO {
     private Collect_ugc_VO.ugc_info to;
 
 
-
+    @Data
     class user_info{
         private Integer id;
         private String nickname;
@@ -27,16 +28,18 @@ public class Collect_ugc_VO {
             this.id=user.getId();
             this.nickname=user.getNickname();
             this.avatar=user.getAvatar();
-            if(user.getGender()==0){
+            if(user.getGender()==null||user.getGender()==2){
+                this.gender="未知";
+            }
+            else if(user.getGender()==0){
                 this.gender="男";
             }else if(user.getGender()==1){
                 this.gender="女";
-            }else if(user.getGender()==2){
-                this.gender="性别未知";
             }
         }
     }
 
+    @Data
     class ugc_info{
         private Integer id;
         private String content;

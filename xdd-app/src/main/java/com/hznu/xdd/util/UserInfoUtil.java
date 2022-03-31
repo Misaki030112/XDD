@@ -2,13 +2,20 @@ package com.hznu.xdd.util;
 
 import com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationToken;
 import com.hznu.xdd.pojo.UserDO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 /**
  * 专门用来解析SpringSecurity中Authentication对象
  * @author Misaki
  */
+@Component
 public class UserInfoUtil {
+
+    @Autowired
+    RedisUtil redisUtil;
+
     /**
      * 获取用户的WxOpenId
      */
@@ -20,13 +27,14 @@ public class UserInfoUtil {
     /**
      * 获取用户的SessionKey
      */
-    public static String getSessionKey(Authentication authentication){
-        WeiXinMiniProgramAuthenticationToken token= (WeiXinMiniProgramAuthenticationToken) authentication;
-        return (String) token.getCredentials();
+    public  String getSessionKey(Authentication authentication){
+        String wxOpenIdXiaododoMini = getWxOpenIdXiaododoMini(authentication);
+       return (String) redisUtil.get(wxOpenIdXiaododoMini);
     }
 
-    public static void updateSessionKey(Authentication authentication,String sessionKey){
-        ((WeiXinMiniProgramAuthenticationToken) authentication).UpdateSessionKey(sessionKey);
+    public  void updateSessionKey(Authentication authentication,String sessionKey){
+        String wxOpenIdXiaododoMini = getWxOpenIdXiaododoMini(authentication);
+        redisUtil.set(wxOpenIdXiaododoMini,sessionKey);
     }
 
 }

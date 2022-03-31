@@ -28,6 +28,8 @@ public class StudentController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserInfoUtil userInfoUtil;
 
 
     @GetMapping("/get/student/verify")
@@ -71,7 +73,7 @@ public class StudentController {
 
     @PostMapping("/post/student/phone")
     public Result bindPhone(@RequestBody UserDto userDto,Authentication authentication){
-       if( userService.bindPhone(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),userDto.getEncryptedData(),userDto.getIv(),userDto.getCode(),UserInfoUtil.getSessionKey(authentication))){
+       if( userService.bindPhone(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),userDto.getEncryptedData(),userDto.getIv(),userDto.getCode(),userInfoUtil.getSessionKey(authentication))){
            return Result.ok(null,"绑定成功");
        }else{
            return new Result(20004,"绑定失败");

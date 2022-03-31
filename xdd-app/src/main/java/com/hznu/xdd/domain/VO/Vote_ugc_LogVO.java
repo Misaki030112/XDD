@@ -5,11 +5,12 @@ import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Accessors(chain = true)
 @Data
-public class Vote_ugc_LogVO {
+public class Vote_ugc_LogVO implements Serializable {
 
     private Integer id;
     private Date create_time;
@@ -20,8 +21,8 @@ public class Vote_ugc_LogVO {
 
 
 
-
-    class user_info{
+    @Data
+    class user_info implements Serializable{
         private Integer id;
         private String nickname;
         private String avatar;
@@ -30,17 +31,19 @@ public class Vote_ugc_LogVO {
             this.id=user.getId();
             this.nickname=user.getNickname();
             this.avatar=user.getAvatar();
-            if(user.getGender()==0){
+            if(user.getGender()==null||user.getGender()==2){
+                this.gender="未知";
+            }
+            else if(user.getGender()==0){
                 this.gender="男";
             }else if(user.getGender()==1){
                 this.gender="女";
-            }else if(user.getGender()==2){
-                this.gender="性别未知";
             }
         }
     }
 
-    class ugc_info{
+    @Data
+    class ugc_info implements Serializable{
         private Integer id;
         private String content;
         private Date create_time;

@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UserService;
+import com.hznu.xdd.util.RedisUtil;
 import com.hznu.xdd.utils.WeChatUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,6 +34,8 @@ public class WeiXinMiniProgramAuthenticationFilter extends
     private UserService userService;
     @Setter
     private RestTemplate restTemplate;
+    @Setter
+    private RedisUtil redisUtil;
 
 
     private static final String WxAppId="wxa9d951513d7ca374";
@@ -57,7 +62,9 @@ public class WeiXinMiniProgramAuthenticationFilter extends
         //通过openid 获取用户信息
         JSONObject jsonObject = JSON.parseObject(wxOpenid.getBody());
         UserDO user= remoteClientInvoke(jsonObject);
-        WeiXinMiniProgramAuthenticationToken authRequest = new WeiXinMiniProgramAuthenticationToken(user,jsonObject.getString("session_key"));
+        WeiXinMiniProgramAuthenticationToken authRequest = new WeiXinMiniProgramAuthenticationToken(user,null);
+        redisUtil.set(user.getOpen_id_xiaododo_mini(),jsonObject.getString("session_key"));
+
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
     }

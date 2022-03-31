@@ -28,13 +28,15 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserInfoUtil userInfoUtil;
 
     @PostMapping(value= "/post/user/info", produces = { "application/json;charset=UTF-8" })
     public Result userInfo(@RequestBody UserDto userDto,
                             Authentication authentication){
         try {
             UserDO userDO = userService.initUserInfoByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),
-                    userDto.getEncryptedData(), userDto.getIv(), UserInfoUtil.getSessionKey(authentication));
+                    userDto.getEncryptedData(), userDto.getIv(), userInfoUtil.getSessionKey(authentication));
             return Result.ok(userDO,"登录成功！");
         } catch (InvalidAlgorithmParameterException | BadPaddingException | NoSuchAlgorithmException | InvalidParameterSpecException e) {
             e.printStackTrace();

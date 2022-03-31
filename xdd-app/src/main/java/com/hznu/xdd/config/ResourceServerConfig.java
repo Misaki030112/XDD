@@ -2,6 +2,7 @@ package com.hznu.xdd.config;
 
 import com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationFilter;
 import com.hznu.xdd.service.UserService;
+import com.hznu.xdd.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,6 +45,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
     private XddResponseExceptionTranslator xddResponseExceptionTranslator;;
+    @Autowired
+    private RedisUtil redisUtil;
 
     public void configure(HttpSecurity http) throws Exception {
 
@@ -67,6 +70,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         weiXinMiniProgramAuthenticationFilter.setAuthenticationManager(authenticationManager);
         weiXinMiniProgramAuthenticationFilter.setRestTemplate(restTemplate);
         weiXinMiniProgramAuthenticationFilter.setUserService(userService);
+        weiXinMiniProgramAuthenticationFilter.setRedisUtil(redisUtil);
         http.addFilterAfter(weiXinMiniProgramAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

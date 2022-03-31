@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,6 +66,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     collectLogDOMapper collectLogDOMapper;
     @Autowired
     focusLogDOMapper focusLogDOMapper;
+    @Autowired
+    UserInfoUtil userInfoUtil;
 
 
     @Value("${validCode.time}")
@@ -120,7 +123,10 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             ResponseEntity<String> wxOpenid = restTemplate.getForEntity(url,String.class);
             //通过openid 获取用户信息
             String sessionKey = JSON.parseObject(wxOpenid.getBody()).getString("session_key");
-            UserInfoUtil.updateSessionKey(authentication,sessionKey);
+            if(sessionKey==null) return false;
+            System.out.println(userInfoUtil.getSessionKey(authentication));
+            userInfoUtil.updateSessionKey(authentication,sessionKey);
+            System.out.println(userInfoUtil.getSessionKey(authentication));
             return true;
         }catch (Exception e) {
             System.out.println(e.getMessage());
@@ -258,6 +264,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         focusLogDOExample focusLogDOExample = new focusLogDOExample();
         com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
+        criteria.andIs_deleteEqualTo(false);
         focusLogDOExample.page(page,offset);
         focusLogDOExample.setOrderByClause("'create_time' desc");
         List<focusLogDO> focusLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
@@ -274,6 +281,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         focusLogDOExample focusLogDOExample = new focusLogDOExample();
         com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
         criteria.andFocus_to_idEqualTo(user_id);
+        criteria.andIs_deleteEqualTo(false);
         focusLogDOExample.page(page,offset);
         focusLogDOExample.setOrderByClause("'create_time' desc");
         List<focusLogDO> focusedLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
@@ -292,10 +300,13 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
             criteria.andFocus_to_idEqualTo(user_id);
             criteria.andUser_idEqualTo(id);
-            focusLogDO focusLogDO = focusLogDOMapper.selectByExample(focusLogDOExample).get(0);
-            if(focusLogDO!=null){
+            List<focusLogDO> focusLogDOs = focusLogDOMapper.selectByExample(focusLogDOExample);
+            focusLogDO focusLogDO=null;
+            if(focusLogDOs.size()>0){
+                focusLogDO=focusLogDOs.get(0);
                 if(!status){
-                    int i = focusLogDOMapper.deleteByPrimaryKey(focusLogDO.getId());
+                    focusLogDO.setIs_delete(true);
+                    int i = focusLogDOMapper.updateByPrimaryKey(focusLogDO);
                     return i>0;
                 }else return  false;
             }else{
@@ -303,6 +314,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     focusLogDO = new focusLogDO();
                     focusLogDO.setUser_id(id);
                     focusLogDO.setFocus_to_id(user_id);
+                    focusLogDO.setIs_delete(false);
                     focusLogDO.setCreate_time(new Date());
                     focusLogDO.setUpdate_time(new Date());
                     int i = focusLogDOMapper.insert(focusLogDO);
@@ -318,23 +330,39 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset) {
         int user_id = getUserByWxOpenId(wxOpenId).getId();
-        voteLogDOExample voteLogExample = new voteLogDOExample();
-        voteLogDOExample.Criteria criteria = voteLogExample.createCriteria();
-        criteria.andVote_to_idEqualTo(user_id);
-        criteria.andVote_typeEqualTo("ugc");
-        voteLogExample.page(page,offset);
-        List<voteLogDO> voteLogDOS = vote_logDOMapper.selectByExample(voteLogExample);
-        List<Vote_ugc_LogVO> voteUgcLogVOS = new ArrayList<>();
-        voteLogDOS.forEach((v)->{
-            Vote_ugc_LogVO voteUgcLogVO = new Vote_ugc_LogVO();
-            voteUgcLogVO.setId(v.getId())
-                    .setCreate_time(v.getCreate_time())
-                    .setUser_info(userDOMapper.selectByPrimaryKey(v.getUser_id()))
-                    .setTo(ugcDOMapper.selectByPrimaryKey(v.getVote_to_id()));
-            voteUgcLogVOS.add(voteUgcLogVO);
+        UgcDOExample ugcDOExample = new UgcDOExample();
+        UgcDOExample.Criteria criteria = ugcDOExample.createCriteria();
+        criteria.andUser_idEqualTo(user_id);
+        List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
+        HashMap<Integer, UgcDO> ugcDOHashMap = new HashMap<>();
+        ugcDOS.forEach((u)->{ugcDOHashMap.put(u.getId(),u);});
+        List<voteLogDO> voteLogDOS = new ArrayList<>();
+        ugcDOS.forEach((u)->{
+            voteLogDOExample voteLogDOExample = new voteLogDOExample();
+            com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria1 = voteLogDOExample.createCriteria();
+            criteria1.andVote_typeEqualTo("ugc");
+            criteria1.andVote_to_idEqualTo(u.getId());
+            criteria1.andIs_deleteEqualTo(false);
+            voteLogDOS.addAll(vote_logDOMapper.selectByExample(voteLogDOExample));
         });
 
-        return voteUgcLogVOS;
+        voteLogDOS.sort((a,b)->{
+            return DateUtil.dateDiff(b.getCreate_time(),a.getCreate_time()).compareTo(BigDecimal.ZERO);
+        });
+
+        List<voteLogDO> collect = voteLogDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
+
+        List<Vote_ugc_LogVO> vote_ugc_logVOS = new ArrayList<>();
+        collect.forEach((c)->{
+            Vote_ugc_LogVO vote_ugc_logVO = new Vote_ugc_LogVO();
+            vote_ugc_logVO.setId(c.getId())
+                    .setCreate_time(c.getCreate_time())
+                    .setUser_info(userDOMapper.selectByPrimaryKey(c.getUser_id()))
+                    .setTo(ugcDOHashMap.get(c.getVote_to_id()));
+            vote_ugc_logVOS.add(vote_ugc_logVO);
+        });
+
+        return vote_ugc_logVOS;
     }
 
     @Override
@@ -352,6 +380,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             ugcCommentDOExample ugcCommentDOExample = new ugcCommentDOExample();
             com.hznu.xdd.domain.pojoExam.ugcCommentDOExample.Criteria criteria = ugcCommentDOExample.createCriteria();
             criteria.andUgc_idEqualTo(u.getId());
+            criteria.andIs_deleteEqualTo(false);
             ugcCommentDOS.addAll(ugcCommentDOMapper.selectByExample(ugcCommentDOExample));
         });
 
@@ -389,6 +418,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
             criteria.andCollect_typeEqualTo("ugc");
             criteria.andCollect_to_idEqualTo(u.getId());
+            criteria.andIs_deleteEqualTo(false);
             collectLogDOS.addAll(collectLogDOMapper.selectByExample(collectLogDOExample));
         });
 
@@ -407,9 +437,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     .setTo(ugcDOHashMap.get(c.getCollect_to_id()));
             collect_ugc_vos.add(collect_ugc_vo);
         });
-
         return collect_ugc_vos;
     }
+
 
     @Override
     public boolean bindPhone(String wxOpenId, String encryptedData, String iv, String code,String sessionKey) {
@@ -417,12 +447,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             try {
                 ResponseEntity<String> entity = restTemplate.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa9d951513d7ca374&secret=d992c9c01bb01269624071b165ba99f3", String.class);
                 String access_token = JSONObject.parseObject(entity.getBody()).getString("access_token");
-                MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
-                paramMap.add("code",code);
+                Map<String, Object> paramMap = new HashMap<String, Object>();
+                paramMap.put("code",code);
                 HttpHeaders headers = new HttpHeaders();
-                HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(paramMap,headers);
+                headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+                HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,headers);
                 ResponseEntity<String> entity1 = restTemplate.postForEntity("https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=" + access_token, httpEntity, String.class);
-                String phoneNumber = JSONObject.parseObject(entity1.getBody()).getString("purePhoneNumber");
+                JSONObject phone_info = JSONObject.parseObject(entity1.getBody()).getJSONObject("phone_info");
+                if(phone_info==null) return  false;
+                String phoneNumber=phone_info.getString("purePhoneNumber");
                 UserDO user = getUserByWxOpenId(wxOpenId);
                 user.setPhone(phoneNumber);
                 int i = userDOMapper.updateByPrimaryKey(user);
@@ -450,11 +483,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public int verifyStudent(String wxOpenId) {
         UserDO user = getUserByWxOpenId(wxOpenId);
-        if(user.getPhone()!=null&&user.getVerify_method()!=null){
+        if(user.getPhone()!=null&&user.getVerify_method()!=null&&!Objects.equals(user.getVerify_method(), "")){
             user.setAccount_status(2);
             userDOMapper.updateByPrimaryKey(user);
             return 2;
-        }else if(user.getPhone()!=null&&user.getVerify_method()==null){
+        }else if(user.getPhone()!=null&&(user.getVerify_method()==null||Objects.equals(user.getVerify_method(), ""))){
             return 1;
         }else return 0;
     }

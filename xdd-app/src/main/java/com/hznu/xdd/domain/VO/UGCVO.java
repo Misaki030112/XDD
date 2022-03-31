@@ -5,12 +5,13 @@ import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class UGCVO {
+public class UGCVO implements Serializable {
     private Integer id;
 
     private List<String> label;
