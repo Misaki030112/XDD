@@ -59,4 +59,8 @@ public class WeiXinMiniProgramAuthenticationToken extends AbstractAuthentication
         return user.getOpen_id_xiaododo_mini();
     }
 
+    public void UpdateSessionKey(String sessionKey){
+        this.credentials=sessionKey;
+    }
+
 }

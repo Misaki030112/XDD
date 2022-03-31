@@ -5,6 +5,7 @@ import com.hznu.xdd.domain.VO.Collect_ugc_VO;
 import com.hznu.xdd.domain.VO.CommentedVO;
 import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
+import org.springframework.security.core.Authentication;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -25,6 +26,8 @@ public interface UserService {
     UserDO initUserInfoByWxOpenId(String wxOpenId,String encryptedData,String iv,String sessionKey) throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidParameterSpecException, BadPaddingException, InvalidKeyException;
 
     UserDO getUserById(Integer id);
+
+    boolean UpdateSessionKey(Authentication authentication,String code);
 
     List<UserDO> searchUserByNickName(String nickName);
 
@@ -49,10 +52,32 @@ public interface UserService {
 
     UserDO changeUserInfo(String wxOpenId, String nickName, String avatar, String signature, Date birthday, String province, String city, String district);
 
-
+    /**
+     * 获取我关注的人
+     * @param wxOpenId
+     * @param page
+     * @param offset
+     * @return
+     */
     List<UserDO> getFocusUser(String wxOpenId,Integer page,Integer offset);
 
+    /**
+     * 获取关注我的人
+     * @param wxOpenId
+     * @param page
+     * @param offset
+     * @return
+     */
     List<UserDO> getFocusedUser(String wxOpenId,Integer page,Integer offset);
+
+    /**
+     * 关注，取消关注某个人
+     * @param wxOpenId
+     * @param user_id
+     * @param status
+     * @return
+     */
+    boolean FocusUser(String wxOpenId,Integer user_id,boolean status);
 
     List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset);
 
@@ -60,7 +85,9 @@ public interface UserService {
 
     List<Collect_ugc_VO> getCollectUgcLog(String wxOpenId, Integer page, Integer offset);
 
-    boolean bindPhone(String wxOpenId,String encryptedData,String iv,String code);
+    boolean bindPhone(String wxOpenId,String encryptedData,String iv,String code,String sessionKey);
 
     int verifyStudent(String wxOpenId);
+
+
 }

@@ -45,10 +45,6 @@ public class UserController {
         }
     }
 
-
-
-
-
     @PostMapping(value = "/post/user/login",produces = { "application/json;charset=UTF-8" })
     public Result login(Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
@@ -118,8 +114,33 @@ public class UserController {
     }
 
 
+    @PostMapping(value = "/post/user/focus")
+    public Result getFocuseUser(@RequestBody UserDto userDto,Authentication authentication){
+        List<UserDO> focusUser = userService.getFocusUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        return Result.ok(focusUser,"获取成功");
+    }
 
+    @PostMapping(value = "/post/user/focused")
+    public Result getFocusedUser(@RequestBody UserDto userDto,Authentication authentication){
+        List<UserDO> focusedUser = userService.getFocusedUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        return Result.ok(focusedUser,"获取成功");
+    }
 
+    @PostMapping(value = "/post/user/action/focus")
+    public Result focusUser(Authentication authentication,@RequestBody UserDto userDto){
+        boolean flag = userService.FocusUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getUser_id(), userDto.getStatus());
+        if(flag){
+            return Result.ok(null,"操作成功");
+        }else return new Result(20004,"操作非法");
+    }
+
+    @PostMapping(value="/post/user/session_key/update")
+    public Result updateSessionKey(Authentication authentication,@RequestBody UserDto userDto){
+        boolean flag = userService.UpdateSessionKey(authentication, userDto.getCode());
+        if(flag){
+            return Result.ok(null,"更新成功");
+        }else return new Result(20004,"操作失败");
+    }
 
 
 

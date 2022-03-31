@@ -12,6 +12,7 @@ import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.service.UserService;
+import com.hznu.xdd.util.UserInfoUtil;
 import com.hznu.xdd.utils.DateUtil;
 import com.hznu.xdd.utils.WeChatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -61,6 +63,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     ugcCommentDOMapper ugcCommentDOMapper;
     @Autowired
     collectLogDOMapper collectLogDOMapper;
+    @Autowired
+    focusLogDOMapper focusLogDOMapper;
 
 
     @Value("${validCode.time}")
@@ -107,6 +111,21 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public UserDO getUserById(Integer id) {
         return userDOMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public boolean UpdateSessionKey(Authentication authentication, String code) {
+        try {
+            String url = WeiXinMiniProgramAuthenticationFilter.getUrl(code);
+            ResponseEntity<String> wxOpenid = restTemplate.getForEntity(url,String.class);
+            //通过openid 获取用户信息
+            String sessionKey = JSON.parseObject(wxOpenid.getBody()).getString("session_key");
+            UserInfoUtil.updateSessionKey(authentication,sessionKey);
+            return true;
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -235,12 +254,65 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public List<UserDO> getFocusUser(String wxOpenId, Integer page, Integer offset) {
-        return null;
+        int user_id = getUserByWxOpenId(wxOpenId).getId();
+        focusLogDOExample focusLogDOExample = new focusLogDOExample();
+        com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
+        criteria.andUser_idEqualTo(user_id);
+        focusLogDOExample.page(page,offset);
+        focusLogDOExample.setOrderByClause("'create_time' desc");
+        List<focusLogDO> focusLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
+        List<UserDO> userDOS = new ArrayList<>();
+        focusLogDOS.forEach((f)->{
+            userDOS.add(getUserById(f.getFocus_to_id()));
+        });
+        return userDOS;
     }
 
     @Override
     public List<UserDO> getFocusedUser(String wxOpenId, Integer page, Integer offset) {
-        return null;
+        int user_id = getUserByWxOpenId(wxOpenId).getId();
+        focusLogDOExample focusLogDOExample = new focusLogDOExample();
+        com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
+        criteria.andFocus_to_idEqualTo(user_id);
+        focusLogDOExample.page(page,offset);
+        focusLogDOExample.setOrderByClause("'create_time' desc");
+        List<focusLogDO> focusedLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
+        List<UserDO> userDOS = new ArrayList<>();
+        focusedLogDOS.forEach((f)->{
+            userDOS.add(getUserById(f.getUser_id()));
+        });
+        return userDOS;
+    }
+
+    @Override
+    public boolean FocusUser(String wxOpenId, Integer user_id, boolean status) {
+        try {
+            int id = getUserByWxOpenId(wxOpenId).getId();
+            focusLogDOExample focusLogDOExample = new focusLogDOExample();
+            com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
+            criteria.andFocus_to_idEqualTo(user_id);
+            criteria.andUser_idEqualTo(id);
+            focusLogDO focusLogDO = focusLogDOMapper.selectByExample(focusLogDOExample).get(0);
+            if(focusLogDO!=null){
+                if(!status){
+                    int i = focusLogDOMapper.deleteByPrimaryKey(focusLogDO.getId());
+                    return i>0;
+                }else return  false;
+            }else{
+                if(status){
+                    focusLogDO = new focusLogDO();
+                    focusLogDO.setUser_id(id);
+                    focusLogDO.setFocus_to_id(user_id);
+                    focusLogDO.setCreate_time(new Date());
+                    focusLogDO.setUpdate_time(new Date());
+                    int i = focusLogDOMapper.insert(focusLogDO);
+                    return i>0;
+                }else return false;
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -340,7 +412,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public boolean bindPhone(String wxOpenId, String encryptedData, String iv, String code) {
+    public boolean bindPhone(String wxOpenId, String encryptedData, String iv, String code,String sessionKey) {
         if(code!=null){
             try {
                 ResponseEntity<String> entity = restTemplate.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa9d951513d7ca374&secret=d992c9c01bb01269624071b165ba99f3", String.class);
@@ -360,7 +432,18 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 return false;
             }
         }else{
-            return false;
+            try {
+                JSONObject jsonObject = JSONObject.parseObject(WeChatUtil.decryptData(encryptedData, sessionKey, iv));
+                String phoneNumber = jsonObject.getString("purePhoneNumber");
+                UserDO user = getUserByWxOpenId(wxOpenId);
+                user.setPhone(phoneNumber);
+                int i = userDOMapper.updateByPrimaryKey(user);
+                return i>0;
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                return false;
+            }
+
         }
     }
 
@@ -375,6 +458,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             return 1;
         }else return 0;
     }
+
+
 
 
 }

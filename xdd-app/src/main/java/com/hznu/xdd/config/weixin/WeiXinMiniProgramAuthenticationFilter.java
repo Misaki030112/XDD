@@ -33,11 +33,11 @@ public class WeiXinMiniProgramAuthenticationFilter extends
     private RestTemplate restTemplate;
 
 
-    private static String WxAppId="wxa9d951513d7ca374";
+    private static final String WxAppId="wxa9d951513d7ca374";
 
-    private static String WxAppSecret="d992c9c01bb01269624071b165ba99f3";
+    private static final String WxAppSecret="d992c9c01bb01269624071b165ba99f3";
 
-    private static String httpMethod ="POST";
+    private static final String httpMethod ="POST";
 
     public WeiXinMiniProgramAuthenticationFilter() {
         super(new AntPathRequestMatcher("/post/user/create", "POST"));
@@ -66,31 +66,6 @@ public class WeiXinMiniProgramAuthenticationFilter extends
     private UserDO remoteClientInvoke(JSONObject object) {
         String openid = object.getString("openid");
         String union_id=object.getString("unionid");
-//        System.out.println(encryptedData);
-//        if (StringUtils.isBlank(openid)) {
-//            throw new WeiXinMiniProgramAuthenticationException("未发现 openid值");
-//        }
-//
-//        if (StringUtils.isBlank(encryptedData)) {
-//            throw new WeiXinMiniProgramAuthenticationException("未发现 encryptedData值");
-//        }
-//
-//        if (StringUtils.isBlank(sessionKey)) {
-//            throw new WeiXinMiniProgramAuthenticationException("未发现 sessionKey");
-//        }
-//
-//        if (StringUtils.isBlank(iv)) {
-//            throw new WeiXinMiniProgramAuthenticationException("未发现 iv");
-//        }
-
-//        JSONObject jsonObject;
-//        try {
-//            log.info("解析微信加密信息参数为{},{},{}",encryptedData,sessionKey,iv);
-//            System.out.println(encryptedData);
-//            jsonObject = JSON.parseObject(WeChatUtil.decryptData(encryptedData, sessionKey, iv));
-//        } catch (Exception e) {
-//            throw new WeiXinMiniProgramAuthenticationException("解析微信加密信息失败",e);
-//        }
 
         UserDO user = userService.getUserByWxOpenId(openid);
         if(user==null){

@@ -44,5 +44,9 @@ public class UserDto{
 
     private Integer offset;
 
+    private Boolean status;
+
+    private Integer user_id;
+
 
 }

@@ -25,4 +25,8 @@ public class UserInfoUtil {
         return (String) token.getCredentials();
     }
 
+    public static void updateSessionKey(Authentication authentication,String sessionKey){
+        ((WeiXinMiniProgramAuthenticationToken) authentication).UpdateSessionKey(sessionKey);
+    }
+
 }
