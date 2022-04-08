@@ -41,9 +41,16 @@ public class UGCController {
     @Resource
     RestTemplate restTemplate;
     @GetMapping(value = "/get/ugc",produces = {"application/json;charset=UTF-8"})
-    public Result getAllUGC(@RequestBody UGCDto ugcDto){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
-                ugcDto.getPage(),ugcDto.getOffset(),3);
+    public Result getAllUGC(@RequestParam(value = "id") Integer id,
+                            @RequestParam(value = "key",required = false) String key,
+                            @RequestParam(value = "label",required = false) String label,
+                            @RequestParam(value = "topic",required = false) String topic,
+                            @RequestParam(value = "order_by",required = false) String order_by,
+                            @RequestParam(value = "page") Integer page,
+                            @RequestParam(value = "offset") Integer offset
+    ){
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(id, key, label, topic, order_by,
+                page,offset,3);
         return Result.ok(ugcvoList,"获取成功");
     }
 
@@ -91,16 +98,29 @@ public class UGCController {
     }
 
     @GetMapping(value = "/get/ugc/user/publish",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByPublish(@RequestBody UGCDto ugcDto){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getUser_id(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
-                ugcDto.getPage(),ugcDto.getOffset(),1);
+    public Result listAllUGCByPublish(@RequestParam("user_id") Integer user_id,
+                                      @RequestParam(value = "key",required = false) String key,
+                                      @RequestParam(value = "label",required = false) String label,
+                                      @RequestParam(value = "topic",required = false) String topic,
+                                      @RequestParam(value = "order_by",required = false) String order_by,
+                                      @RequestParam(value = "page") Integer page,
+                                      @RequestParam(value = "offset") Integer offset
+                                      ){
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(user_id, key,label, topic, order_by,
+                page,offset,1);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @GetMapping(value = "/get/ugc/user/vote",produces = {"application/json;charset=UTF-8"})
-    public Result listAllUGCByVote(@RequestBody UGCDto ugcDto){
-        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(ugcDto.getUser_id(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
-                ugcDto.getPage(),ugcDto.getOffset(),2);
+    public Result listAllUGCByVote(@RequestParam("user_id") Integer user_id,
+                                   @RequestParam(value = "key",required = false) String key,
+                                   @RequestParam(value = "label",required = false) String label,
+                                   @RequestParam(value = "topic",required = false) String topic,
+                                   @RequestParam(value = "order_by",required = false) String order_by,
+                                   @RequestParam(value = "page") Integer page,
+                                   @RequestParam(value = "offset") Integer offset){
+        List<UGCVO> ugcvoList = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
+                page,offset,2);
         return Result.ok(ugcvoList,"获取成功");
     }
 
@@ -159,20 +179,23 @@ public class UGCController {
     }
 
     @GetMapping(value = "/get/ugc/hot",produces = {"application/json;charset=UTF-8"})
-    public Result getHotUGC(@RequestBody UGCDto ugcDto){
-        List<UGCVO> ugcvoList = ugcService.getHotUGC(ugcDto.getPage(),ugcDto.getOffset());
+    public Result getHotUGC(@RequestParam(value = "page") Integer page,
+                            @RequestParam(value = "offset") Integer offset
+    ){
+        List<UGCVO> ugcvoList = ugcService.getHotUGC(page,offset);
         return Result.ok(ugcvoList,"获取成功");
     }
 
     @GetMapping(value = "/get/ugc/comment",produces = {"application/json;charset=UTF-8"})
-    public Result getUGCComment(@RequestBody UGCDto ugcDto){
-        List<CommentVO> commentById = ugcService.getCommentById(ugcDto.getId());
+    public Result getUGCComment(@RequestParam("id") Integer id){
+        List<CommentVO> commentById = ugcService.getCommentById(id);
         return Result.ok(commentById,"获取成功");
     }
 
     @GetMapping(value = "/get/ugc/topic",produces = {"application/json;charset=UTF-8"})
-    public Result getTopic(@RequestBody UGCDto ugcDto){
-        List<topicDO> topic = ugcService.getTopic(ugcDto.getPage(), ugcDto.getOffset());
+    public Result getTopic(@RequestParam(value = "page") Integer page,
+                           @RequestParam(value = "offset") Integer offset){
+        List<topicDO> topic = ugcService.getTopic(page, offset);
         return Result.ok(topic,"获取成功");
     }
 }
