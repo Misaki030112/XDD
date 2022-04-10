@@ -41,7 +41,7 @@ public class UGCController {
     @Resource
     RestTemplate restTemplate;
     @GetMapping(value = "/get/ugc",produces = {"application/json;charset=UTF-8"})
-    public Result getAllUGC(@RequestParam(value = "id") Integer id,
+    public Result getAllUGC(@RequestParam(value = "id",required = false) Integer id,
                             @RequestParam(value = "key",required = false) String key,
                             @RequestParam(value = "label",required = false) String label,
                             @RequestParam(value = "topic",required = false) String topic,
