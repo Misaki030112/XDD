@@ -1,7 +1,5 @@
 package com.hznu.xdd.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Result;
 import com.hznu.xdd.domain.Dto.UGCDto;
@@ -14,21 +12,13 @@ import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.ContentUtil;
 import com.hznu.xdd.util.UserInfoUtil;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class UGCController {
