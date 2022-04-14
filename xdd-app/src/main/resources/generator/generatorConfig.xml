@@ -55,7 +55,8 @@
         </plugin>
         <!--序列化插件-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
-
+        <!--覆盖生成XML文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <commentGenerator>
             <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true"/>
@@ -204,10 +205,23 @@
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
         
-        <table tableName="focus_log" domainObjectName="focusLogDO">
+<!--        <table tableName="focus_log" domainObjectName="focusLogDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+        <table tableName="group" domainObjectName="groupDO">
             <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
+        <table tableName="group_join_log" domainObjectName="groupJoinLogDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="search_log" domainObjectName="searchLogDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+
 
     </context>
 </generatorConfiguration>
