@@ -75,8 +75,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String wxOpenId) throws UsernameNotFoundException {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        return user;
     }
 
 
@@ -492,7 +493,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         }else return 0;
     }
 
-
+    @Override
+    public boolean isFocusWxOffical(String wxOpenId) {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        return !Objects.equals(user.getOpen_id_xiaododo_official_account(), "") && user.getOpen_id_xiaododo_official_account() != null;
+    }
 
 
 }

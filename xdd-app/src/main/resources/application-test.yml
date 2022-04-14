@@ -31,3 +31,14 @@ spring:
     username: 2914883754@qq.com
     password: cxetzvrtfaqsdhdi
     default-encoding: UTF-8
+
+task:
+  pool:
+    # 核心线程池大小
+    core-pool-size: 12
+    # 最大线程数
+    max-pool-size: 30
+    # 活跃时间
+    keep-alive-seconds: 60
+    # 队列容量
+    queue-capacity: 50

@@ -89,5 +89,6 @@ public interface UserService {
 
     int verifyStudent(String wxOpenId);
 
+    boolean isFocusWxOffical(String wxOpenId);
 
 }
