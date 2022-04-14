@@ -48,9 +48,8 @@ public class StudentController {
     @PostMapping("/post/student/verify/email/code/send")
     public Result SendVerifyEmailCode(Authentication authentication,@RequestBody UserDto userDto){
         try {
-            boolean flag = mailService.SendValidCode(userDto.getEmail(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-            if(flag) return Result.ok(null,"提交成功");
-            else return new Result(20005,"数据库操作失败");
+            mailService.SendValidCode(userDto.getEmail(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+            return Result.ok(null,"提交成功");
         } catch (MessagingException e) {
             e.printStackTrace();
             return new Result(20005,"邮件发送失败");

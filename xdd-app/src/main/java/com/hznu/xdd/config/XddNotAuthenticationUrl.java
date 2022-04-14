@@ -12,6 +12,6 @@ public class XddNotAuthenticationUrl implements NotAuthorizationUrl{
 
     @Override
     public String[] getUrl() {
-        return new String[]{"/post/user/create"};
+        return new String[]{"/post/user/creat"};
     }
 }

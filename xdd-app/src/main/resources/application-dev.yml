@@ -19,3 +19,14 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     filters: stat,slf4j
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+task:
+  pool:
+    # 核心线程池大小
+    core-pool-size: 12
+    # 最大线程数
+    max-pool-size: 30
+    # 活跃时间
+    keep-alive-seconds: 60
+    # 队列容量
+    queue-capacity: 50

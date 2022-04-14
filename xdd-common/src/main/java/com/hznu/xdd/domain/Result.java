@@ -17,7 +17,7 @@ public class Result implements Serializable {
 
     private Integer code;
 
-    private String msg;
+    private String message;
 
     private Object data;
 
@@ -26,22 +26,22 @@ public class Result implements Serializable {
     public Result(Integer code, Object data,String msg){
         this.code = code;
         this.data = data;
-        this.msg=msg;
+        this.message=msg;
     }
 
     public Result(Integer code,String msg){
         this.code=code;
-        this.msg=msg;
+        this.message=msg;
     }
 
     public Result(StatusCode statusCode,Object data){
         this.code=statusCode.getCode();
-        this.msg=statusCode.getMessage();
+        this.message=statusCode.getMessage();
         this.data=data;
     }
     public Result(StatusCode statusCode){
         this.code=statusCode.getCode();
-        this.msg=statusCode.getMessage();
+        this.message=statusCode.getMessage();
     }
 
 

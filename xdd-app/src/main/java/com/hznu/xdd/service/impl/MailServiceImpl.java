@@ -34,12 +34,11 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public boolean SendValidCode(String email,String wxOpenId) throws MessagingException {
+    public void SendValidCode(String email,String wxOpenId) throws MessagingException {
         String validCode = VerifyCodeUtil.generateChar(ValidCodeLength);
         if(userService.VerifyMailStudent(wxOpenId,email,validCode)){
             SendMail(email,validCode);
-            return true;
-        }else return false;
+        }
     }
 
 

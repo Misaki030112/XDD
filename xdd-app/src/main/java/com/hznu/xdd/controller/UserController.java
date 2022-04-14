@@ -57,8 +57,8 @@ public class UserController {
 
 
     @GetMapping(value = "/get/user/info",produces = { "application/json;charset=UTF-8" })
-    public Result getUserInfo(@RequestBody UserDto userDto){
-        UserDO userDO = userService.getUserById(userDto.getId());
+    public Result getUserInfo(@RequestParam(value = "id")Integer id){
+        UserDO userDO = userService.getUserById(id);
         if(userDO==null)
             return new Result(StatusCode.NO_EXIST);
         else return Result.ok(userDO,"登录成功");
@@ -66,8 +66,8 @@ public class UserController {
 
 
     @GetMapping(value="/get/user",produces = { "application/json;charset=UTF-8" })
-    public Result searchUserByName(@RequestBody UserDto userDto){
-        List<UserDO> userDOS = userService.searchUserByNickName(userDto.getKey(),userDto.getPage(),userDto.getOffset());
+    public Result searchUserByName(@RequestParam("key") String key,@RequestParam("page") Integer page,@RequestParam("offset") Integer offset){
+        List<UserDO> userDOS = userService.searchUserByNickName(key,page,offset);
         return Result.ok(userDOS,"获取成功");
     }
 

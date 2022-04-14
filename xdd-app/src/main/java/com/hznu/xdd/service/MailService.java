@@ -1,5 +1,7 @@
 package com.hznu.xdd.service;
 
+import org.springframework.scheduling.annotation.Async;
+
 import javax.mail.MessagingException;
 
 public interface MailService {
@@ -10,7 +12,8 @@ public interface MailService {
      * @param wxOpenId wxOpenId
      * @return 返回是否成功
      */
-    public boolean SendValidCode(String email,String wxOpenId) throws MessagingException;
+    @Async
+    public void SendValidCode(String email,String wxOpenId) throws MessagingException;
 
 
 
