@@ -3,8 +3,10 @@ package com.hznu.xdd.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class groupDO implements Serializable {
     private Integer id;
 
@@ -20,13 +22,13 @@ public class groupDO implements Serializable {
 
     private String content;
 
-    private String exposure;
+    private Integer exposure;
 
-    private String is_online;
+    private Boolean is_online;
 
-    private String collect;
+    private Integer collect;
 
-    private String comment;
+    private Integer comment;
 
     private String params;
 
@@ -40,7 +42,7 @@ public class groupDO implements Serializable {
 
     private String location;
 
-    private String is_open;
+    private Boolean is_open;
 
     private static final long serialVersionUID = 1L;
 }

@@ -17,10 +17,13 @@ public class VerifyMethodVO implements Serializable {
 
     private String content;
 
+    private String page_url;
+
 
     public VerifyMethodVO(verify_methodDO v) {
         this.id=v.getId();
         this.content=v.getContent();
         this.title=v.getTitle();
+        this.page_url=v.getPage_url();
     }
 }

@@ -9,6 +9,7 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="is_online" jdbcType="BIT" property="is_online" />
+    <result column="page_url" jdbcType="VARCHAR" property="page_url" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, update_time, is_delete, title, content, is_online
+    id, create_time, update_time, is_delete, title, content, is_online, page_url
   </sql>
   <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.verify_methodDOExample" resultMap="BaseResultMap">
     select
@@ -111,11 +112,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.verify_methodDO" useGeneratedKeys="true">
     insert into verify_method (create_time, update_time, is_delete, 
-      title, content, is_online
-      )
+      title, content, is_online, 
+      page_url)
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{is_online,jdbcType=BIT}
-      )
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{is_online,jdbcType=BIT}, 
+      #{page_url,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.verify_methodDO" useGeneratedKeys="true">
     insert into verify_method
@@ -138,6 +139,9 @@
       <if test="is_online != null">
         is_online,
       </if>
+      <if test="page_url != null">
+        page_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
@@ -157,6 +161,9 @@
       </if>
       <if test="is_online != null">
         #{is_online,jdbcType=BIT},
+      </if>
+      <if test="page_url != null">
+        #{page_url,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -190,6 +197,9 @@
       <if test="record.is_online != null">
         is_online = #{record.is_online,jdbcType=BIT},
       </if>
+      <if test="record.page_url != null">
+        page_url = #{record.page_url,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -203,7 +213,8 @@
       is_delete = #{record.is_delete,jdbcType=BIT},
       title = #{record.title,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
-      is_online = #{record.is_online,jdbcType=BIT}
+      is_online = #{record.is_online,jdbcType=BIT},
+      page_url = #{record.page_url,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -229,6 +240,9 @@
       <if test="is_online != null">
         is_online = #{is_online,jdbcType=BIT},
       </if>
+      <if test="page_url != null">
+        page_url = #{page_url,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -239,7 +253,8 @@
       is_delete = #{is_delete,jdbcType=BIT},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      is_online = #{is_online,jdbcType=BIT}
+      is_online = #{is_online,jdbcType=BIT},
+      page_url = #{page_url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

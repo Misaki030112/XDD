@@ -9,17 +9,17 @@
     <result column="user_id" jdbcType="INTEGER" property="user_id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="exposure" jdbcType="VARCHAR" property="exposure" />
-    <result column="is_online" jdbcType="VARCHAR" property="is_online" />
-    <result column="collect" jdbcType="VARCHAR" property="collect" />
-    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="exposure" jdbcType="INTEGER" property="exposure" />
+    <result column="is_online" jdbcType="BIT" property="is_online" />
+    <result column="collect" jdbcType="INTEGER" property="collect" />
+    <result column="comment" jdbcType="INTEGER" property="comment" />
     <result column="params" jdbcType="VARCHAR" property="params" />
     <result column="images" jdbcType="VARCHAR" property="images" />
     <result column="video" jdbcType="VARCHAR" property="video" />
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="topic" jdbcType="VARCHAR" property="topic" />
     <result column="location" jdbcType="VARCHAR" property="location" />
-    <result column="is_open" jdbcType="VARCHAR" property="is_open" />
+    <result column="is_open" jdbcType="BIT" property="is_open" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -130,10 +130,10 @@
       location, is_open)
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
       #{user_id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{exposure,jdbcType=VARCHAR}, #{is_online,jdbcType=VARCHAR}, #{collect,jdbcType=VARCHAR}, 
-      #{comment,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, 
+      #{exposure,jdbcType=INTEGER}, #{is_online,jdbcType=BIT}, #{collect,jdbcType=INTEGER}, 
+      #{comment,jdbcType=INTEGER}, #{params,jdbcType=VARCHAR}, #{images,jdbcType=VARCHAR}, 
       #{video,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}, 
-      #{location,jdbcType=VARCHAR}, #{is_open,jdbcType=VARCHAR})
+      #{location,jdbcType=VARCHAR}, #{is_open,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.groupDO" useGeneratedKeys="true">
     insert into group
@@ -210,16 +210,16 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="exposure != null">
-        #{exposure,jdbcType=VARCHAR},
+        #{exposure,jdbcType=INTEGER},
       </if>
       <if test="is_online != null">
-        #{is_online,jdbcType=VARCHAR},
+        #{is_online,jdbcType=BIT},
       </if>
       <if test="collect != null">
-        #{collect,jdbcType=VARCHAR},
+        #{collect,jdbcType=INTEGER},
       </if>
       <if test="comment != null">
-        #{comment,jdbcType=VARCHAR},
+        #{comment,jdbcType=INTEGER},
       </if>
       <if test="params != null">
         #{params,jdbcType=VARCHAR},
@@ -240,7 +240,7 @@
         #{location,jdbcType=VARCHAR},
       </if>
       <if test="is_open != null">
-        #{is_open,jdbcType=VARCHAR},
+        #{is_open,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -275,16 +275,16 @@
         content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.exposure != null">
-        exposure = #{record.exposure,jdbcType=VARCHAR},
+        exposure = #{record.exposure,jdbcType=INTEGER},
       </if>
       <if test="record.is_online != null">
-        is_online = #{record.is_online,jdbcType=VARCHAR},
+        is_online = #{record.is_online,jdbcType=BIT},
       </if>
       <if test="record.collect != null">
-        collect = #{record.collect,jdbcType=VARCHAR},
+        collect = #{record.collect,jdbcType=INTEGER},
       </if>
       <if test="record.comment != null">
-        comment = #{record.comment,jdbcType=VARCHAR},
+        comment = #{record.comment,jdbcType=INTEGER},
       </if>
       <if test="record.params != null">
         params = #{record.params,jdbcType=VARCHAR},
@@ -305,7 +305,7 @@
         location = #{record.location,jdbcType=VARCHAR},
       </if>
       <if test="record.is_open != null">
-        is_open = #{record.is_open,jdbcType=VARCHAR},
+        is_open = #{record.is_open,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -321,17 +321,17 @@
       user_id = #{record.user_id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
-      exposure = #{record.exposure,jdbcType=VARCHAR},
-      is_online = #{record.is_online,jdbcType=VARCHAR},
-      collect = #{record.collect,jdbcType=VARCHAR},
-      comment = #{record.comment,jdbcType=VARCHAR},
+      exposure = #{record.exposure,jdbcType=INTEGER},
+      is_online = #{record.is_online,jdbcType=BIT},
+      collect = #{record.collect,jdbcType=INTEGER},
+      comment = #{record.comment,jdbcType=INTEGER},
       params = #{record.params,jdbcType=VARCHAR},
       images = #{record.images,jdbcType=VARCHAR},
       video = #{record.video,jdbcType=VARCHAR},
       label = #{record.label,jdbcType=VARCHAR},
       topic = #{record.topic,jdbcType=VARCHAR},
       location = #{record.location,jdbcType=VARCHAR},
-      is_open = #{record.is_open,jdbcType=VARCHAR}
+      is_open = #{record.is_open,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -358,16 +358,16 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="exposure != null">
-        exposure = #{exposure,jdbcType=VARCHAR},
+        exposure = #{exposure,jdbcType=INTEGER},
       </if>
       <if test="is_online != null">
-        is_online = #{is_online,jdbcType=VARCHAR},
+        is_online = #{is_online,jdbcType=BIT},
       </if>
       <if test="collect != null">
-        collect = #{collect,jdbcType=VARCHAR},
+        collect = #{collect,jdbcType=INTEGER},
       </if>
       <if test="comment != null">
-        comment = #{comment,jdbcType=VARCHAR},
+        comment = #{comment,jdbcType=INTEGER},
       </if>
       <if test="params != null">
         params = #{params,jdbcType=VARCHAR},
@@ -388,7 +388,7 @@
         location = #{location,jdbcType=VARCHAR},
       </if>
       <if test="is_open != null">
-        is_open = #{is_open,jdbcType=VARCHAR},
+        is_open = #{is_open,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -401,17 +401,17 @@
       user_id = #{user_id,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      exposure = #{exposure,jdbcType=VARCHAR},
-      is_online = #{is_online,jdbcType=VARCHAR},
-      collect = #{collect,jdbcType=VARCHAR},
-      comment = #{comment,jdbcType=VARCHAR},
+      exposure = #{exposure,jdbcType=INTEGER},
+      is_online = #{is_online,jdbcType=BIT},
+      collect = #{collect,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=INTEGER},
       params = #{params,jdbcType=VARCHAR},
       images = #{images,jdbcType=VARCHAR},
       video = #{video,jdbcType=VARCHAR},
       label = #{label,jdbcType=VARCHAR},
       topic = #{topic,jdbcType=VARCHAR},
       location = #{location,jdbcType=VARCHAR},
-      is_open = #{is_open,jdbcType=VARCHAR}
+      is_open = #{is_open,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
