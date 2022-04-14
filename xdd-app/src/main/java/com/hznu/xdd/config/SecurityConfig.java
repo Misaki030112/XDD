@@ -23,7 +23,6 @@ import org.springframework.web.client.RestTemplate;
  */
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("xddUserService")
