@@ -583,6 +583,76 @@ public class verify_methodDOExample {
             addCriterion("is_online not between", value1, value2, "is_online");
             return (Criteria) this;
         }
+
+        public Criteria andPage_urlIsNull() {
+            addCriterion("page_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlIsNotNull() {
+            addCriterion("page_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlEqualTo(String value) {
+            addCriterion("page_url =", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlNotEqualTo(String value) {
+            addCriterion("page_url <>", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlGreaterThan(String value) {
+            addCriterion("page_url >", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlGreaterThanOrEqualTo(String value) {
+            addCriterion("page_url >=", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlLessThan(String value) {
+            addCriterion("page_url <", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlLessThanOrEqualTo(String value) {
+            addCriterion("page_url <=", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlLike(String value) {
+            addCriterion("page_url like", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlNotLike(String value) {
+            addCriterion("page_url not like", value, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlIn(List<String> values) {
+            addCriterion("page_url in", values, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlNotIn(List<String> values) {
+            addCriterion("page_url not in", values, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlBetween(String value1, String value2) {
+            addCriterion("page_url between", value1, value2, "page_url");
+            return (Criteria) this;
+        }
+
+        public Criteria andPage_urlNotBetween(String value1, String value2) {
+            addCriterion("page_url not between", value1, value2, "page_url");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -594,62 +594,52 @@ public class groupDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andExposureEqualTo(String value) {
+        public Criteria andExposureEqualTo(Integer value) {
             addCriterion("exposure =", value, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureNotEqualTo(String value) {
+        public Criteria andExposureNotEqualTo(Integer value) {
             addCriterion("exposure <>", value, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureGreaterThan(String value) {
+        public Criteria andExposureGreaterThan(Integer value) {
             addCriterion("exposure >", value, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureGreaterThanOrEqualTo(String value) {
+        public Criteria andExposureGreaterThanOrEqualTo(Integer value) {
             addCriterion("exposure >=", value, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureLessThan(String value) {
+        public Criteria andExposureLessThan(Integer value) {
             addCriterion("exposure <", value, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureLessThanOrEqualTo(String value) {
+        public Criteria andExposureLessThanOrEqualTo(Integer value) {
             addCriterion("exposure <=", value, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureLike(String value) {
-            addCriterion("exposure like", value, "exposure");
-            return (Criteria) this;
-        }
-
-        public Criteria andExposureNotLike(String value) {
-            addCriterion("exposure not like", value, "exposure");
-            return (Criteria) this;
-        }
-
-        public Criteria andExposureIn(List<String> values) {
+        public Criteria andExposureIn(List<Integer> values) {
             addCriterion("exposure in", values, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureNotIn(List<String> values) {
+        public Criteria andExposureNotIn(List<Integer> values) {
             addCriterion("exposure not in", values, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureBetween(String value1, String value2) {
+        public Criteria andExposureBetween(Integer value1, Integer value2) {
             addCriterion("exposure between", value1, value2, "exposure");
             return (Criteria) this;
         }
 
-        public Criteria andExposureNotBetween(String value1, String value2) {
+        public Criteria andExposureNotBetween(Integer value1, Integer value2) {
             addCriterion("exposure not between", value1, value2, "exposure");
             return (Criteria) this;
         }
@@ -664,62 +654,52 @@ public class groupDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineEqualTo(String value) {
+        public Criteria andIs_onlineEqualTo(Boolean value) {
             addCriterion("is_online =", value, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineNotEqualTo(String value) {
+        public Criteria andIs_onlineNotEqualTo(Boolean value) {
             addCriterion("is_online <>", value, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineGreaterThan(String value) {
+        public Criteria andIs_onlineGreaterThan(Boolean value) {
             addCriterion("is_online >", value, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineGreaterThanOrEqualTo(String value) {
+        public Criteria andIs_onlineGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_online >=", value, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineLessThan(String value) {
+        public Criteria andIs_onlineLessThan(Boolean value) {
             addCriterion("is_online <", value, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineLessThanOrEqualTo(String value) {
+        public Criteria andIs_onlineLessThanOrEqualTo(Boolean value) {
             addCriterion("is_online <=", value, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineLike(String value) {
-            addCriterion("is_online like", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineNotLike(String value) {
-            addCriterion("is_online not like", value, "is_online");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_onlineIn(List<String> values) {
+        public Criteria andIs_onlineIn(List<Boolean> values) {
             addCriterion("is_online in", values, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineNotIn(List<String> values) {
+        public Criteria andIs_onlineNotIn(List<Boolean> values) {
             addCriterion("is_online not in", values, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineBetween(String value1, String value2) {
+        public Criteria andIs_onlineBetween(Boolean value1, Boolean value2) {
             addCriterion("is_online between", value1, value2, "is_online");
             return (Criteria) this;
         }
 
-        public Criteria andIs_onlineNotBetween(String value1, String value2) {
+        public Criteria andIs_onlineNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_online not between", value1, value2, "is_online");
             return (Criteria) this;
         }
@@ -734,62 +714,52 @@ public class groupDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andCollectEqualTo(String value) {
+        public Criteria andCollectEqualTo(Integer value) {
             addCriterion("collect =", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectNotEqualTo(String value) {
+        public Criteria andCollectNotEqualTo(Integer value) {
             addCriterion("collect <>", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectGreaterThan(String value) {
+        public Criteria andCollectGreaterThan(Integer value) {
             addCriterion("collect >", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectGreaterThanOrEqualTo(String value) {
+        public Criteria andCollectGreaterThanOrEqualTo(Integer value) {
             addCriterion("collect >=", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectLessThan(String value) {
+        public Criteria andCollectLessThan(Integer value) {
             addCriterion("collect <", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectLessThanOrEqualTo(String value) {
+        public Criteria andCollectLessThanOrEqualTo(Integer value) {
             addCriterion("collect <=", value, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectLike(String value) {
-            addCriterion("collect like", value, "collect");
-            return (Criteria) this;
-        }
-
-        public Criteria andCollectNotLike(String value) {
-            addCriterion("collect not like", value, "collect");
-            return (Criteria) this;
-        }
-
-        public Criteria andCollectIn(List<String> values) {
+        public Criteria andCollectIn(List<Integer> values) {
             addCriterion("collect in", values, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectNotIn(List<String> values) {
+        public Criteria andCollectNotIn(List<Integer> values) {
             addCriterion("collect not in", values, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectBetween(String value1, String value2) {
+        public Criteria andCollectBetween(Integer value1, Integer value2) {
             addCriterion("collect between", value1, value2, "collect");
             return (Criteria) this;
         }
 
-        public Criteria andCollectNotBetween(String value1, String value2) {
+        public Criteria andCollectNotBetween(Integer value1, Integer value2) {
             addCriterion("collect not between", value1, value2, "collect");
             return (Criteria) this;
         }
@@ -804,62 +774,52 @@ public class groupDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andCommentEqualTo(String value) {
+        public Criteria andCommentEqualTo(Integer value) {
             addCriterion("comment =", value, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentNotEqualTo(String value) {
+        public Criteria andCommentNotEqualTo(Integer value) {
             addCriterion("comment <>", value, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentGreaterThan(String value) {
+        public Criteria andCommentGreaterThan(Integer value) {
             addCriterion("comment >", value, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentGreaterThanOrEqualTo(String value) {
+        public Criteria andCommentGreaterThanOrEqualTo(Integer value) {
             addCriterion("comment >=", value, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentLessThan(String value) {
+        public Criteria andCommentLessThan(Integer value) {
             addCriterion("comment <", value, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentLessThanOrEqualTo(String value) {
+        public Criteria andCommentLessThanOrEqualTo(Integer value) {
             addCriterion("comment <=", value, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentLike(String value) {
-            addCriterion("comment like", value, "comment");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentNotLike(String value) {
-            addCriterion("comment not like", value, "comment");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentIn(List<String> values) {
+        public Criteria andCommentIn(List<Integer> values) {
             addCriterion("comment in", values, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentNotIn(List<String> values) {
+        public Criteria andCommentNotIn(List<Integer> values) {
             addCriterion("comment not in", values, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentBetween(String value1, String value2) {
+        public Criteria andCommentBetween(Integer value1, Integer value2) {
             addCriterion("comment between", value1, value2, "comment");
             return (Criteria) this;
         }
 
-        public Criteria andCommentNotBetween(String value1, String value2) {
+        public Criteria andCommentNotBetween(Integer value1, Integer value2) {
             addCriterion("comment not between", value1, value2, "comment");
             return (Criteria) this;
         }
@@ -1294,62 +1254,52 @@ public class groupDOExample {
             return (Criteria) this;
         }
 
-        public Criteria andIs_openEqualTo(String value) {
+        public Criteria andIs_openEqualTo(Boolean value) {
             addCriterion("is_open =", value, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openNotEqualTo(String value) {
+        public Criteria andIs_openNotEqualTo(Boolean value) {
             addCriterion("is_open <>", value, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openGreaterThan(String value) {
+        public Criteria andIs_openGreaterThan(Boolean value) {
             addCriterion("is_open >", value, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openGreaterThanOrEqualTo(String value) {
+        public Criteria andIs_openGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_open >=", value, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openLessThan(String value) {
+        public Criteria andIs_openLessThan(Boolean value) {
             addCriterion("is_open <", value, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openLessThanOrEqualTo(String value) {
+        public Criteria andIs_openLessThanOrEqualTo(Boolean value) {
             addCriterion("is_open <=", value, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openLike(String value) {
-            addCriterion("is_open like", value, "is_open");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_openNotLike(String value) {
-            addCriterion("is_open not like", value, "is_open");
-            return (Criteria) this;
-        }
-
-        public Criteria andIs_openIn(List<String> values) {
+        public Criteria andIs_openIn(List<Boolean> values) {
             addCriterion("is_open in", values, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openNotIn(List<String> values) {
+        public Criteria andIs_openNotIn(List<Boolean> values) {
             addCriterion("is_open not in", values, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openBetween(String value1, String value2) {
+        public Criteria andIs_openBetween(Boolean value1, Boolean value2) {
             addCriterion("is_open between", value1, value2, "is_open");
             return (Criteria) this;
         }
 
-        public Criteria andIs_openNotBetween(String value1, String value2) {
+        public Criteria andIs_openNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_open not between", value1, value2, "is_open");
             return (Criteria) this;
         }

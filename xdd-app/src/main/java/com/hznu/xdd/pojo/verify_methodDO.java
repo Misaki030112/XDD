@@ -3,10 +3,8 @@ package com.hznu.xdd.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
 public class verify_methodDO implements Serializable {
     private Integer id;
 
@@ -21,6 +19,8 @@ public class verify_methodDO implements Serializable {
     private String content;
 
     private Boolean is_online;
+
+    private String page_url;
 
     private static final long serialVersionUID = 1L;
 }
