@@ -26,8 +26,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.BadPaddingException;
@@ -75,8 +73,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String wxOpenId) throws UsernameNotFoundException {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        return user;
     }
 
 
@@ -492,7 +491,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         }else return 0;
     }
 
-
+    @Override
+    public boolean isFocusWxOffical(String wxOpenId) {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        return !Objects.equals(user.getOpen_id_xiaododo_official_account(), "") && user.getOpen_id_xiaododo_official_account() != null;
+    }
 
 
 }

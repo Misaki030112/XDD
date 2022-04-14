@@ -1,18 +1,29 @@
 package com.hznu.xdd.controller;
 
 import com.hznu.xdd.base.StatusCode;
+import com.hznu.xdd.domain.Dto.TokenDto;
 import com.hznu.xdd.domain.Dto.UserDto;
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.domain.Result;
 import com.hznu.xdd.domain.VO.Collect_ugc_VO;
 import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.UserVO;
 import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
-import org.apache.catalina.User;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.BadPaddingException;
@@ -21,15 +32,50 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class UserController implements InitializingBean {
 
     @Autowired
     UserService userService;
     @Autowired
     UserInfoUtil userInfoUtil;
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
+    private OAuth2RequestFactory oAuth2RequestFactory;
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        oAuth2RequestFactory = new DefaultOAuth2RequestFactory(clientDetailsService);
+    }
+
+
+    @PostMapping(value="/post/refreshToken",produces = { "application/json;charset=UTF-8" })
+    public Result refreshToken(@RequestBody TokenDto tokenDto){
+        HashMap<String, String> parameters = new HashMap<>();
+        parameters.put("client_id","wx");
+        parameters.put("client_secret","secret");
+        parameters.put("refresh_token",tokenDto.getRefreshToken());
+        parameters.put("grant_type","refresh_token");
+        parameters.put("scope","all");
+        ClientDetails authenticatedClient = clientDetailsService.loadClientByClientId(parameters.get("client_id"));
+        TokenRequest tokenRequest = oAuth2RequestFactory.createTokenRequest(parameters, authenticatedClient);
+        tokenRequest.setScope(OAuth2Utils.parseParameterList(parameters.get(OAuth2Utils.SCOPE)));
+        OAuth2AccessToken token;
+        try {
+            token = authorizationServerTokenServices.refreshAccessToken(parameters.get("refresh_token"), tokenRequest);
+        } catch (InvalidGrantException e) {
+            e.printStackTrace();
+            return new Result(20003,"请重新登录");
+        }
+        return Result.ok(token,"刷新Token成功");
+    }
+
 
     @PostMapping(value= "/post/user/info", produces = { "application/json;charset=UTF-8" })
     public Result userInfo(@RequestBody UserDto userDto,
@@ -144,6 +190,12 @@ public class UserController {
         }else return new Result(20004,"操作失败");
     }
 
+    @GetMapping(value = "/get/user/official_account/focus")
+    public Result official_account(Authentication authentication){
+        UserVO userVO = new UserVO();
+        userVO.setFocus(userService.isFocusWxOffical(UserInfoUtil.getWxOpenIdXiaododoMini(authentication)));
+        return Result.ok(userVO,"获取成功");
+    }
 
 
 }

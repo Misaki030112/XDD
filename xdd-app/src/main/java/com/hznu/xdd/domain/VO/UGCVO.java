@@ -1,7 +1,6 @@
 package com.hznu.xdd.domain.VO;
 
 import com.hznu.xdd.domain.Dto.attachmentDto;
-import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
