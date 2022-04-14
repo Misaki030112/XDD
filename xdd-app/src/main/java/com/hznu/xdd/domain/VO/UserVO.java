@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Accessors(chain = true)
@@ -17,5 +18,7 @@ public class UserVO implements Serializable {
     private Short gender;
 
     private String role;
+
+    private Date join_time;
 
 }

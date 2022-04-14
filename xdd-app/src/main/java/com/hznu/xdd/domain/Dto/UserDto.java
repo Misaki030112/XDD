@@ -1,6 +1,5 @@
 package com.hznu.xdd.domain.Dto;
 
-import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
 
 import java.util.Date;

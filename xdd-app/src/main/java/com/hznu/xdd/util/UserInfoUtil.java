@@ -1,6 +1,5 @@
 package com.hznu.xdd.util;
 
-import com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationToken;
 import com.hznu.xdd.pojo.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
