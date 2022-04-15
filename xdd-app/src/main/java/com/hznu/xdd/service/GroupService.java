@@ -17,5 +17,11 @@ public interface GroupService {
 
     public Boolean groupEnd(Integer id);
 
+    public Boolean groupCancel(Integer groupId,Integer userId);
+
+    public GroupDto getGroupInfo(Integer id);
+
+
+
 
 }

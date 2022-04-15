@@ -7,6 +7,7 @@ import com.hznu.xdd.dao.groupDOMapper;
 import com.hznu.xdd.dao.groupJoinLogDOMapper;
 import com.hznu.xdd.domain.Dto.GroupDto;
 import com.hznu.xdd.domain.VO.UserVO;
+import com.hznu.xdd.domain.pojoExam.groupDOExample;
 import com.hznu.xdd.domain.pojoExam.groupJoinLogDOExample;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.pojo.groupDO;
@@ -33,6 +34,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     groupDOMapper groupDOMapper;
+
     @Autowired
     UserInfoUtil userInfoUtil;
 
@@ -108,4 +110,26 @@ public class GroupServiceImpl implements GroupService {
         int i = groupDOMapper.updateByPrimaryKey(groupDO);
         return i == 1;
     }
+
+    @Override
+    public Boolean groupCancel(Integer groupId,Integer userId) {
+        groupJoinLogDOExample groupJoinLogDOExample = new groupJoinLogDOExample();
+        com.hznu.xdd.domain.pojoExam.groupJoinLogDOExample.Criteria criteria = groupJoinLogDOExample.createCriteria();
+        criteria.andIdEqualTo(groupId).andUser_idEqualTo(userId);
+        List<groupJoinLogDO> groupJoinLogDOS = groupJoinLogDOMapper.selectByExample(groupJoinLogDOExample);
+        if (groupJoinLogDOS.size() == 0){
+            return false;
+        }
+        groupJoinLogDO groupJoinLogDO = groupJoinLogDOS.get(0);
+        groupJoinLogDO.setUpdate_time(new Date());
+        groupJoinLogDO.setIs_cancel(true);
+        groupJoinLogDO.setCancel_type("cancel_by_self");
+        return groupJoinLogDOMapper.updateByPrimaryKey(groupJoinLogDO) == 1;
+    }
+
+    @Override
+    public GroupDto getGroupInfo(Integer id) {
+        return null;
+    }
+
 }

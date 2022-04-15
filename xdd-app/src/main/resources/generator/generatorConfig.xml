@@ -209,18 +209,22 @@
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="group" domainObjectName="groupDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-        <table tableName="group_join_log" domainObjectName="groupJoinLogDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table tableName="group" domainObjectName="groupDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="group_join_log" domainObjectName="groupJoinLogDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="search_log" domainObjectName="searchLogDO">-->
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
+        <table tableName="label" domainObjectName="labelDO">
+            <property name="useActualColumnNames" value="true" />
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
 
 
     </context>

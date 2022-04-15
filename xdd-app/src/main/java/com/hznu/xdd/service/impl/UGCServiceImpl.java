@@ -7,9 +7,11 @@ import com.hznu.xdd.dao.ugcCommentDOMapper;
 import com.hznu.xdd.dao.voteLogDOMapper;
 import com.hznu.xdd.dao.collectLogDOMapper;
 import com.hznu.xdd.dao.topicDOMapper;
+import com.hznu.xdd.dao.labelDOMapper;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.Dto.attachmentDto;
 import com.hznu.xdd.domain.VO.CommentVO;
+import com.hznu.xdd.domain.VO.ListVO;
 import com.hznu.xdd.domain.VO.UGCVO;
 import com.hznu.xdd.domain.VO.UserVO;
 import com.hznu.xdd.domain.pojoExam.*;
@@ -40,6 +42,9 @@ public class UGCServiceImpl implements UGCService {
 
     @Autowired
     topicDOMapper topicDOMapper;
+
+    @Autowired
+    labelDOMapper labelDOMapper;
 
     /**
      * 获取所有评论
@@ -171,7 +176,7 @@ public class UGCServiceImpl implements UGCService {
      * @return
      */
     @Override
-    public List<UGCVO> listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by,Integer page,Integer offset ,Integer fun) {
+    public ListVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset , Integer fun) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         UgcDOExample.Criteria criteria1 = ugcDOExample.createCriteria();
         UgcDOExample.Criteria criteria2 = ugcDOExample.createCriteria();
@@ -208,6 +213,9 @@ public class UGCServiceImpl implements UGCService {
             }
             criteria1.andIdIn(integers);
             criteria2.andIdIn(integers);
+        }else if (fun == 3 && user_id != null){
+            criteria1.andIdEqualTo(user_id);
+            criteria2.andIdEqualTo(user_id);
         }
         criteria1.andIs_deleteEqualTo(false);
         criteria2.andIs_deleteEqualTo(false);
@@ -227,10 +235,15 @@ public class UGCServiceImpl implements UGCService {
             ugcDOExample.setOrderByClause(order_by);
         }
         ugcDOExample.or(criteria2);
+        int size = ugcDOMapper.selectByExample(ugcDOExample).size();
+        if (page != null && offset != null){
+            ugcDOExample.page(page,offset);
+        }
         List<UGCVO> ugcvos = new ArrayList<UGCVO>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         BatchUGC(ugcDOS, ugcvos);
-        return ugcvos.subList(page * offset - offset,page * offset);
+        ListVO listVO = new ListVO().setList(ugcvos).setTotal(size);
+        return listVO;
     }
 
     /**
@@ -240,8 +253,9 @@ public class UGCServiceImpl implements UGCService {
      * @return
      */
     @Override
-    public List<UGCVO> getHotUGC(Integer page, Integer offset) {
+    public ListVO getHotUGC(Integer page, Integer offset) {
         UgcDOExample ugcDOExample = new UgcDOExample();
+        int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         List<UGCVO> ugcvos = new ArrayList<UGCVO>();
         BatchUGC(ugcDOS, ugcvos);
@@ -251,7 +265,7 @@ public class UGCServiceImpl implements UGCService {
                 return o2.getScore().compareTo(o1.getScore());
             }
         });
-        return ugcvos.subList(page * offset - offset,page * offset);
+        return new ListVO().setList(ugcvos).setTotal(size);
     }
 
     private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos) {
@@ -280,24 +294,24 @@ public class UGCServiceImpl implements UGCService {
             if(!txt.getLabel().equals(""))ugcvo.setLabel(Arrays.asList(txt.getLabel().split(",")));
             ugcvo.setTopic(txt.getTopic());
             ugcvo.setContent(txt.getContent());
-            ugcvo.setAttachmentList(attachmentDtos);
+            ugcvo.setAttachment_list(attachmentDtos);
             voteLogDOExample voteLogDOExample = new voteLogDOExample();
             com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
             criteria.andUser_idEqualTo(txt.getUser_id());
             criteria.andVote_to_idEqualTo(txt.getId());
             if (voteLogDOMapper.selectByExample(voteLogDOExample).size() != 0){
-                ugcvo.set_vote(true);
+                ugcvo.setIs_vote(true);
             }else {
-                ugcvo.set_vote(false);
+                ugcvo.setIs_vote(false);
             }
             collectLogDOExample collectLogDOExample = new collectLogDOExample();
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria3 = collectLogDOExample.createCriteria();
             criteria3.andCollect_to_idEqualTo(txt.getId());
             criteria3.andUser_idEqualTo(txt.getUser_id());
             if (collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0){
-                ugcvo.set_collect(true);
+                ugcvo.setIs_collect(true);
             }else {
-                ugcvo.set_collect(false);
+                ugcvo.setIs_collect(false);
             }
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
             UserVO userVO = new UserVO();
@@ -433,12 +447,25 @@ public class UGCServiceImpl implements UGCService {
     }
 
     @Override
-    public List<topicDO> getTopic(Integer page, Integer offset) {
+    public ListVO getTopic(Integer page, Integer offset) {
         topicDOExample topicDOExample = new topicDOExample();
         com.hznu.xdd.domain.pojoExam.topicDOExample.Criteria criteria = topicDOExample.createCriteria();
         criteria.andIs_deleteEqualTo(false);
+        int size = topicDOMapper.selectByExample(topicDOExample).size();
+        topicDOExample.page(page,offset);
         List<topicDO> topicDOS = topicDOMapper.selectByExample(topicDOExample);
-        return topicDOS.subList(page * offset - offset,page * offset);
+        return new ListVO().setList(topicDOS).setTotal(size);
+    }
+
+    @Override
+    public ListVO getLabel(Integer page, Integer offset) {
+        labelDOExample labelDOExample = new labelDOExample();
+        com.hznu.xdd.domain.pojoExam.labelDOExample.Criteria criteria = labelDOExample.createCriteria();
+        criteria.andIs_deleteEqualTo(false);
+        int size = labelDOMapper.selectByExample(labelDOExample).size();
+        labelDOExample.page(page,offset);
+        List<labelDO> labelDOS = labelDOMapper.selectByExample(labelDOExample);
+        return new ListVO().setList(labelDOS).setTotal(size);
     }
 
     private void setChild(List<CommentVO> commentVOS,ugcCommentDO ugcCommentDO){
