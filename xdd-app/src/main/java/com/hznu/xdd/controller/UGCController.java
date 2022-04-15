@@ -4,12 +4,10 @@ import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Result;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.VO.CommentVO;
-import com.hznu.xdd.domain.VO.ListVO;
+import com.hznu.xdd.domain.VO.UgcPageVO;
 import com.hznu.xdd.domain.VO.UGCVO;
 import com.hznu.xdd.pojo.UgcDO;
 import com.hznu.xdd.pojo.UserDO;
-import com.hznu.xdd.pojo.labelDO;
-import com.hznu.xdd.pojo.topicDO;
 import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.ContentUtil;
@@ -41,7 +39,7 @@ public class UGCController {
                             @RequestParam(value = "page") Integer page,
                             @RequestParam(value = "offset") Integer offset
     ){
-        ListVO vo = ugcService.listPublishUGCById(null, key, label, topic, order_by,
+        UgcPageVO vo = ugcService.listPublishUGCById(null, key, label, topic, order_by,
                 page,offset,3);
         return Result.ok(vo,"获取成功");
     }
@@ -49,7 +47,7 @@ public class UGCController {
     @GetMapping(value = "/get/ugc/detail",produces = {"application/json;charset=UTF-8"})
     public Result getOneUGC(@RequestParam(value = "id") Integer id
     ){
-        ListVO vo = ugcService.listPublishUGCById(id, null, null, null, null,
+        UgcPageVO vo = ugcService.listPublishUGCById(id, null, null, null, null,
                 null,null,3);
         UGCVO o = (UGCVO) vo.getList().get(0);
         return Result.ok(o,"获取成功");
@@ -109,7 +107,7 @@ public class UGCController {
                                       @RequestParam(value = "page") Integer page,
                                       @RequestParam(value = "offset") Integer offset
                                       ){
-        ListVO vo = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
+        UgcPageVO vo = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
                 page, offset, 1);
         return Result.ok(vo,"获取成功");
     }
@@ -122,7 +120,7 @@ public class UGCController {
                                    @RequestParam(value = "order_by",required = false) String order_by,
                                    @RequestParam(value = "page") Integer page,
                                    @RequestParam(value = "offset") Integer offset){
-        ListVO vo = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
+        UgcPageVO vo = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
                 page, offset, 2);
         return Result.ok(vo,"获取成功");
     }
@@ -131,7 +129,7 @@ public class UGCController {
     public Result listAllUGCByVote(@RequestBody UGCDto ugcDto,
                                    Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        ListVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+        UgcPageVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),2);
         return Result.ok(vo,"获取成功");
     }
@@ -140,7 +138,7 @@ public class UGCController {
     public Result listAllUGCByPublish(@RequestBody UGCDto ugcDto,
                                       Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        ListVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+        UgcPageVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),1);
         return Result.ok(vo,"获取成功");
     }
@@ -149,7 +147,7 @@ public class UGCController {
     public Result listAllUGCByCollect(@RequestBody UGCDto ugcDto,
                                       Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        ListVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
+        UgcPageVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),4);
         return Result.ok(vo,"获取成功");
     }
@@ -185,7 +183,7 @@ public class UGCController {
     public Result getHotUGC(@RequestParam(value = "page") Integer page,
                             @RequestParam(value = "offset") Integer offset
     ){
-        ListVO vo = ugcService.getHotUGC(page,offset);
+        UgcPageVO vo = ugcService.getHotUGC(page,offset);
         return Result.ok(vo,"获取成功");
     }
 
@@ -198,14 +196,14 @@ public class UGCController {
     @GetMapping(value = "/get/ugc/topic",produces = {"application/json;charset=UTF-8"})
     public Result getTopic(@RequestParam(value = "page") Integer page,
                            @RequestParam(value = "offset") Integer offset){
-        ListVO vo = ugcService.getTopic(page, offset);
+        UgcPageVO vo = ugcService.getTopic(page, offset);
         return Result.ok(vo,"获取成功");
     }
 
     @GetMapping(value = "/get/ugc/label",produces = {"application/json;charset=UTF-8"})
     public Result getLabel(@RequestParam(value = "page") Integer page,
                            @RequestParam(value = "offset") Integer offset){
-        ListVO vo = ugcService.getLabel(page, offset);
+        UgcPageVO vo = ugcService.getLabel(page, offset);
         return Result.ok(vo,"获取成功");
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class ListVO implements Serializable {
+public class UgcPageVO implements Serializable {
     private List< ? extends Object> list;
 
     private Integer total;

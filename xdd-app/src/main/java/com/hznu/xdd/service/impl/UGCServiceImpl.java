@@ -11,7 +11,7 @@ import com.hznu.xdd.dao.labelDOMapper;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.Dto.attachmentDto;
 import com.hznu.xdd.domain.VO.CommentVO;
-import com.hznu.xdd.domain.VO.ListVO;
+import com.hznu.xdd.domain.VO.UgcPageVO;
 import com.hznu.xdd.domain.VO.UGCVO;
 import com.hznu.xdd.domain.VO.UserVO;
 import com.hznu.xdd.domain.pojoExam.*;
@@ -176,7 +176,7 @@ public class UGCServiceImpl implements UGCService {
      * @return
      */
     @Override
-    public ListVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset , Integer fun) {
+    public UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset , Integer fun) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         UgcDOExample.Criteria criteria1 = ugcDOExample.createCriteria();
         UgcDOExample.Criteria criteria2 = ugcDOExample.createCriteria();
@@ -242,8 +242,8 @@ public class UGCServiceImpl implements UGCService {
         List<UGCVO> ugcvos = new ArrayList<UGCVO>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         BatchUGC(ugcDOS, ugcvos);
-        ListVO listVO = new ListVO().setList(ugcvos).setTotal(size);
-        return listVO;
+        UgcPageVO ugcPageVO = new UgcPageVO().setList(ugcvos).setTotal(size);
+        return ugcPageVO;
     }
 
     /**
@@ -253,7 +253,7 @@ public class UGCServiceImpl implements UGCService {
      * @return
      */
     @Override
-    public ListVO getHotUGC(Integer page, Integer offset) {
+    public UgcPageVO getHotUGC(Integer page, Integer offset) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
@@ -265,7 +265,7 @@ public class UGCServiceImpl implements UGCService {
                 return o2.getScore().compareTo(o1.getScore());
             }
         });
-        return new ListVO().setList(ugcvos).setTotal(size);
+        return new UgcPageVO().setList(ugcvos).setTotal(size);
     }
 
     private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos) {
@@ -447,25 +447,25 @@ public class UGCServiceImpl implements UGCService {
     }
 
     @Override
-    public ListVO getTopic(Integer page, Integer offset) {
+    public UgcPageVO getTopic(Integer page, Integer offset) {
         topicDOExample topicDOExample = new topicDOExample();
         com.hznu.xdd.domain.pojoExam.topicDOExample.Criteria criteria = topicDOExample.createCriteria();
         criteria.andIs_deleteEqualTo(false);
         int size = topicDOMapper.selectByExample(topicDOExample).size();
         topicDOExample.page(page,offset);
         List<topicDO> topicDOS = topicDOMapper.selectByExample(topicDOExample);
-        return new ListVO().setList(topicDOS).setTotal(size);
+        return new UgcPageVO().setList(topicDOS).setTotal(size);
     }
 
     @Override
-    public ListVO getLabel(Integer page, Integer offset) {
+    public UgcPageVO getLabel(Integer page, Integer offset) {
         labelDOExample labelDOExample = new labelDOExample();
         com.hznu.xdd.domain.pojoExam.labelDOExample.Criteria criteria = labelDOExample.createCriteria();
         criteria.andIs_deleteEqualTo(false);
         int size = labelDOMapper.selectByExample(labelDOExample).size();
         labelDOExample.page(page,offset);
         List<labelDO> labelDOS = labelDOMapper.selectByExample(labelDOExample);
-        return new ListVO().setList(labelDOS).setTotal(size);
+        return new UgcPageVO().setList(labelDOS).setTotal(size);
     }
 
     private void setChild(List<CommentVO> commentVOS,ugcCommentDO ugcCommentDO){
