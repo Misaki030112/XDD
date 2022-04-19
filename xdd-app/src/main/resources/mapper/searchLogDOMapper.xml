@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
     <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="is_delete" jdbcType="VARCHAR" property="is_delete" />
+    <result column="is_delete" jdbcType="BIT" property="is_delete" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="user_id" jdbcType="INTEGER" property="user_id" />
   </resultMap>
@@ -111,7 +111,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.searchLogDO" useGeneratedKeys="true">
     insert into search_log (create_time, update_time, is_delete, 
       content, user_id)
-    values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=VARCHAR}, 
+    values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
       #{content,jdbcType=VARCHAR}, #{user_id,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.searchLogDO" useGeneratedKeys="true">
@@ -141,7 +141,7 @@
         #{update_time,jdbcType=TIMESTAMP},
       </if>
       <if test="is_delete != null">
-        #{is_delete,jdbcType=VARCHAR},
+        #{is_delete,jdbcType=BIT},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -170,7 +170,7 @@
         update_time = #{record.update_time,jdbcType=TIMESTAMP},
       </if>
       <if test="record.is_delete != null">
-        is_delete = #{record.is_delete,jdbcType=VARCHAR},
+        is_delete = #{record.is_delete,jdbcType=BIT},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -188,7 +188,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       create_time = #{record.create_time,jdbcType=TIMESTAMP},
       update_time = #{record.update_time,jdbcType=TIMESTAMP},
-      is_delete = #{record.is_delete,jdbcType=VARCHAR},
+      is_delete = #{record.is_delete,jdbcType=BIT},
       content = #{record.content,jdbcType=VARCHAR},
       user_id = #{record.user_id,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -205,7 +205,7 @@
         update_time = #{update_time,jdbcType=TIMESTAMP},
       </if>
       <if test="is_delete != null">
-        is_delete = #{is_delete,jdbcType=VARCHAR},
+        is_delete = #{is_delete,jdbcType=BIT},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -220,7 +220,7 @@
     update search_log
     set create_time = #{create_time,jdbcType=TIMESTAMP},
       update_time = #{update_time,jdbcType=TIMESTAMP},
-      is_delete = #{is_delete,jdbcType=VARCHAR},
+      is_delete = #{is_delete,jdbcType=BIT},
       content = #{content,jdbcType=VARCHAR},
       user_id = #{user_id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

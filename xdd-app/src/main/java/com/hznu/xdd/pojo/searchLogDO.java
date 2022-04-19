@@ -12,7 +12,7 @@ public class searchLogDO implements Serializable {
 
     private Date update_time;
 
-    private String is_delete;
+    private Boolean is_delete;
 
     private String content;
 
