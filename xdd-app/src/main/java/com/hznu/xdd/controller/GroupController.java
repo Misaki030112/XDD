@@ -4,8 +4,12 @@ import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Dto.GroupDto;
 import com.hznu.xdd.domain.Result;
 import com.hznu.xdd.domain.VO.UserVO;
+import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.GroupService;
+import com.hznu.xdd.service.UserService;
+import com.hznu.xdd.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +24,9 @@ public class GroupController {
 
     @Autowired
     GroupService groupService;
+
+    @Autowired
+    UserService userService;
 
 
     @PostMapping("/post/group/add")
@@ -64,8 +71,30 @@ public class GroupController {
     }
 
     @PostMapping(value = "/post/group/end",produces = {"application/json;charset=UTF-8"})
-    public Result groupEnd(@RequestBody GroupDto groupDto){
-        Boolean groupEnd = groupService.groupEnd(groupDto.getId());
-        return Result.ok(groupEnd,"停止成功");
+    public Result groupEnd(@RequestParam("id") Integer id){
+        try {
+            boolean flag = groupService.groupEnd(id);
+            if(flag) return Result.ok(null,"停止成功");
+            else return new Result(StatusCode.INVALID_USER_PUBLISH);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(StatusCode.INVALID_USER_PUBLISH);
+        }
+    }
+
+    @PostMapping(value = "/post/group/cancel",produces = {"application/json;charset=UTF-8"})
+    public Result groupCancel(@RequestParam("id") Integer id,
+                              Authentication authentication){
+        try {
+            UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+            Boolean flag = groupService.groupCancel(id, userDO.getId());
+            if(flag) return Result.ok(null,"退出成功");
+            else return new Result(StatusCode.INVALID_USER_PUBLISH);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(StatusCode.INVALID_USER_PUBLISH);
+        }
+
+
     }
 }

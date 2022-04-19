@@ -1,5 +1,6 @@
 package com.hznu.xdd.domain.VO;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.hznu.xdd.domain.Dto.attachmentDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -25,7 +26,7 @@ public class UGCVO implements Serializable {
 
     private Date update_time;
 
-    private List<attachmentDto> attachmentList;
+    private List<attachmentDto> attachment_list;
 
     private Integer vote;
 
@@ -33,10 +34,26 @@ public class UGCVO implements Serializable {
 
     private UserVO user;
 
+    @JSONField(name = "is_vote")
     private boolean is_vote;
-    
+
     private boolean is_collect;
 
     private Double score;
 
+    public boolean isIs_vote() {
+        return is_vote;
+    }
+
+    public void setIs_vote(boolean is_vote) {
+        this.is_vote = is_vote;
+    }
+
+    public boolean isIs_collect() {
+        return is_collect;
+    }
+
+    public void setIs_collect(boolean is_collect) {
+        this.is_collect = is_collect;
+    }
 }

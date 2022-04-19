@@ -94,12 +94,12 @@
                targetPackage：生成的类要放的包，真实的包受enableSubPackages属性控制；
                targetProject：目标项目，指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录
             -->
-        <javaModelGenerator targetPackage="com.hznu.xdd.pojo2" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.hznu.xdd.pojo" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!--生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="mapper2" targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
             <!-- 设置一个根对象，
             如果设置了这个根对象，那么生成的keyClass或者recordClass会继承这个类；在Table的rootClass属性中可以覆盖该选项
@@ -113,7 +113,7 @@
                 type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
                 type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
         -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hznu.xdd.dao2" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.hznu.xdd.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
@@ -209,15 +209,19 @@
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="group" domainObjectName="groupDO">
+<!--        <table tableName="group" domainObjectName="groupDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="group_join_log" domainObjectName="groupJoinLogDO">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+        <table tableName="search_log" domainObjectName="searchLogDO">
             <property name="useActualColumnNames" value="true" />
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
         </table>
-        <table tableName="group_join_log" domainObjectName="groupJoinLogDO">
-            <property name="useActualColumnNames" value="true" />
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-        </table>
-<!--        <table tableName="search_log" domainObjectName="searchLogDO">-->
+<!--        <table tableName="label" domainObjectName="labelDO">-->
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->

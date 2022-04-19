@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class searchLogDO implements Serializable {
+public class labelDO implements Serializable {
     private Integer id;
 
     private Date create_time;
@@ -14,9 +14,11 @@ public class searchLogDO implements Serializable {
 
     private Boolean is_delete;
 
-    private String content;
+    private String title;
 
-    private Integer user_id;
+    private String label;
+
+    private String image;
 
     private static final long serialVersionUID = 1L;
 }

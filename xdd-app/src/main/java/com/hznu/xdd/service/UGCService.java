@@ -2,9 +2,8 @@ package com.hznu.xdd.service;
 
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.VO.CommentVO;
-import com.hznu.xdd.domain.VO.UGCVO;
+import com.hznu.xdd.domain.VO.UgcPageVO;
 import com.hznu.xdd.pojo.UgcDO;
-import com.hznu.xdd.pojo.topicDO;
 
 import java.util.List;
 
@@ -19,9 +18,9 @@ public interface UGCService {
 
     Integer updateUGC(UGCDto UGCDto);
 
-    List<UGCVO> listPublishUGCById(Integer user_id,String key,String label, String topic,String order_by,Integer page,Integer offset,Integer fun);
+    UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset, Integer fun);
 
-    List<UGCVO> getHotUGC(Integer page,Integer offset);
+    UgcPageVO getHotUGC(Integer page, Integer offset);
 
     Integer addComment(String content,Integer parent_id,String to_type,Integer to_id,Integer user_id);
 
@@ -31,6 +30,8 @@ public interface UGCService {
 
     List<CommentVO> getCommentById(Integer id);
 
-    List<topicDO> getTopic(Integer page, Integer offset);
+    UgcPageVO getTopic(Integer page, Integer offset);
+
+    UgcPageVO getLabel(Integer page, Integer offset);
 
 }
