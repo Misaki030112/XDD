@@ -16,9 +16,7 @@ import com.hznu.xdd.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -38,14 +36,36 @@ public class StudentServiceImpl implements StudentService {
         criteria.andIs_deleteEqualTo(false);
         criteria.andIs_onlineEqualTo(true);
 
-        List<verify_methodDO> verify_methodDOS = verifyMethodDoMapper.selectByExample(example);
+        List<verify_methodDO> verify_methodDO = verifyMethodDoMapper.selectByExample(example);
         List<VerifyMethodVO> verifyMethodVOS = new ArrayList<>();
 
-        verify_methodDOS.forEach((v)->{
+        List<verify_methodDO> randoms = createRandoms(verify_methodDO, 20);
+
+        randoms.forEach((v)->{
             verifyMethodVOS.add(new VerifyMethodVO(v));
         });
         return verifyMethodVOS;
     }
+
+    //随机选择
+    private List<verify_methodDO> createRandoms(List<verify_methodDO> list, int n) {
+        Map<Integer,String> map = new HashMap<>();
+        List<verify_methodDO> news = new ArrayList<>();
+        if (list.size() <= n) {
+            return list;
+        } else {
+            while (map.size() < n) {
+                int random = (int)(Math.random() * list.size());
+                if (!map.containsKey(random)) {
+                    map.put(random, "");
+                    news.add(list.get(random));
+                }
+            }
+            return news;
+        }
+    }
+
+
 
     @Override
     public List<QuestionVO> getAllVerifyQuestions() {

@@ -3,6 +3,7 @@ package com.hznu.xdd.service;
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.domain.VO.Collect_ugc_VO;
 import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.UserPageVO;
 import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
 import org.springframework.security.core.Authentication;
@@ -59,7 +60,7 @@ public interface UserService {
      * @param offset
      * @return
      */
-    List<UserDO> getFocusUser(String wxOpenId,Integer page,Integer offset);
+    UserPageVO getFocusUser(String wxOpenId, Integer page, Integer offset);
 
     /**
      * 获取关注我的人
@@ -68,7 +69,7 @@ public interface UserService {
      * @param offset
      * @return
      */
-    List<UserDO> getFocusedUser(String wxOpenId,Integer page,Integer offset);
+    UserPageVO getFocusedUser(String wxOpenId,Integer page,Integer offset);
 
     /**
      * 关注，取消关注某个人
@@ -79,11 +80,11 @@ public interface UserService {
      */
     boolean FocusUser(String wxOpenId,Integer user_id,boolean status);
 
-    List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset);
+    UserPageVO getVoteUgcLog(String wxOpenId, Integer page, Integer offset);
 
-    List<CommentedVO> getCommentUgcLog(String wxOpenId, Integer page, Integer offset);
+    UserPageVO getCommentUgcLog(String wxOpenId, Integer page, Integer offset);
 
-    List<Collect_ugc_VO> getCollectUgcLog(String wxOpenId, Integer page, Integer offset);
+    UserPageVO getCollectUgcLog(String wxOpenId, Integer page, Integer offset);
 
     boolean bindPhone(String wxOpenId,String encryptedData,String iv,String code,String sessionKey);
 

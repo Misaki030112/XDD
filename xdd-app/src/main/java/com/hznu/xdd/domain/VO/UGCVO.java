@@ -34,7 +34,7 @@ public class UGCVO implements Serializable {
     private UserVO user;
 
     private boolean is_vote;
-
+    
     private boolean is_collect;
 
     private Double score;

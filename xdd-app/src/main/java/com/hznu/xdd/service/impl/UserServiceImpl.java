@@ -7,6 +7,7 @@ import com.hznu.xdd.dao.*;
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.domain.VO.Collect_ugc_VO;
 import com.hznu.xdd.domain.VO.CommentedVO;
+import com.hznu.xdd.domain.VO.UserPageVO;
 import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
@@ -15,6 +16,7 @@ import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
 import com.hznu.xdd.utils.DateUtil;
 import com.hznu.xdd.utils.WeChatUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -39,6 +41,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("xddUserService")
+@Slf4j
 public class UserServiceImpl implements UserService , UserDetailsService {
 
 
@@ -99,12 +102,17 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public UserDO initUserInfoByWxOpenId(String wxOpenId, String encryptedData, String iv,String sessionKey)throws InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchAlgorithmException, InvalidParameterSpecException, BadPaddingException, InvalidKeyException {
        JSONObject jsonObject = JSON.parseObject(WeChatUtil.decryptData(encryptedData, sessionKey, iv));
         UserDO userDO = getUserByWxOpenId(wxOpenId);
-        userDO.setNickname(jsonObject.getString("nickname"))
-                .setAvatar(jsonObject.getString("avatarUrl"))
-                .setGender(jsonObject.getShort("gender"))
-                .setProvince(jsonObject.getString("province"))
-                .setCity(jsonObject.getString("city"))
-                        .setAccount_status(0);
+        log.info("jsonObject:{}",jsonObject);
+        if(userDO.getAvatar()!=null&& !Objects.equals(userDO.getAvatar(), ""))
+            userDO.setAvatar(jsonObject.getString("avatarUrl"));
+        if(userDO.getNickname()!=null&& !Objects.equals(userDO.getNickname(), ""))
+            userDO.setNickname(jsonObject.getString("nickName"));
+        if(userDO.getGender()!=null)
+            userDO.setGender(jsonObject.getShort("gender"));
+        if(userDO.getProvince()!=null&&!Objects.equals(userDO.getProvince(), "") )
+            userDO.setProvince(jsonObject.getString("province"));
+        if(userDO.getCity()!=null&&!Objects.equals(userDO.getCity(), "") )
+            userDO.setCity(jsonObject.getString("city"));
         userDOMapper.updateByPrimaryKey(userDO);
         return userDO;
     }
@@ -246,41 +254,55 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public UserDO changeUserInfo(String wxOpenId,String nickName, String avatar, String signature, Date birthday, String province, String city, String district) {
         UserDO user = getUserByWxOpenId(wxOpenId);
-        user.setNickname(nickName)
-                .setAvatar(avatar)
-                .setSignature(signature)
-                .setBirthday(birthday)
-                .setProvince(province)
-                .setCity(city)
-                .setDistrict(district);
+        if(nickName!=null&& !nickName.equals(""))
+            user.setNickname(nickName);
+        if(avatar!=null&& !avatar.equals(""))
+            user.setAvatar(avatar);
+        if(signature!=null&& !signature.equals(""))
+            user.setSignature(signature);
+        if(birthday!=null)
+            user.setBirthday(birthday);
+        if(province!=null&& !province.equals(""))
+            user.setProvince(province);
+        if(city!=null&& !city.equals(""))
+            user.setCity(city);
+        if(district!=null&& !district.equals(""))
+            user.setDistrict(district);
         int i = userDOMapper.updateByPrimaryKey(user);
         return i>0?user:null;
     }
 
     @Override
-    public List<UserDO> getFocusUser(String wxOpenId, Integer page, Integer offset) {
+    public UserPageVO getFocusUser(String wxOpenId, Integer page, Integer offset) {
         int user_id = getUserByWxOpenId(wxOpenId).getId();
         focusLogDOExample focusLogDOExample = new focusLogDOExample();
         com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andIs_deleteEqualTo(false);
+        long total = focusLogDOMapper.countByExample(focusLogDOExample);
+
         focusLogDOExample.page(page,offset);
         focusLogDOExample.setOrderByClause("'create_time' desc");
         List<focusLogDO> focusLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
+
         List<UserDO> userDOS = new ArrayList<>();
         focusLogDOS.forEach((f)->{
             userDOS.add(getUserById(f.getFocus_to_id()));
         });
-        return userDOS;
+        UserPageVO userPageVO = new UserPageVO();
+        userPageVO.setList(userDOS);
+        userPageVO.setTotal(total);
+        return  userPageVO;
     }
 
     @Override
-    public List<UserDO> getFocusedUser(String wxOpenId, Integer page, Integer offset) {
+    public UserPageVO getFocusedUser(String wxOpenId, Integer page, Integer offset) {
         int user_id = getUserByWxOpenId(wxOpenId).getId();
         focusLogDOExample focusLogDOExample = new focusLogDOExample();
         com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
         criteria.andFocus_to_idEqualTo(user_id);
         criteria.andIs_deleteEqualTo(false);
+        long total = focusLogDOMapper.countByExample(focusLogDOExample);
         focusLogDOExample.page(page,offset);
         focusLogDOExample.setOrderByClause("'create_time' desc");
         List<focusLogDO> focusedLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
@@ -288,7 +310,10 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         focusedLogDOS.forEach((f)->{
             userDOS.add(getUserById(f.getUser_id()));
         });
-        return userDOS;
+        UserPageVO userPageVO = new UserPageVO();
+        userPageVO.setList(userDOS);
+        userPageVO.setTotal(total);
+        return userPageVO;
     }
 
     @Override
@@ -327,7 +352,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public List<Vote_ugc_LogVO> getVoteUgcLog(String wxOpenId, Integer page, Integer offset) {
+    public UserPageVO getVoteUgcLog(String wxOpenId, Integer page, Integer offset) {
         int user_id = getUserByWxOpenId(wxOpenId).getId();
         UgcDOExample ugcDOExample = new UgcDOExample();
         UgcDOExample.Criteria criteria = ugcDOExample.createCriteria();
@@ -349,6 +374,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             return DateUtil.dateDiff(b.getCreate_time(),a.getCreate_time()).compareTo(BigDecimal.ZERO);
         });
 
+        long total=voteLogDOS.size();
         List<voteLogDO> collect = voteLogDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
 
         List<Vote_ugc_LogVO> vote_ugc_logVOS = new ArrayList<>();
@@ -361,11 +387,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             vote_ugc_logVOS.add(vote_ugc_logVO);
         });
 
-        return vote_ugc_logVOS;
+        UserPageVO userPageVO = new UserPageVO();
+        userPageVO.setList(vote_ugc_logVOS);
+        userPageVO.setTotal(total);
+        return userPageVO;
     }
 
     @Override
-    public List<CommentedVO> getCommentUgcLog(String wxOpenId, Integer page, Integer offset) {
+    public UserPageVO getCommentUgcLog(String wxOpenId, Integer page, Integer offset) {
         int user_id = getUserByWxOpenId(wxOpenId).getId();
 
         UgcDOExample example = new UgcDOExample();
@@ -387,6 +416,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             return DateUtil.dateDiff(b.getCreate_time(),a.getCreate_time()).compareTo(BigDecimal.ZERO);
         });
 
+        long total=ugcCommentDOS.size();
         List<ugcCommentDO> collect = ugcCommentDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
 
         List<CommentedVO> commentedVOS = new ArrayList<>();
@@ -398,11 +428,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     .setTo(ugcDOHashMap.get(u.getUgc_id()));
             commentedVOS.add(commentedVO);
         });
-        return commentedVOS;
+        UserPageVO userPageVO = new UserPageVO();
+        userPageVO.setList(commentedVOS);
+        userPageVO.setTotal(total);
+        return userPageVO;
     }
 
     @Override
-    public List<Collect_ugc_VO> getCollectUgcLog(String wxOpenId, Integer page, Integer offset) {
+    public UserPageVO getCollectUgcLog(String wxOpenId, Integer page, Integer offset) {
         int user_id = getUserByWxOpenId(wxOpenId).getId();
         UgcDOExample example = new UgcDOExample();
         UgcDOExample.Criteria criteria1 = example.createCriteria();
@@ -425,6 +458,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             return DateUtil.dateDiff(b.getCreate_time(),a.getCreate_time()).compareTo(BigDecimal.ZERO);
         });
 
+        long total =collectLogDOS.size();
         List<collectLogDO> collect = collectLogDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
 
         List<Collect_ugc_VO> collect_ugc_vos = new ArrayList<>();
@@ -436,7 +470,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     .setTo(ugcDOHashMap.get(c.getCollect_to_id()));
             collect_ugc_vos.add(collect_ugc_vo);
         });
-        return collect_ugc_vos;
+        UserPageVO userPageVO = new UserPageVO();
+        userPageVO.setTotal(total);
+        userPageVO.setList(collect_ugc_vos);
+
+        return userPageVO;
     }
 
 

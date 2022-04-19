@@ -5,10 +5,7 @@ import com.hznu.xdd.domain.Dto.TokenDto;
 import com.hznu.xdd.domain.Dto.UserDto;
 import com.hznu.xdd.domain.Dto.reportDto;
 import com.hznu.xdd.domain.Result;
-import com.hznu.xdd.domain.VO.Collect_ugc_VO;
-import com.hznu.xdd.domain.VO.CommentedVO;
-import com.hznu.xdd.domain.VO.UserVO;
-import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
+import com.hznu.xdd.domain.VO.*;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
@@ -145,32 +142,32 @@ public class UserController implements InitializingBean {
 
     @PostMapping(value="/post/user/my/voted")
     public Result getVoteUgcLog(@RequestBody UserDto userDto,Authentication authentication){
-        List<Vote_ugc_LogVO> voteUgcLog = userService.getVoteUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO voteUgcLog = userService.getVoteUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(voteUgcLog,"获取成功");
     }
 
     @PostMapping(value = "/post/user/my/commented")
     public Result getCommentLog(@RequestBody UserDto userDto,Authentication authentication){
-        List<CommentedVO> commentUgcLog = userService.getCommentUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO commentUgcLog = userService.getCommentUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(commentUgcLog,"获取成功");
     }
 
     @PostMapping(value = "/post/user/my/collected")
     public Result getCommentUgcLog(@RequestBody UserDto userDto,Authentication authentication){
-        List<Collect_ugc_VO> collectUgcLog = userService.getCollectUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO collectUgcLog = userService.getCollectUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(collectUgcLog,"获取成功");
     }
 
 
     @PostMapping(value = "/post/user/focus")
     public Result getFocuseUser(@RequestBody UserDto userDto,Authentication authentication){
-        List<UserDO> focusUser = userService.getFocusUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO focusUser = userService.getFocusUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(focusUser,"获取成功");
     }
 
     @PostMapping(value = "/post/user/focused")
     public Result getFocusedUser(@RequestBody UserDto userDto,Authentication authentication){
-        List<UserDO> focusedUser = userService.getFocusedUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO focusedUser = userService.getFocusedUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(focusedUser,"获取成功");
     }
 
