@@ -282,7 +282,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         long total = focusLogDOMapper.countByExample(focusLogDOExample);
 
         focusLogDOExample.page(page,offset);
-        focusLogDOExample.setOrderByClause("'create_time' desc");
+        focusLogDOExample.setOrderByClause("update_time desc");
         List<focusLogDO> focusLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
 
         List<UserDO> userDOS = new ArrayList<>();
@@ -304,7 +304,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         criteria.andIs_deleteEqualTo(false);
         long total = focusLogDOMapper.countByExample(focusLogDOExample);
         focusLogDOExample.page(page,offset);
-        focusLogDOExample.setOrderByClause("'create_time' desc");
+        focusLogDOExample.setOrderByClause("update_time desc");
         List<focusLogDO> focusedLogDOS = focusLogDOMapper.selectByExample(focusLogDOExample);
         List<UserDO> userDOS = new ArrayList<>();
         focusedLogDOS.forEach((f)->{
