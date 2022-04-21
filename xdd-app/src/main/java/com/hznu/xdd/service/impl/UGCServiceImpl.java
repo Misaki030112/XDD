@@ -76,6 +76,9 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public Integer createUGC(UGCDto UGCDto) {
         UgcDO ugcDO = new UgcDO();
+        Date date = new Date();
+        ugcDO.setCreate_time(date);
+        ugcDO.setUpdate_time(date);
         System.out.println(UGCDto.getAttachment());
         if (UGCDto.getAttachment() != null){
             UGCDto.getAttachment().forEach(attachment -> {
@@ -160,6 +163,8 @@ public class UGCServiceImpl implements UGCService {
         if (UGCDto.getLocation() != null){
             ugcDO.setLocation(JSON.toJSONString(UGCDto.getLocation()));
         }
+        Date date = new Date();
+        ugcDO.setUpdate_time(date);
         return ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
     }
 
@@ -235,6 +240,7 @@ public class UGCServiceImpl implements UGCService {
             ugcDOExample.setOrderByClause(order_by);
         }
         ugcDOExample.or(criteria2);
+        ugcDOExample.setOrderByClause("'update_time' desc");
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         if (page != null && offset != null){
             ugcDOExample.page(page,offset);
@@ -338,6 +344,9 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public Integer addComment(String content, Integer parent_id, String to_type, Integer to_id,Integer user_id) {
         ugcCommentDO ugcCommentDO = new ugcCommentDO();
+        Date date = new Date();
+        ugcCommentDO.setCreate_time(date);
+        ugcCommentDO.setUpdate_time(date);
         ugcCommentDO.setContent(content);
         ugcCommentDO.setParent_id(parent_id);
         ugcCommentDO.setIs_delete(false);
@@ -435,7 +444,7 @@ public class UGCServiceImpl implements UGCService {
                 CommentVO commentVO = new CommentVO();
                 commentVO.setCreate_time(txt.getCreate_time());
                 commentVO.setVote_num(txt.getVote());
-                commentVO.setUserVO(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(txt.getUser_id()));
+                commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(txt.getUser_id()));
                 commentVO.setContent(txt.getContent());
                 commentVO.setId(txt.getId());
                 commentVOS.add(commentVO);
@@ -479,7 +488,7 @@ public class UGCServiceImpl implements UGCService {
                 commentVO.setId(ugcCommentDO.getId());
                 commentVO.setCreate_time(ugcCommentDO.getCreate_time());
                 commentVO.setVote_num(ugcCommentDO.getVote());
-                commentVO.setUserVO(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(ugcCommentDO.getUser_id()));
+                commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(ugcCommentDO.getUser_id()));
                 commentVO.setContent(ugcCommentDO.getContent());
             }
         }
