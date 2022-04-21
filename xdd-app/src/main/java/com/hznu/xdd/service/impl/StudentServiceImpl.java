@@ -39,18 +39,18 @@ public class StudentServiceImpl implements StudentService {
         List<verify_methodDO> verify_methodDO = verifyMethodDoMapper.selectByExample(example);
         List<VerifyMethodVO> verifyMethodVOS = new ArrayList<>();
 
-        List<verify_methodDO> randoms = createRandoms(verify_methodDO, 20);
 
-        randoms.forEach((v)->{
+
+        verify_methodDO.forEach((v)->{
             verifyMethodVOS.add(new VerifyMethodVO(v));
         });
         return verifyMethodVOS;
     }
 
     //随机选择
-    private List<verify_methodDO> createRandoms(List<verify_methodDO> list, int n) {
+    private List<questionDO> createRandoms(List<questionDO> list, int n) {
         Map<Integer,String> map = new HashMap<>();
-        List<verify_methodDO> news = new ArrayList<>();
+        List<questionDO> news = new ArrayList<>();
         if (list.size() <= n) {
             return list;
         } else {
@@ -75,13 +75,14 @@ public class StudentServiceImpl implements StudentService {
         criteria.andIs_onlineEqualTo(true);
         List<questionDO> questionDOS = questionDoMapper.selectByExample(example);
 
+        List<questionDO> randoms = createRandoms(questionDOS, 20);
         answerDOExample example1 = new answerDOExample();
         answerDOExample.Criteria criteria1 = example1.createCriteria();
         criteria1.andIs_deleteEqualTo(false);
         List<answerDO> answerDOS = answerDoMapper.selectByExample(example1);
 
         List<QuestionVO> questionVOS = new ArrayList<>();
-        questionDOS.forEach((q)->{
+        randoms.forEach((q)->{
             QuestionVO questionVO = new QuestionVO(q);
             List<AnswerVO> answerVOS = new ArrayList<>();
             answerDOS.stream().filter(a -> Objects.equals(a.getQuestion_id(), q.getId())).forEach((a)->{
