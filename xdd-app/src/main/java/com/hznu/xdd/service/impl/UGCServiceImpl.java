@@ -240,7 +240,7 @@ public class UGCServiceImpl implements UGCService {
             ugcDOExample.setOrderByClause(order_by);
         }
         ugcDOExample.or(criteria2);
-        ugcDOExample.setOrderByClause("'update_time' desc");
+        ugcDOExample.setOrderByClause("update_time desc");
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         if (page != null && offset != null){
             ugcDOExample.page(page,offset);
