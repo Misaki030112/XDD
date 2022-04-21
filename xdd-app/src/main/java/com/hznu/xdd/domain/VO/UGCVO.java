@@ -2,6 +2,7 @@ package com.hznu.xdd.domain.VO;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.hznu.xdd.domain.Dto.attachmentDto;
+import com.hznu.xdd.domain.Dto.locationDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -32,7 +33,9 @@ public class UGCVO implements Serializable {
 
     private Integer comment;
 
-    private UserVO user;
+    private UserVO user_info;
+
+    private locationDto location;
 
     @JSONField(name = "is_vote")
     private boolean is_vote;

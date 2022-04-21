@@ -1,6 +1,7 @@
 package com.hznu.xdd.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hznu.xdd.dao.UgcDOMapper;
 import com.hznu.xdd.dao.UserDOMapper;
 import com.hznu.xdd.dao.ugcCommentDOMapper;
@@ -10,6 +11,7 @@ import com.hznu.xdd.dao.topicDOMapper;
 import com.hznu.xdd.dao.labelDOMapper;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.Dto.attachmentDto;
+import com.hznu.xdd.domain.Dto.locationDto;
 import com.hznu.xdd.domain.VO.CommentVO;
 import com.hznu.xdd.domain.VO.UgcPageVO;
 import com.hznu.xdd.domain.VO.UGCVO;
@@ -97,6 +99,9 @@ public class UGCServiceImpl implements UGCService {
         }
         if (UGCDto.getTitle() != null){
             ugcDO.setTitle(UGCDto.getTitle());
+        }
+        if (UGCDto.getTopic() != null){
+            ugcDO.setTopic(UGCDto.getTopic());
         }
         if(UGCDto.isAnonymous()){
             ugcDO.setAnonymous(UGCDto.isAnonymous());
@@ -295,6 +300,8 @@ public class UGCServiceImpl implements UGCService {
                     attachmentDtos.add(attachmentDto);
                 }
             }
+            locationDto object = JSONObject.parseObject(txt.getLocation(),locationDto.class) ;
+            ugcvo.setLocation(object);
             ugcvo.setId(txt.getId());
             ugcvo.setCreate_time(txt.getCreate_time());
             ugcvo.setUpdate_time(txt.getUpdate_time());
@@ -327,7 +334,7 @@ public class UGCServiceImpl implements UGCService {
             userVO.setNickname(userDO.getNickname());
             userVO.setGender(userDO.getGender());
             userVO.setRole(userDO.getRole());
-            ugcvo.setUser(userVO);
+            ugcvo.setUser_info(userVO);
             ugcvo.setScore(txt.getExposure() * 0.2 + txt.getVote() * 0.3 + txt.getComment() * 0.5);
             ugcvos.add(ugcvo);
         });
