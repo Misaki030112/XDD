@@ -262,6 +262,7 @@ public class UGCServiceImpl implements UGCService {
     public UgcPageVO getHotUGC(Integer page, Integer offset) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
+        ugcDOExample.page(page,offset);
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         List<UGCVO> ugcvos = new ArrayList<UGCVO>();
         BatchUGC(ugcDOS, ugcvos);
