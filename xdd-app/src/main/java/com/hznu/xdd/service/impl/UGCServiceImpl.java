@@ -435,7 +435,7 @@ public class UGCServiceImpl implements UGCService {
                 CommentVO commentVO = new CommentVO();
                 commentVO.setCreate_time(txt.getCreate_time());
                 commentVO.setVote_num(txt.getVote());
-                commentVO.setUserVO(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(txt.getUser_id()));
+                commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(txt.getUser_id()));
                 commentVO.setContent(txt.getContent());
                 commentVO.setId(txt.getId());
                 commentVOS.add(commentVO);
@@ -479,7 +479,7 @@ public class UGCServiceImpl implements UGCService {
                 commentVO.setId(ugcCommentDO.getId());
                 commentVO.setCreate_time(ugcCommentDO.getCreate_time());
                 commentVO.setVote_num(ugcCommentDO.getVote());
-                commentVO.setUserVO(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(ugcCommentDO.getUser_id()));
+                commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(ugcCommentDO.getUser_id()));
                 commentVO.setContent(ugcCommentDO.getContent());
             }
         }

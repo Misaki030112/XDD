@@ -12,7 +12,7 @@ import java.util.Date;
 public class CommentVO implements Serializable {
     private Integer id;
 
-    private UserVO userVO;
+    private UserVO user_info;
 
     private Integer vote_num;
 
