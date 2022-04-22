@@ -43,8 +43,10 @@ public class UGCController {
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(null, key, label, topic, order_by,
                 page,offset,3);
-        if (key != null){
+        if (key != null && ContentUtil.ContentCheck(authentication,key,restTemplate)){
             ugcService.saveSearch(key,userDO.getId());
+        }else {
+            return new Result(StatusCode.CONTENT_INVALID);
         }
         return Result.ok(vo,"获取成功");
     }

@@ -366,14 +366,14 @@ public class UGCServiceImpl implements UGCService {
             voteLogDO.setCreate_time(new Date());
             voteLogDO.setVote_to_id(to_id);
             voteLogDO.setVote_type("ugc");
-            voteLogDO.setIs_delete(status);
+            voteLogDO.setIs_delete(!status);
             voteLogDO.setUser_id(user_id);
             count = voteLogDOMapper.insert(voteLogDO);
         }else {
             List<voteLogDO> voteLogDOS = voteLogDOMapper.selectByExample(voteLogDOExample);
             voteLogDO voteLogDO = voteLogDOS.get(0);
             voteLogDO.setUpdate_time(new Date());
-            voteLogDO.setIs_delete(status);
+            voteLogDO.setIs_delete(!status);
             count = voteLogDOMapper.updateByPrimaryKey(voteLogDO);
         }
         return count;
@@ -399,13 +399,13 @@ public class UGCServiceImpl implements UGCService {
             collectLogDO.setUpdate_time(new Date());
             collectLogDO.setCollect_to_id(to_id);
             collectLogDO.setCollect_type("ugc");
-            collectLogDO.setIs_delete(status);
+            collectLogDO.setIs_delete(!status);
             collectLogDO.setUser_id(user_id);
             count = collectLogDOMapper.insert(collectLogDO);
         }else {
             List<collectLogDO> collectLogDOs = collectLogDOMapper.selectByExample(collectLogDOExample);
             collectLogDO collectLogDO = collectLogDOs.get(0);
-            collectLogDO.setIs_delete(status);
+            collectLogDO.setIs_delete(!status);
             collectLogDO.setUpdate_time(new Date());
             count = collectLogDOMapper.updateByPrimaryKey(collectLogDO);
         }
@@ -439,16 +439,18 @@ public class UGCServiceImpl implements UGCService {
             commentVO.setParent_id(item.getParent_id());
             commentVOS.add(commentVO);
         });
-        return createTree(commentVOS, -1);
+        return createTree(commentVOS);
     }
 
-    public List<CommentVO> createTree(List<CommentVO> list,int pid){
+    public List<CommentVO> createTree(List<CommentVO> list){
         List<CommentVO> commentVOS = new ArrayList<>();
         for (CommentVO commentVO : list) {
-            if (commentVO.getParent_id().compareTo(pid) == 0){
-                commentVO.setParent_comment(createTree(list,commentVO.getId()));
-                commentVOS.add(commentVO);
+            if (commentVO.getParent_id() != -1){
+                list.forEach((item)->{
+                    if (item.getId().equals(commentVO.getParent_id())) commentVO.setParent_comment(item);
+                });
             }
+            commentVOS.add(commentVO);
         }
         return commentVOS;
     }
