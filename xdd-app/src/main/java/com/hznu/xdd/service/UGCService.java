@@ -34,4 +34,6 @@ public interface UGCService {
 
     UgcPageVO getLabel(Integer page, Integer offset);
 
+    Integer saveSearch(String key,Integer user_id);
+
 }
