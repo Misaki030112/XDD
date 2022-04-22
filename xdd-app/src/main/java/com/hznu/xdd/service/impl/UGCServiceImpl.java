@@ -298,6 +298,7 @@ public class UGCServiceImpl implements UGCService {
             if(!txt.getLabel().equals(""))ugcvo.setLabel(Arrays.asList(txt.getLabel().split(",")));
             ugcvo.setTopic(txt.getTopic());
             ugcvo.setContent(txt.getContent());
+            ugcvo.setTitle(txt.getTitle());
             ugcvo.setAttachment_list(attachmentDtos);
             voteLogDOExample voteLogDOExample = new voteLogDOExample();
             com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
