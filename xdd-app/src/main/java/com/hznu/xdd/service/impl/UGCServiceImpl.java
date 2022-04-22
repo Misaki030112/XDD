@@ -439,16 +439,18 @@ public class UGCServiceImpl implements UGCService {
             commentVO.setParent_id(item.getParent_id());
             commentVOS.add(commentVO);
         });
-        return createTree(commentVOS, -1);
+        return createTree(commentVOS);
     }
 
-    public List<CommentVO> createTree(List<CommentVO> list,int pid){
+    public List<CommentVO> createTree(List<CommentVO> list){
         List<CommentVO> commentVOS = new ArrayList<>();
         for (CommentVO commentVO : list) {
-            if (commentVO.getParent_id().compareTo(pid) == 0){
-                commentVO.setParent_comment(createTree(list,commentVO.getId()));
-                commentVOS.add(commentVO);
+            if (commentVO.getParent_id() != -1){
+                list.forEach((item)->{
+                    if (item.getId().equals(commentVO.getParent_id())) commentVO.setParent_comment(item);
+                });
             }
+            commentVOS.add(commentVO);
         }
         return commentVOS;
     }

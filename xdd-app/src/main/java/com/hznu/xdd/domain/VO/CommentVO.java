@@ -24,5 +24,5 @@ public class CommentVO implements Serializable {
 
     private String content;
 
-    private List<CommentVO> parent_comment;
+    private CommentVO parent_comment;
 }
