@@ -6,11 +6,15 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
 public class CommentVO implements Serializable {
     private Integer id;
+
+    private Integer parent_id;
 
     private UserVO user_info;
 
@@ -20,5 +24,5 @@ public class CommentVO implements Serializable {
 
     private String content;
 
-    private CommentVO parent_comment;
+    private List<CommentVO> parent_comment;
 }

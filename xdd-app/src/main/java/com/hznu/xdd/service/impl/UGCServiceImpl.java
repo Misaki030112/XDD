@@ -442,26 +442,35 @@ public class UGCServiceImpl implements UGCService {
         criteria.andUgc_idEqualTo(id);
         //获取所有评论
         List<ugcCommentDO> ugcCommentDOS = ugcCommentDOMapper.selectByExample(ugcCommentDOExample);
-        List<CommentVO> commentVOS = new ArrayList<CommentVO>();
-        ugcCommentDOS.forEach((txt)->{
-            if (txt.getParent_id() == -1){
-                UserDOExample userDOExample = new UserDOExample();
-                UserDOExample.Criteria criteria1 = userDOExample.createCriteria();
-                criteria1.andIdEqualTo(txt.getUser_id());
-                List<UserDO> userDOS = userDOMapper.selectByExample(userDOExample);
-                CommentVO commentVO = new CommentVO();
-                commentVO.setCreate_time(txt.getCreate_time());
-                commentVO.setVote_num(txt.getVote());
-                commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(txt.getUser_id()));
-                commentVO.setContent(txt.getContent());
-                commentVO.setId(txt.getId());
-                commentVOS.add(commentVO);
-            }else {
-                setChild(commentVOS,txt);
-            }
+        ArrayList<CommentVO> commentVOS = new ArrayList<>();
+        ugcCommentDOS.forEach((item) -> {
+            UserDOExample userDOExample = new UserDOExample();
+            UserDOExample.Criteria criteria1 = userDOExample.createCriteria();
+            criteria1.andIdEqualTo(item.getUser_id());
+            List<UserDO> userDOS = userDOMapper.selectByExample(userDOExample);
+            CommentVO commentVO = new CommentVO();
+            commentVO.setCreate_time(item.getCreate_time());
+            commentVO.setVote_num(item.getVote());
+            commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(item.getUser_id()));
+            commentVO.setContent(item.getContent());
+            commentVO.setId(item.getId());
+            commentVO.setParent_id(item.getParent_id());
+            commentVOS.add(commentVO);
         });
+        return createTree(commentVOS, -1);
+    }
+
+    public List<CommentVO> createTree(List<CommentVO> list,int pid){
+        List<CommentVO> commentVOS = new ArrayList<>();
+        for (CommentVO commentVO : list) {
+            if (commentVO.getParent_id().compareTo(pid) == 0){
+                commentVO.setParent_comment(createTree(list,commentVO.getId()));
+                commentVOS.add(commentVO);
+            }
+        }
         return commentVOS;
     }
+
 
     @Override
     public UgcPageVO getTopic(Integer page, Integer offset) {
@@ -485,21 +494,5 @@ public class UGCServiceImpl implements UGCService {
         return new UgcPageVO().setList(labelDOS).setTotal(size);
     }
 
-    private void setChild(List<CommentVO> commentVOS,ugcCommentDO ugcCommentDO){
-        for (int i = 0; i < commentVOS.size(); i++) {
-            if (ugcCommentDO.getParent_id().equals(commentVOS.get(i).getId())){
-                UserDOExample userDOExample = new UserDOExample();
-                UserDOExample.Criteria criteria1 = userDOExample.createCriteria();
-                criteria1.andIdEqualTo(ugcCommentDO.getUser_id());
-                List<UserDO> userDOS = userDOMapper.selectByExample(userDOExample);
-                CommentVO commentVO = new CommentVO();
-                commentVO.setId(ugcCommentDO.getId());
-                commentVO.setCreate_time(ugcCommentDO.getCreate_time());
-                commentVO.setVote_num(ugcCommentDO.getVote());
-                commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(ugcCommentDO.getUser_id()));
-                commentVO.setContent(ugcCommentDO.getContent());
-            }
-        }
-    }
 
 }
