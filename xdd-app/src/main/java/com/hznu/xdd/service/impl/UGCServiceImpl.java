@@ -9,6 +9,7 @@ import com.hznu.xdd.dao.voteLogDOMapper;
 import com.hznu.xdd.dao.collectLogDOMapper;
 import com.hznu.xdd.dao.topicDOMapper;
 import com.hznu.xdd.dao.labelDOMapper;
+import com.hznu.xdd.dao.searchLogDOMapper;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.Dto.attachmentDto;
 import com.hznu.xdd.domain.Dto.locationDto;
@@ -19,38 +20,46 @@ import com.hznu.xdd.domain.VO.UserVO;
 import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UGCServiceImpl implements UGCService {
 
-    @Autowired
+    @Resource
     UgcDOMapper ugcDOMapper;
 
-    @Autowired
+    @Resource
     UserDOMapper userDOMapper;
 
-    @Autowired
+    @Resource
     ugcCommentDOMapper ugcCommentDOMapper;
 
-    @Autowired
+    @Resource
     voteLogDOMapper voteLogDOMapper;
 
-    @Autowired
+    @Resource
     collectLogDOMapper collectLogDOMapper;
 
-    @Autowired
+    @Resource
     topicDOMapper topicDOMapper;
 
-    @Autowired
+    @Resource
     labelDOMapper labelDOMapper;
+
+    @Resource
+    searchLogDOMapper searchLogDOMapper;
+
+    @Resource
+    RedisTemplate redisTemplate;
 
     /**
      * 获取所有评论
-     * @return
+     * @return ugc列表
      */
     @Override
     public List<UgcDO> listAllUGC() {
@@ -62,8 +71,8 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 获取指定id的评论
-     * @param id
-     * @return
+     * @param id ugcid
+     * @return ugc
      */
     @Override
     public UgcDO findById(Integer id) {
@@ -72,8 +81,8 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 新建一个评论
-     * @param UGCDto
-     * @return
+     * @param UGCDto ugc
+     * @return 是否成功
      */
     @Override
     public Integer createUGC(UGCDto UGCDto) {
@@ -82,24 +91,7 @@ public class UGCServiceImpl implements UGCService {
         ugcDO.setCreate_time(date);
         ugcDO.setUpdate_time(date);
         System.out.println(UGCDto.getAttachment());
-        if (UGCDto.getAttachment() != null){
-            UGCDto.getAttachment().forEach(attachment -> {
-                if (attachment.getAttachment_type().equals("image")){
-                    if (ugcDO.getImages() != null){
-                        ugcDO.setImages(ugcDO.getImages() + ',' + attachment.getAttachment_url());
-                    }
-                    ugcDO.setImages(attachment.getAttachment_url());
-                }else {
-                    if (ugcDO.getVideo() != null){
-                        ugcDO.setVideo(ugcDO.getVideo() + ',' + attachment.getAttachment_url());
-                    }
-                    ugcDO.setVideo(attachment.getAttachment_url());
-                }
-            });
-        }
-        if (UGCDto.getTitle() != null){
-            ugcDO.setTitle(UGCDto.getTitle());
-        }
+        mergeUGCAttachment(UGCDto, ugcDO);
         if (UGCDto.getTopic() != null){
             ugcDO.setTopic(UGCDto.getTopic());
         }
@@ -117,27 +109,7 @@ public class UGCServiceImpl implements UGCService {
         return ugcDOMapper.insertSelective(ugcDO);
     }
 
-
-    /**
-     * 删除一个评论
-     * @param id
-     * @return
-     */
-    @Override
-    public Integer deleteUGC(Integer id) {
-        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(id);
-        ugcDO.setIs_delete(true);
-        return ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
-    }
-
-    /**
-     * 更新一条评论
-     * @param UGCDto
-     * @return
-     */
-    @Override
-    public Integer updateUGC(UGCDto UGCDto) {
-        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(UGCDto.getId());
+    private void mergeUGCAttachment(UGCDto UGCDto, UgcDO ugcDO) {
         if (UGCDto.getAttachment() != null){
             UGCDto.getAttachment().forEach(attachment -> {
                 if (attachment.getAttachment_type().equals("image")){
@@ -156,6 +128,30 @@ public class UGCServiceImpl implements UGCService {
         if (UGCDto.getTitle() != null){
             ugcDO.setTitle(UGCDto.getTitle());
         }
+    }
+
+
+    /**
+     * 删除一个评论
+     * @param id ugcid
+     * @return 是否成功
+     */
+    @Override
+    public Integer deleteUGC(Integer id) {
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(id);
+        ugcDO.setIs_delete(true);
+        return ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
+    }
+
+    /**
+     * 更新一条评论
+     * @param UGCDto ugc
+     * @return 是否成功
+     */
+    @Override
+    public Integer updateUGC(UGCDto UGCDto) {
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(UGCDto.getId());
+        mergeUGCAttachment(UGCDto, ugcDO);
         if(UGCDto.isAnonymous()){
             ugcDO.setAnonymous(UGCDto.isAnonymous());
         }
@@ -175,15 +171,15 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 获取UGC
-     * @param user_id
-     * @param key
-     * @param label
-     * @param topic
-     * @param order_by
-     * @param page
-     * @param offset
-     * @param fun
-     * @return
+     * @param user_id 用户id
+     * @param key 搜索关键词
+     * @param label 搜索标签
+     * @param topic 搜索主题
+     * @param order_by 排序规则
+     * @param page 第几页
+     * @param offset 偏移量
+     * @param fun 方式
+     * @return UGC列表
      */
     @Override
     public UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset , Integer fun) {
@@ -199,10 +195,10 @@ public class UGCServiceImpl implements UGCService {
             criteria.andIs_deleteEqualTo(false);
             criteria.andUser_idEqualTo(user_id);
             List<voteLogDO> voteLogDOS = voteLogDOMapper.selectByExample(voteLogDOExample);
-            List<Integer> integers = new ArrayList<Integer>();
-            voteLogDOS.forEach((txt)->{
-                integers.add(txt.getVote_to_id());
-            });
+            List<Integer> integers = new ArrayList<>();
+            voteLogDOS.forEach(txt->
+                integers.add(txt.getVote_to_id())
+            );
             if (integers.size() == 0){
                 return null;
             }
@@ -214,10 +210,10 @@ public class UGCServiceImpl implements UGCService {
             criteria.andIs_deleteEqualTo(false);
             criteria.andUser_idEqualTo(user_id);
             List<collectLogDO> collectLogDOS = collectLogDOMapper.selectByExample(collectLogDOExample);
-            List<Integer> integers = new ArrayList<Integer>();
-            collectLogDOS.forEach((txt)->{
-                integers.add(txt.getCollect_to_id());
-            });
+            List<Integer> integers = new ArrayList<>();
+            collectLogDOS.forEach(txt->
+                integers.add(txt.getCollect_to_id())
+            );
             if (integers.size() == 0){
                 return null;
             }
@@ -250,18 +246,17 @@ public class UGCServiceImpl implements UGCService {
         if (page != null && offset != null){
             ugcDOExample.page(page,offset);
         }
-        List<UGCVO> ugcvos = new ArrayList<UGCVO>();
+        List<UGCVO> ugcvos = new ArrayList<>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         BatchUGC(ugcDOS, ugcvos);
-        UgcPageVO ugcPageVO = new UgcPageVO().setList(ugcvos).setTotal(size);
-        return ugcPageVO;
+        return new UgcPageVO().setList(ugcvos).setTotal(size);
     }
 
     /**
      * 获取热门帖子
-     * @param page
-     * @param offset
-     * @return
+     * @param page 第几页
+     * @param offset 偏移量
+     * @return UGC列表
      */
     @Override
     public UgcPageVO getHotUGC(Integer page, Integer offset) {
@@ -269,21 +264,16 @@ public class UGCServiceImpl implements UGCService {
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         ugcDOExample.page(page,offset);
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
-        List<UGCVO> ugcvos = new ArrayList<UGCVO>();
+        List<UGCVO> ugcvos = new ArrayList<>();
         BatchUGC(ugcDOS, ugcvos);
-        Collections.sort(ugcvos, new Comparator<UGCVO>() {
-            @Override
-            public int compare(UGCVO o1, UGCVO o2) {
-                return o2.getScore().compareTo(o1.getScore());
-            }
-        });
+        ugcvos.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
         return new UgcPageVO().setList(ugcvos).setTotal(size);
     }
 
     private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos) {
         ugcDOS.forEach((txt)->{
             UGCVO ugcvo = new UGCVO();
-            List<attachmentDto> attachmentDtos = new ArrayList<attachmentDto>();
+            List<attachmentDto> attachmentDtos = new ArrayList<>();
             if (!txt.getImages().equals("")){
                 String[] split = txt.getImages().split(",");
                 for (String s : split) {
@@ -313,20 +303,12 @@ public class UGCServiceImpl implements UGCService {
             com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
             criteria.andUser_idEqualTo(txt.getUser_id());
             criteria.andVote_to_idEqualTo(txt.getId());
-            if (voteLogDOMapper.selectByExample(voteLogDOExample).size() != 0){
-                ugcvo.setIs_vote(true);
-            }else {
-                ugcvo.setIs_vote(false);
-            }
+            ugcvo.setIs_vote(voteLogDOMapper.selectByExample(voteLogDOExample).size() != 0);
             collectLogDOExample collectLogDOExample = new collectLogDOExample();
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria3 = collectLogDOExample.createCriteria();
             criteria3.andCollect_to_idEqualTo(txt.getId());
             criteria3.andUser_idEqualTo(txt.getUser_id());
-            if (collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0){
-                ugcvo.setIs_collect(true);
-            }else {
-                ugcvo.setIs_collect(false);
-            }
+            ugcvo.setIs_collect(collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0);
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
             UserVO userVO = new UserVO();
             userVO.setId(userDO.getId());
@@ -342,12 +324,12 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 评论UGC
-     * @param content
-     * @param parent_id
-     * @param to_type
-     * @param to_id
-     * @param user_id
-     * @return
+     * @param content 评论内容
+     * @param parent_id 评论的父级id
+     * @param to_type 评论对象的类型
+     * @param to_id 评论的id
+     * @param user_id 评论者id
+     * @return 是否成功
      */
     @Override
     public Integer addComment(String content, Integer parent_id, String to_type, Integer to_id,Integer user_id) {
@@ -365,10 +347,10 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 点赞UGC
-     * @param to_id
-     * @param status
-     * @param user_id
-     * @return
+     * @param to_id ugcid
+     * @param status 状态
+     * @param user_id 点赞人id
+     * @return 是否成功
      */
     @Override
     public Integer voteUGC(Integer to_id, boolean status,Integer user_id) {
@@ -399,10 +381,10 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 收藏UGC
-     * @param to_id
-     * @param status
-     * @param user_id
-     * @return
+     * @param to_id UGCid
+     * @param status 状态
+     * @param user_id 收藏者id
+     * @return 是否成功
      */
     @Override
     public Integer collectUGC(Integer to_id, boolean status, Integer user_id) {
@@ -432,8 +414,8 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 获取UGC评论并生成评论树
-     * @param id
-     * @return
+     * @param id ugcid
+     * @return 评论树
      */
     @Override
     public List<CommentVO> getCommentById(Integer id) {
@@ -472,6 +454,12 @@ public class UGCServiceImpl implements UGCService {
     }
 
 
+    /**
+     * 获取主题
+     * @param page 第几页
+     * @param offset 偏移量
+     * @return topic列表
+     */
     @Override
     public UgcPageVO getTopic(Integer page, Integer offset) {
         topicDOExample topicDOExample = new topicDOExample();
@@ -483,6 +471,12 @@ public class UGCServiceImpl implements UGCService {
         return new UgcPageVO().setList(topicDOS).setTotal(size);
     }
 
+    /**
+     * 获取标签
+     * @param page 第几页
+     * @param offset 偏移量
+     * @return label列表
+     */
     @Override
     public UgcPageVO getLabel(Integer page, Integer offset) {
         labelDOExample labelDOExample = new labelDOExample();
@@ -492,6 +486,33 @@ public class UGCServiceImpl implements UGCService {
         labelDOExample.page(page,offset);
         List<labelDO> labelDOS = labelDOMapper.selectByExample(labelDOExample);
         return new UgcPageVO().setList(labelDOS).setTotal(size);
+    }
+
+    /**
+     * 保存用户搜索记录以及存入到redis中便于热搜
+     * @param key 搜索关键词
+     * @param user_id 搜索人id
+     * @return 是否成功
+     */
+    @Override
+    public Integer saveSearch(String key, Integer user_id) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR,1);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.MILLISECOND,0);
+        //晚上十二点与当前时间的毫秒差
+        long timeOut = (calendar.getTimeInMillis()-System.currentTimeMillis()) / 1000;
+        redisTemplate.expire("hotWord",timeOut, TimeUnit.SECONDS);
+        redisTemplate.opsForZSet().incrementScore("hotWord", key, 1); // 加入排序set
+        searchLogDO searchLogDO = new searchLogDO();
+        searchLogDO.setCreate_time(new Date());
+        searchLogDO.setIs_delete(false);
+        searchLogDO.setUser_id(user_id);
+        searchLogDO.setUpdate_time(new Date());
+        searchLogDO.setContent(key);
+        return searchLogDOMapper.insert(searchLogDO);
     }
 
 

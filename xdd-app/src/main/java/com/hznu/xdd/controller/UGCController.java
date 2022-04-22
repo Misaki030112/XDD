@@ -37,10 +37,15 @@ public class UGCController {
                             @RequestParam(value = "topic",required = false) String topic,
                             @RequestParam(value = "order_by",required = false) String order_by,
                             @RequestParam(value = "page") Integer page,
-                            @RequestParam(value = "offset") Integer offset
+                            @RequestParam(value = "offset") Integer offset,
+                            Authentication authentication
     ){
+        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(null, key, label, topic, order_by,
                 page,offset,3);
+        if (key != null){
+            ugcService.saveSearch(key,userDO.getId());
+        }
         return Result.ok(vo,"获取成功");
     }
 
