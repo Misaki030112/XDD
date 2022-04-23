@@ -99,7 +99,7 @@ public class UserController implements InitializingBean {
         else{
             UserInfoVO userInfoVO=new UserInfoVO();
             BeanUtils.copyProperties(userDO,userInfoVO);
-            return Result.ok(userDO,"登录成功");
+            return Result.ok(userInfoVO,"登录成功");
         }
     }
 

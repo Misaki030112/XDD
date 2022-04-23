@@ -1,0 +1,21 @@
+2022-04-23 10:18:09.999 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f5cd0890] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-04-23 10:18:11.343 [main] INFO  com.hznu.xdd.Xdd_Application - The following profiles are active: test
+2022-04-23 10:18:12.528 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-04-23 10:18:12.532 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-04-23 10:18:12.605 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 57ms. Found 0 repository interfaces.
+2022-04-23 10:18:12.866 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=9129aa1a-e2de-3e65-b071-02522f8199a7
+2022-04-23 10:18:12.887 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: public static int com.hznu.xdd.config.AsyncTaskExecutePool.corePoolSize
+2022-04-23 10:18:12.887 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: public static int com.hznu.xdd.config.AsyncTaskExecutePool.maxPoolSize
+2022-04-23 10:18:12.887 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: public static int com.hznu.xdd.config.AsyncTaskExecutePool.keepAliveSeconds
+2022-04-23 10:18:12.888 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: public static int com.hznu.xdd.config.AsyncTaskExecutePool.queueCapacity
+2022-04-23 10:18:12.888 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'asyncTaskExecutePool' of type [com.hznu.xdd.config.AsyncTaskExecutePool$$EnhancerBySpringCGLIB$$20f47116] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-04-23 10:18:12.935 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$d9b30593] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-04-23 10:18:12.953 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f5cd0890] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-04-23 10:18:13.171 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8991 (http)
+2022-04-23 10:18:13.185 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8991"]
+2022-04-23 10:18:13.193 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-04-23 10:18:13.193 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.19]
+2022-04-23 10:18:13.338 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-04-23 10:18:13.338 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1981 ms
+2022-04-23 10:18:13.507 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2022-04-23 10:18:13.618 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited

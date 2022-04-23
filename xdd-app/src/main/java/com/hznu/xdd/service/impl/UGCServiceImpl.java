@@ -314,7 +314,7 @@ public class UGCServiceImpl implements UGCService {
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria3 = collectLogDOExample.createCriteria();
             criteria3.andCollect_to_idEqualTo(txt.getId());
             criteria3.andUser_idEqualTo(txt.getUser_id());
-            criteria.andIs_deleteEqualTo(false);
+            criteria3.andIs_deleteEqualTo(false);
             ugcvo.setIs_collect(collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0);
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
             UserVO userVO = new UserVO();
