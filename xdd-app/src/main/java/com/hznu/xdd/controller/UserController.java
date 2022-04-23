@@ -146,7 +146,8 @@ public class UserController implements InitializingBean {
                 userDto.getBirthday(),
                 userDto.getProvince(),
                 userDto.getCity(),
-                userDto.getDistrict());
+                userDto.getDistrict(),
+                userDto.getGender()==null?null:Short.valueOf(userDto.getGender()));
         if(user!=null){
             return Result.ok(user,"修改成功！");
         }else{

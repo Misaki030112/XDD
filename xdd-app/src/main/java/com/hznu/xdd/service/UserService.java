@@ -51,7 +51,7 @@ public interface UserService {
      */
     boolean verifyStudentByPhotos(String[] photos,String wxOpenId);
 
-    UserDO changeUserInfo(String wxOpenId, String nickName, String avatar, String signature, Date birthday, String province, String city, String district);
+    UserDO changeUserInfo(String wxOpenId, String nickName, String avatar, String signature, Date birthday, String province, String city, String district,Short gender);
 
     /**
      * 获取我关注的人

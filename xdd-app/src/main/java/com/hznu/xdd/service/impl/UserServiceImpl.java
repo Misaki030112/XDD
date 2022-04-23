@@ -253,7 +253,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public UserDO changeUserInfo(String wxOpenId,String nickName, String avatar, String signature, Date birthday, String province, String city, String district) {
+    public UserDO changeUserInfo(String wxOpenId,String nickName, String avatar, String signature, Date birthday, String province, String city, String district,Short gender) {
         UserDO user = getUserByWxOpenId(wxOpenId);
         if(nickName!=null&& !nickName.equals(""))
             user.setNickname(nickName);
@@ -269,6 +269,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             user.setCity(city);
         if(district!=null&& !district.equals(""))
             user.setDistrict(district);
+        if(gender!=null)
+            user.setGender(gender);
         int i = userDOMapper.updateByPrimaryKey(user);
         return i>0?user:null;
     }
