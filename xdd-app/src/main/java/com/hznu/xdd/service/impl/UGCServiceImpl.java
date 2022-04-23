@@ -340,6 +340,9 @@ public class UGCServiceImpl implements UGCService {
      */
     @Override
     public Integer addComment(String content, Integer parent_id, String to_type, Integer to_id,Integer user_id) {
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+        ugcDO.setComment(ugcDO.getComment() + 1);
+        ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
         ugcCommentDO ugcCommentDO = new ugcCommentDO();
         Date date = new Date();
         ugcCommentDO.setCreate_time(date);
@@ -373,7 +376,6 @@ public class UGCServiceImpl implements UGCService {
             ugcDO.setVote(ugcDO.getVote() - 1);
         }
         ugcDOMapper.updateByPrimaryKey(ugcDO);
-        System.out.println(voteLogDOMapper.selectByExample(voteLogDOExample));
         if (voteLogDOMapper.selectByExample(voteLogDOExample).size() == 0){
             voteLogDO voteLogDO = new voteLogDO();
             voteLogDO.setUpdate_time(new Date());
