@@ -18,9 +18,9 @@ public interface UGCService {
 
     Integer updateUGC(UGCDto UGCDto);
 
-    UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset, Integer fun);
+    UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset, Integer fun,Integer uid);
 
-    UgcPageVO getHotUGC(Integer page, Integer offset);
+    UgcPageVO getHotUGC(Integer page, Integer offset,Integer user_id);
 
     Integer addComment(String content,Integer parent_id,String to_type,Integer to_id,Integer user_id);
 
