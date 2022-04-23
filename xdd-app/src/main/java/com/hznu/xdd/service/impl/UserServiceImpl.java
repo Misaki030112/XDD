@@ -24,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -153,7 +154,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     public List<UserDO> searchUserByNickName(String nickName, Integer page, Integer offset) {
         UserDOExample example = new UserDOExample();
         UserDOExample.Criteria criteria = example.createCriteria();
-        criteria.andNicknameLike(nickName);
+        criteria.andNicknameLike("%"+nickName+"%");
         example.page(page,offset);
         return userDOMapper.selectByExample(example);
     }
@@ -553,6 +554,21 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         int i = userDOMapper.updateByPrimaryKeySelective(user);
         return i>0;
     }
+
+    @Override
+    public boolean isIFocusSomePeople(Integer Id) {
+        String userWxopenId = UserInfoUtil.getWxOpenIdXiaododoMini(SecurityContextHolder.getContext().getAuthentication());
+        int user_id = getUserByWxOpenId(userWxopenId).getId();
+
+        focusLogDOExample focusLogDOExample = new focusLogDOExample();
+        com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
+        criteria.andFocus_to_idEqualTo(Id);
+        criteria.andUser_idEqualTo(user_id);
+        criteria.andIs_deleteEqualTo(false);
+        long total = focusLogDOMapper.countByExample(focusLogDOExample);
+        return total>0;
+    }
+
 
 
 }

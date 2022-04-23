@@ -30,6 +30,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -109,14 +110,22 @@ public class UserController implements InitializingBean {
         UserDO userDO = userService.getUserById(id);
         if(userDO==null)
             return new Result(StatusCode.NO_EXIST);
-        else return Result.ok(userDO,"登录成功");
+        else {
+
+            UserFocusInfoVO userFocusInfoVO = new UserFocusInfoVO(new UserInfoVO(userDO));
+            userFocusInfoVO.setIs_focus(userService.isIFocusSomePeople(id));
+            return Result.ok(userFocusInfoVO,"登录成功");
+        }
+
     }
 
 
     @GetMapping(value="/get/user",produces = { "application/json;charset=UTF-8" })
     public Result searchUserByName(@RequestParam("key") String key,@RequestParam("page") Integer page,@RequestParam("offset") Integer offset){
         List<UserDO> userDOS = userService.searchUserByNickName(key,page,offset);
-        return Result.ok(new ListVO(userDOS),"获取成功");
+        List<UserFocusInfoVO> userFocusInfoVOS = new ArrayList<>();
+        userDOS.forEach(u->{userFocusInfoVOS.add(new UserFocusInfoVO(new UserInfoVO(u)));});
+        return Result.ok(new ListVO(userFocusInfoVOS),"获取成功");
     }
 
 
