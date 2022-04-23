@@ -115,13 +115,17 @@ public class UGCServiceImpl implements UGCService {
                 if (attachment.getAttachment_type().equals("image")){
                     if (ugcDO.getImages() != null){
                         ugcDO.setImages(ugcDO.getImages() + ',' + attachment.getAttachment_url());
+                    }else{
+                        ugcDO.setImages(attachment.getAttachment_url());
                     }
-                    ugcDO.setImages(attachment.getAttachment_url());
+
                 }else {
                     if (ugcDO.getVideo() != null){
                         ugcDO.setVideo(ugcDO.getVideo() + ',' + attachment.getAttachment_url());
+                    }else{
+                        ugcDO.setVideo(attachment.getAttachment_url());
                     }
-                    ugcDO.setVideo(attachment.getAttachment_url());
+
                 }
             });
         }
