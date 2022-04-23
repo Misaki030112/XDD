@@ -9,6 +9,7 @@ import com.hznu.xdd.domain.VO.*;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -95,7 +96,11 @@ public class UserController implements InitializingBean {
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(userDO==null)
             return new Result(StatusCode.NO_EXIST);
-        else return Result.ok(userDO,"登录成功");
+        else{
+            UserInfoVO userInfoVO=new UserInfoVO();
+            BeanUtils.copyProperties(userDO,userInfoVO);
+            return Result.ok(userDO,"登录成功");
+        }
     }
 
 

@@ -22,6 +22,7 @@ public class UserDO implements Serializable , UserDetails {
 
     private String open_id_xiaododo_mini;
 
+
     private String union_id;
 
     private String open_id_xiaododo_official_account;

@@ -535,5 +535,13 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         return !Objects.equals(user.getOpen_id_xiaododo_official_account(), "") && user.getOpen_id_xiaododo_official_account() != null;
     }
 
+    @Override
+    public boolean finishQuestion(String wxOpenId) {
+        UserDO user = getUserByWxOpenId(wxOpenId);
+        user.setVerify_method("question");
+        int i = userDOMapper.updateByPrimaryKeySelective(user);
+        return i>0;
+    }
+
 
 }

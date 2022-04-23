@@ -92,6 +92,14 @@ public class StudentController {
     }
 
 
+    @PostMapping("/post/student/verify/finish/question")
+    public Result Finish(Authentication authentication){
+        boolean flag = userService.finishQuestion(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        if(flag){
+            return Result.ok(null,"认证方式填充成功");
+        }else return new Result(20001,"认证方式填充失败");
+    }
+
 
 
 }

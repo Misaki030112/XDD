@@ -92,4 +92,5 @@ public interface UserService {
 
     boolean isFocusWxOffical(String wxOpenId);
 
+    boolean finishQuestion(String wxOpenId);
 }
