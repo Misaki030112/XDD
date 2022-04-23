@@ -334,13 +334,23 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 focusLogDO=focusLogDOs.get(0);
                 if(!status){
                     focusLogDO.setIs_delete(true);
+                    focusLogDO.setUpdate_time(new Date());
                     int i = focusLogDOMapper.updateByPrimaryKey(focusLogDO);
                     actionUser.setFollow_num(actionUser.getFollow_num()-1);
                     FocusedUser.setFan_num(FocusedUser.getFan_num()-1);
                     int j = userDOMapper.updateByPrimaryKey(actionUser);
                     int k = userDOMapper.updateByPrimaryKey(FocusedUser);
                     return i>0&&j>0&&k>0;
-                }else return  false;
+                }else if(focusLogDO.getIs_delete()) {
+                    focusLogDO.setIs_delete(false);
+                    focusLogDO.setUpdate_time(new Date());
+                    int i = focusLogDOMapper.updateByPrimaryKey(focusLogDO);
+                    actionUser.setFollow_num(actionUser.getFollow_num()+1);
+                    FocusedUser.setFan_num(FocusedUser.getFan_num()+1);
+                    int j = userDOMapper.updateByPrimaryKey(actionUser);
+                    int k = userDOMapper.updateByPrimaryKey(FocusedUser);
+                    return i>0&&j>0&&k>0;
+                }else return false;
             }else{
                 if(status){
                     focusLogDO = new focusLogDO();

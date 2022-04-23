@@ -52,8 +52,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("all")
                 //基于已有系统 采用 密码授权方式 ，设定访问token 过期时间，刷新token过期时间
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .accessTokenValiditySeconds(60 * 60 * 2)
-                .refreshTokenValiditySeconds(60 * 60 * 3);
+                .accessTokenValiditySeconds(60 * 60 * 4)
+                .refreshTokenValiditySeconds(60 * 60 * 24 * 7);
     }
 
     @Override
