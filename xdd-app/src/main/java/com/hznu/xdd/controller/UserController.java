@@ -116,7 +116,7 @@ public class UserController implements InitializingBean {
     @GetMapping(value="/get/user",produces = { "application/json;charset=UTF-8" })
     public Result searchUserByName(@RequestParam("key") String key,@RequestParam("page") Integer page,@RequestParam("offset") Integer offset){
         List<UserDO> userDOS = userService.searchUserByNickName(key,page,offset);
-        return Result.ok(userDOS,"获取成功");
+        return Result.ok(new ListVO(userDOS),"获取成功");
     }
 
 

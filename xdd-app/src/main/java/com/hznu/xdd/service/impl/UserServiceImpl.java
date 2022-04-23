@@ -319,7 +319,10 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public boolean FocusUser(String wxOpenId, Integer user_id, boolean status) {
         try {
-            int id = getUserByWxOpenId(wxOpenId).getId();
+            UserDO actionUser = getUserByWxOpenId(wxOpenId);
+            int id=actionUser.getId();
+            UserDO FocusedUser = getUserById(user_id);
+
             focusLogDOExample focusLogDOExample = new focusLogDOExample();
             com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
             criteria.andFocus_to_idEqualTo(user_id);
@@ -331,7 +334,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 if(!status){
                     focusLogDO.setIs_delete(true);
                     int i = focusLogDOMapper.updateByPrimaryKey(focusLogDO);
-                    return i>0;
+                    actionUser.setFollow_num(actionUser.getFollow_num()-1);
+                    FocusedUser.setFan_num(FocusedUser.getFan_num()-1);
+                    int j = userDOMapper.updateByPrimaryKey(actionUser);
+                    int k = userDOMapper.updateByPrimaryKey(FocusedUser);
+                    return i>0&&j>0&&k>0;
                 }else return  false;
             }else{
                 if(status){
@@ -342,7 +349,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     focusLogDO.setCreate_time(new Date());
                     focusLogDO.setUpdate_time(new Date());
                     int i = focusLogDOMapper.insert(focusLogDO);
-                    return i>0;
+                    actionUser.setFollow_num(actionUser.getFollow_num()+1);
+                    FocusedUser.setFan_num(FocusedUser.getFan_num()+1);
+                    int j = userDOMapper.updateByPrimaryKey(actionUser);
+                    int k = userDOMapper.updateByPrimaryKey(FocusedUser);
+                    return i>0&&j>0&&k>0;
                 }else return false;
             }
         }catch(Exception e){

@@ -366,6 +366,13 @@ public class UGCServiceImpl implements UGCService {
         com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andVote_to_idEqualTo(to_id);
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+        if (status){
+            ugcDO.setVote(ugcDO.getVote() + 1);
+        }else{
+            ugcDO.setVote(ugcDO.getVote() - 1);
+        }
+        ugcDOMapper.updateByPrimaryKey(ugcDO);
         System.out.println(voteLogDOMapper.selectByExample(voteLogDOExample));
         if (voteLogDOMapper.selectByExample(voteLogDOExample).size() == 0){
             voteLogDO voteLogDO = new voteLogDO();
@@ -400,6 +407,13 @@ public class UGCServiceImpl implements UGCService {
         com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andCollect_to_idEqualTo(to_id);
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+        if (status){
+            ugcDO.setCollect(ugcDO.getCollect() + 1);
+        }else{
+            ugcDO.setCollect(ugcDO.getCollect() - 1);
+        }
+        ugcDOMapper.updateByPrimaryKey(ugcDO);
         if (collectLogDOMapper.selectByExample(collectLogDOExample).size() == 0){
             collectLogDO collectLogDO = new collectLogDO();
             collectLogDO.setCreate_time(new Date());
