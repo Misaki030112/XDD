@@ -314,7 +314,7 @@ public class UGCServiceImpl implements UGCService {
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria3 = collectLogDOExample.createCriteria();
             criteria3.andCollect_to_idEqualTo(txt.getId());
             criteria3.andUser_idEqualTo(txt.getUser_id());
-            criteria.andIs_deleteEqualTo(false);
+            criteria3.andIs_deleteEqualTo(false);
             ugcvo.setIs_collect(collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0);
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
             UserVO userVO = new UserVO();
@@ -366,7 +366,13 @@ public class UGCServiceImpl implements UGCService {
         com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andVote_to_idEqualTo(to_id);
-        System.out.println(voteLogDOMapper.selectByExample(voteLogDOExample));
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+        if (status){
+            ugcDO.setVote(ugcDO.getVote() + 1);
+        }else {
+            ugcDO.setVote(ugcDO.getVote() - 1);
+        }
+        ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
         if (voteLogDOMapper.selectByExample(voteLogDOExample).size() == 0){
             voteLogDO voteLogDO = new voteLogDO();
             voteLogDO.setUpdate_time(new Date());
@@ -400,6 +406,13 @@ public class UGCServiceImpl implements UGCService {
         com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
         criteria.andCollect_to_idEqualTo(to_id);
+        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+        if (status){
+            ugcDO.setCollect(ugcDO.getCollect() + 1);
+        }else {
+            ugcDO.setCollect(ugcDO.getCollect() - 1);
+        }
+        ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
         if (collectLogDOMapper.selectByExample(collectLogDOExample).size() == 0){
             collectLogDO collectLogDO = new collectLogDO();
             collectLogDO.setCreate_time(new Date());
