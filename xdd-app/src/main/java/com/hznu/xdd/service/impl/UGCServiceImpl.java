@@ -175,7 +175,7 @@ public class UGCServiceImpl implements UGCService {
 
     /**
      * 获取UGC
-     * @param user_id 用户id
+     * @param user_id UGC的用户id
      * @param key 搜索关键词
      * @param label 搜索标签
      * @param topic 搜索主题
@@ -183,10 +183,11 @@ public class UGCServiceImpl implements UGCService {
      * @param page 第几页
      * @param offset 偏移量
      * @param fun 方式
+     * @param uid 登录用户id
      * @return UGC列表
      */
     @Override
-    public UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset , Integer fun) {
+    public UgcPageVO listPublishUGCById(Integer user_id, String key, String label, String topic, String order_by, Integer page, Integer offset , Integer fun,Integer uid) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         UgcDOExample.Criteria criteria1 = ugcDOExample.createCriteria();
         UgcDOExample.Criteria criteria2 = ugcDOExample.createCriteria();
@@ -252,7 +253,7 @@ public class UGCServiceImpl implements UGCService {
         }
         List<UGCVO> ugcvos = new ArrayList<>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
-        BatchUGC(ugcDOS, ugcvos);
+        BatchUGC(ugcDOS, ugcvos,uid);
         return new UgcPageVO().setList(ugcvos).setTotal(size);
     }
 
@@ -263,18 +264,18 @@ public class UGCServiceImpl implements UGCService {
      * @return UGC列表
      */
     @Override
-    public UgcPageVO getHotUGC(Integer page, Integer offset) {
+    public UgcPageVO getHotUGC(Integer page, Integer offset,Integer user_id) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         ugcDOExample.page(page,offset);
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         List<UGCVO> ugcvos = new ArrayList<>();
-        BatchUGC(ugcDOS, ugcvos);
+        BatchUGC(ugcDOS, ugcvos,user_id);
         ugcvos.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
         return new UgcPageVO().setList(ugcvos).setTotal(size);
     }
 
-    private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos) {
+    private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos,Integer user_id) {
         ugcDOS.forEach((txt)->{
             UGCVO ugcvo = new UGCVO();
             List<attachmentDto> attachmentDtos = new ArrayList<>();
@@ -306,14 +307,14 @@ public class UGCServiceImpl implements UGCService {
             ugcvo.setAttachment_list(attachmentDtos);
             voteLogDOExample voteLogDOExample = new voteLogDOExample();
             com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
-            criteria.andUser_idEqualTo(txt.getUser_id());
+            criteria.andUser_idEqualTo(user_id);
             criteria.andVote_to_idEqualTo(txt.getId());
             criteria.andIs_deleteEqualTo(false);
             ugcvo.setIs_vote(voteLogDOMapper.selectByExample(voteLogDOExample).size() != 0);
             collectLogDOExample collectLogDOExample = new collectLogDOExample();
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria3 = collectLogDOExample.createCriteria();
             criteria3.andCollect_to_idEqualTo(txt.getId());
-            criteria3.andUser_idEqualTo(txt.getUser_id());
+            criteria3.andUser_idEqualTo(user_id);
             criteria3.andIs_deleteEqualTo(false);
             ugcvo.setIs_collect(collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0);
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
