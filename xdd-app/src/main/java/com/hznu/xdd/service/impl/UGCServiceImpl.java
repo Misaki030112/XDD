@@ -303,6 +303,8 @@ public class UGCServiceImpl implements UGCService {
             ugcvo.setId(txt.getId());
             ugcvo.setCreate_time(txt.getCreate_time());
             ugcvo.setUpdate_time(txt.getUpdate_time());
+            ugcvo.setVote(txt.getVote());
+            ugcvo.setComment(txt.getComment());
             if(!txt.getLabel().equals(""))ugcvo.setLabel(Arrays.asList(txt.getLabel().split(",")));
             ugcvo.setTopic(txt.getTopic());
             ugcvo.setContent(txt.getContent());
