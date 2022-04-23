@@ -227,6 +227,9 @@ public class UGCServiceImpl implements UGCService {
         }else if (fun == 3 && user_id != null){
             criteria1.andIdEqualTo(user_id);
             criteria2.andIdEqualTo(user_id);
+            UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(user_id);
+            ugcDO.setExposure(ugcDO.getExposure() + 1);
+            ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
         }
         criteria1.andIs_deleteEqualTo(false);
         criteria2.andIs_deleteEqualTo(false);
