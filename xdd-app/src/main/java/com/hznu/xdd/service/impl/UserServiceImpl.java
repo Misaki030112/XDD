@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Override
     public boolean addUser(UserDO userDO) {
-        int i = userDOMapper.insert(userDO);
+        int i = userDOMapper.addNewUser(userDO);
         return i>0;
     }
 
@@ -104,15 +104,15 @@ public class UserServiceImpl implements UserService , UserDetailsService {
        JSONObject jsonObject = JSON.parseObject(WeChatUtil.decryptData(encryptedData, sessionKey, iv));
         UserDO userDO = getUserByWxOpenId(wxOpenId);
         log.info("jsonObject:{}",jsonObject);
-        if(userDO.getAvatar()!=null&& !Objects.equals(userDO.getAvatar(), ""))
+        if(userDO.getAvatar()==null|| Objects.equals(userDO.getAvatar(), ""))
             userDO.setAvatar(jsonObject.getString("avatarUrl"));
-        if(userDO.getNickname()!=null&& !Objects.equals(userDO.getNickname(), ""))
+        if(userDO.getNickname()==null||Objects.equals(userDO.getNickname(), ""))
             userDO.setNickname(jsonObject.getString("nickName"));
-        if(userDO.getGender()!=null)
+        if(userDO.getGender()==null)
             userDO.setGender(jsonObject.getShort("gender"));
-        if(userDO.getProvince()!=null&&!Objects.equals(userDO.getProvince(), "") )
+        if(userDO.getProvince()==null||Objects.equals(userDO.getProvince(), "") )
             userDO.setProvince(jsonObject.getString("province"));
-        if(userDO.getCity()!=null&&!Objects.equals(userDO.getCity(), "") )
+        if(userDO.getCity()==null||Objects.equals(userDO.getCity(), "") )
             userDO.setCity(jsonObject.getString("city"));
         userDOMapper.updateByPrimaryKey(userDO);
         return userDO;
@@ -122,6 +122,21 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     @Override
     public UserDO getUserById(Integer id) {
         return userDOMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public UserDO getUserByUnionId(String unionId) {
+        UserDOExample example = new UserDOExample();
+        UserDOExample.Criteria criteria = example.createCriteria();
+        criteria.andUnion_idEqualTo(unionId);
+        List<UserDO> userDOS = userDOMapper.selectByExample(example);
+        assert userDOS.size()==1;
+        return userDOS.get(0);
+    }
+
+    @Override
+    public void updateUser(UserDO userDO) {
+        userDOMapper.updateByPrimaryKey(userDO);
     }
 
     @Override

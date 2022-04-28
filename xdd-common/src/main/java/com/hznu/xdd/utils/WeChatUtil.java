@@ -116,6 +116,7 @@ public class WeChatUtil {
             if (null != resultByte && resultByte.length > 0) {
                 result = new String(resultByte, "UTF-8");
             }
+
         return result;
     }
 }

@@ -85,4 +85,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         //自定义认证失败，处理逻辑
         resources.authenticationEntryPoint(xddOAuth2AuthenticationEntryPoint);
     }
+
+
 }

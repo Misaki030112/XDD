@@ -1,5 +1,5 @@
 server:
-  port: 8991
+  port: 8089
 spring:
   application:
     name: xdd-app
@@ -19,6 +19,14 @@ mybatis:
 validCode:
   length: 8
   time: 300    # 5分钟
+
+
+#微信公众号配置参数
+wxOfficial:
+  Token: 576ebfdfc96a2fa50c8cd5195308b5
+  AppId: wxa9c8c5ecfa04d4c5
+  EncodingAESKey: N90MioDJPTl1nhgwjNKc8Kyj3SaQ0qFhRMf67G4Tcpx
+  APPSECRET: bd06722f270a50fef916b91729458eb2
 
 
 

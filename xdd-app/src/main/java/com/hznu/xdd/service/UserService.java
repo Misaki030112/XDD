@@ -28,6 +28,10 @@ public interface UserService {
 
     UserDO getUserById(Integer id);
 
+    UserDO getUserByUnionId(String unionId);
+
+    void updateUser(UserDO userDO);
+
     boolean UpdateSessionKey(Authentication authentication,String code);
 
     List<UserDO> searchUserByNickName(String nickName);

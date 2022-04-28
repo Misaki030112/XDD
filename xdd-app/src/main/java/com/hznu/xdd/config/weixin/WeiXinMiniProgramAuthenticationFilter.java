@@ -74,13 +74,13 @@ public class WeiXinMiniProgramAuthenticationFilter extends
         if(user==null){
             log.info("新用户注册!"+user);
             user = new UserDO();
-            user.setOpen_id_xiaododo_mini(openid).setCreate_time(new Date());
+            user.setOpen_id_xiaododo_mini(openid).setCreate_time(new Date()).setUnion_id(union_id).setUpdate_time(new Date());
             if(userService.addUser(user)){
                 log.info("新用户注册成功");
             }else throw new WeiXinMiniProgramAuthenticationException("用户注册失败");
         }
         user.setUnion_id(union_id);
-        user.setCreate_time(new Date());
+        user.setUpdate_time(new Date());
 
 
         return user;

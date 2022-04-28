@@ -1,7 +1,9 @@
 package com.hznu.xdd.domain.VO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hznu.xdd.pojo.UserDO;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,6 +24,8 @@ public class UserInfoVO implements Serializable {
 
     private Short gender;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     private Date birthday;
 
     private String province;
