@@ -4,6 +4,7 @@ import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.VO.CommentVO;
 import com.hznu.xdd.domain.VO.UgcPageVO;
 import com.hznu.xdd.pojo.UgcDO;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface UGCService {
 
     UgcPageVO getHotUGC(Integer page, Integer offset,Integer user_id);
 
-    Integer addComment(String content,Integer parent_id,String to_type,Integer to_id,Integer user_id);
+    Integer addComment(String content, Integer parent_id, String to_type, Integer to_id, Integer user_id);
 
     Integer voteUGC(Integer to_id,boolean status,Integer user_id);
 
