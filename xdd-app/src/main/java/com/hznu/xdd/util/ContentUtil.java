@@ -67,9 +67,8 @@ public class ContentUtil {
             if (!open_id_xiaododo_official_account.isEmpty() && !integer.equals(user_id)){
                 String accessToken = getAccessToken(restTemplate, 2);
                 HttpHeaders headers = new HttpHeaders();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
-                Date create_time = ugcCommentDO.getCreate_time();
-                String format = dateFormat.format(create_time);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+                String format = dateFormat.format(ugcCommentDO.getCreate_time());
                 String json = TemplateData.New().setTemplate_id(template_id).setTouser(open_id_xiaododo_official_account)
                         .add2("appid","pagepath",WxAppId,ugcId.toString())
                         .add("first","有评论啦")
