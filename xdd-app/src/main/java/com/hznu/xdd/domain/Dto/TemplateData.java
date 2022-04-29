@@ -11,6 +11,7 @@ public class TemplateData {
     private String template_id;
     private String url;
     private String topcolor;
+    private TemplateObj miniprogram;
     private TemplateItem data;
 
     public static TemplateData New() {
@@ -66,6 +67,12 @@ public class TemplateData {
         return this;
     }
 
+    public TemplateData add2(String key1,String key2, String value1,String value2){
+        miniprogram.put(key1, value1);
+        miniprogram.put(key2, "/pages/wall/wallDetail?ugc_id=" + value2);
+        return this;
+    }
+
     /**
      * 直接转化成jsonString
      * @return {String}
@@ -73,6 +80,11 @@ public class TemplateData {
     public String build() {
         return JSON.toJSONString(this);
     }
+
+    public TemplateObj getMiniprogram() {
+        return miniprogram;
+    }
+
 
     public class TemplateItem extends HashMap<String, Item> {
 
@@ -82,6 +94,15 @@ public class TemplateData {
 
         public TemplateItem(String key, Item item) {
             this.put(key, item);
+        }
+    }
+
+    public class TemplateObj extends HashMap<String, String> {
+
+        public TemplateObj() {}
+
+        public TemplateObj(String key, String value) {
+            this.put(key, value);
         }
     }
 

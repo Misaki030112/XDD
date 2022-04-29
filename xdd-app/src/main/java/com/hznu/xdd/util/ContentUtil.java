@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpUtils;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -69,6 +70,7 @@ public class ContentUtil {
                 String accessToken = getAccessToken(restTemplate, 2);
                 HttpHeaders headers = new HttpHeaders();
                 String json = TemplateData.New().setTemplate_id(template_id).setTouser(open_id_xiaododo_official_account)
+                        .add2("appid","pagepath",WxAppId,ugcCommentDO.getId().toString())
                         .add("first","有评论啦")
                         .add("keyword1",userDO1.getNickname())
                         .add("keyword2",ugcCommentDO.getCreate_time().toString())
