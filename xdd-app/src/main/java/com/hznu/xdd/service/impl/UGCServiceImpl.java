@@ -20,8 +20,11 @@ import com.hznu.xdd.domain.VO.UserVO;
 import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
+import com.hznu.xdd.util.ContentUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -56,6 +59,9 @@ public class UGCServiceImpl implements UGCService {
 
     @Resource
     RedisTemplate redisTemplate;
+
+    @Resource
+    RestTemplate restTemplate;
 
     /**
      * 获取所有评论
@@ -249,7 +255,7 @@ public class UGCServiceImpl implements UGCService {
             ugcDOExample.setOrderByClause(order_by);
         }
         ugcDOExample.or(criteria2);
-        ugcDOExample.setOrderByClause("update_time desc");
+        ugcDOExample.setOrderByClause("create_time desc");
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
         if (page != null && offset != null){
             ugcDOExample.page(page,offset);
@@ -345,7 +351,15 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public Integer addComment(String content, Integer parent_id, String to_type, Integer to_id,Integer user_id) {
+    public Integer addComment(String content, Integer parent_id, String to_type, Integer to_id, Integer user_id) {
+        ArrayList<Integer> userIdList = new ArrayList<>(); //需要发送用户id列表
+        int parent = parent_id;
+        while (parent != -1){
+            ugcCommentDO ugcItem = ugcCommentDOMapper.selectByPrimaryKey(parent);
+            userIdList.add(ugcItem.getUser_id());
+            parent = ugcItem.getParent_id();
+        }
+        userIdList.add(ugcDOMapper.selectByPrimaryKey(to_id).getUser_id());
         UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
         ugcDO.setComment(ugcDO.getComment() + 1);
         ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
@@ -358,6 +372,7 @@ public class UGCServiceImpl implements UGCService {
         ugcCommentDO.setIs_delete(false);
         ugcCommentDO.setUser_id(user_id);
         ugcCommentDO.setUgc_id(to_id);
+        ContentUtil.sendMessage(content,restTemplate,userIdList,userDOMapper,to_id,user_id,ugcCommentDO);
         return ugcCommentDOMapper.insert(ugcCommentDO);
     }
 
@@ -519,6 +534,13 @@ public class UGCServiceImpl implements UGCService {
         return new UgcPageVO().setList(labelDOS).setTotal(size);
     }
 
+
+    public static long NumberOfDaysEndUnixTime(int NumberOfDays) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)-NumberOfDays,23,59,59);
+        long yesterdayEnd = calendar.getTimeInMillis();
+        return yesterdayEnd;
+    }
     /**
      * 保存用户搜索记录以及存入到redis中便于热搜
      * @param key 搜索关键词
@@ -533,8 +555,8 @@ public class UGCServiceImpl implements UGCService {
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.MILLISECOND,0);
-        //晚上十二点与当前时间的毫秒差
-        long timeOut = (calendar.getTimeInMillis()-System.currentTimeMillis()) / 1000;
+        //七天热搜
+        long timeOut = (calendar.getTimeInMillis()-NumberOfDaysEndUnixTime(7)) / 1000;
         redisTemplate.expire("hotWord",timeOut, TimeUnit.SECONDS);
         redisTemplate.opsForZSet().incrementScore("hotWord", key, 1); // 加入排序set
         searchLogDO searchLogDO = new searchLogDO();
