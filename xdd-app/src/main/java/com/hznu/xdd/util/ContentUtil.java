@@ -19,10 +19,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpUtils;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 简析内容相关方法
@@ -69,11 +67,14 @@ public class ContentUtil {
             if (!open_id_xiaododo_official_account.isEmpty() && !integer.equals(user_id)){
                 String accessToken = getAccessToken(restTemplate, 2);
                 HttpHeaders headers = new HttpHeaders();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
+                Date create_time = ugcCommentDO.getCreate_time();
+                String format = dateFormat.format(create_time);
                 String json = TemplateData.New().setTemplate_id(template_id).setTouser(open_id_xiaododo_official_account)
-                        .add2("appid","pagepath",WxAppId,ugcCommentDO.getId().toString())
+                        .add2("appid","pagepath",WxAppId,ugcId.toString())
                         .add("first","有评论啦")
                         .add("keyword1",userDO1.getNickname())
-                        .add("keyword2",ugcCommentDO.getCreate_time().toString())
+                        .add("keyword2",format)
                         .add("keyword3",Message)
                         .add("remark","快去小程序看一看吧")
                         .build();
@@ -82,9 +83,6 @@ public class ContentUtil {
                 String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken;
                 ResponseEntity<String> entity = restTemplate.postForEntity(url,
                         request, String.class);
-                JSONObject jsonObject = JSON.parseObject(entity.getBody());
-                JSONObject result = jsonObject.getJSONObject("errcode");
-                String errcode = result.getString("errcode");
             }
         }
         return true;

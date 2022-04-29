@@ -239,6 +239,7 @@ public class UGCServiceImpl implements UGCService {
         }
         criteria1.andIs_deleteEqualTo(false);
         criteria2.andIs_deleteEqualTo(false);
+        criteria1.andIs_onlineEqualTo(true);
         if (key != null){
             criteria1.andContentLike("%" + key + "%");
             criteria2.andTitleLike("%" + key + "%");

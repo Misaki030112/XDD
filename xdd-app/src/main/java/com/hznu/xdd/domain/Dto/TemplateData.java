@@ -20,6 +20,7 @@ public class TemplateData {
 
     private TemplateData() {
         this.data = new TemplateItem();
+        this.miniprogram = new TemplateObj();
     }
 
     public String getTouser() {
