@@ -12,12 +12,14 @@ import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
+@Transactional(rollbackFor = Exception.class)
 public class StudentController {
 
     @Autowired

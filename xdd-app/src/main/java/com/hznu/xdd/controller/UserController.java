@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.BadPaddingException;
@@ -35,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@Transactional(rollbackFor = Exception.class)
 public class UserController implements InitializingBean {
 
     @Autowired

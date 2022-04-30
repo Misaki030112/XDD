@@ -14,6 +14,7 @@ import com.hznu.xdd.util.ContentUtil;
 import com.hznu.xdd.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
+@Transactional(rollbackFor = Exception.class)
 public class UGCController {
     @Autowired
     UserService userService;
