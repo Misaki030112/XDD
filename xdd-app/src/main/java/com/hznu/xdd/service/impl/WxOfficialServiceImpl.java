@@ -99,11 +99,21 @@ public class WxOfficialServiceImpl implements WxOfficialService {
     }
 
     @Override
-    public void ProcessUserAction(Map<String, String> map, HttpServletResponse response) throws AesException, IOException {
+    public void ProcessUserAction(Map<String, String> map, HttpServletResponse response,MessageDto messageDto) throws AesException, IOException {
         if(map.get("MsgType").equals("event")){
             if(map.get("Event").equals("subscribe")){
-                String message = MakeTextMessage(map.get("ToUserName"), map.get("FromUserName"));
-                response.getWriter().print(message);
+                String first="Halo，又有一个小机灵鬼发现我们啦\n" +
+                        "\n" +
+                        "快来看看大家都在聊什么吧！\n" +
+                        "\n" +
+                        "<a data-miniprogram-appid=\"wxa9d951513d7ca374\"\n" +
+                        "href=\"http://www.qq.com\""+
+                        "    data-miniprogram-path=\"/pages/initialPage/index\">\n" +
+                        "    “赶紧来看看吧！“\n"+
+                        "</a>";
+                String m1 = makeTextMessage(map.get("FromUserName"),map.get("ToUserName"), first, messageDto.getNonce());
+                response.getWriter().print(m1);
+
                 AttentionOfficial(map,true);
             }
             if(map.get("Event").equals("unsubscribe")){
@@ -165,44 +175,41 @@ public class WxOfficialServiceImpl implements WxOfficialService {
     }
 
 
-    private String MakeImg(String Id,String ToUserName ,String FromUserName) throws AesException {
-        long millis = System.currentTimeMillis();
+    private  String getAccessToken(){
+        ResponseEntity<JSONObject> forEntity = restTemplate.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa9c8c5ecfa04d4c5&secret=bd06722f270a50fef916b91729458eb2", JSONObject.class);
+        String access_token = Objects.requireNonNull(forEntity.getBody()).getString("access_token");
+        assert  access_token!=null;
+        return  access_token;
+    }
+
+
+    private String makeTextMessage(String toUser,String fromUser,String message,String nonce) throws AesException {
+        long mill = System.currentTimeMillis();
         String model="<xml>\n" +
-                "  <ToUserName><![CDATA["+ToUserName+"]]></ToUserName>\n" +
-                "  <FromUserName><![CDATA["+FromUserName+"]]></FromUserName>\n" +
-                "  <CreateTime>"+millis+"</CreateTime>\n" +
+                "  <ToUserName><![CDATA["+toUser+"]]></ToUserName>\n" +
+                "  <FromUserName><![CDATA["+fromUser+"]]></FromUserName>\n" +
+                "  <CreateTime>"+mill+"</CreateTime>\n" +
+                "  <MsgType><![CDATA[text]]></MsgType>\n" +
+                "  <Content><![CDATA["+message+"]]></Content>\n" +
+                "</xml>\n";
+        log.info(model);
+        return wxBizMsgCrypt.encryptMsg(model,String.valueOf(mill),nonce);
+    }
+
+
+    private String makeImageMessage(String toUser,String fromUser,String Id,String nonce) throws AesException {
+        long mill = System.currentTimeMillis();
+        String model="<xml>\n" +
+                "  <ToUserName><![CDATA["+toUser+"]]></ToUserName>\n" +
+                "  <FromUserName><![CDATA["+fromUser+"]]></FromUserName>\n" +
+                "  <CreateTime>"+mill+"</CreateTime>\n" +
                 "  <MsgType><![CDATA[image]]></MsgType>\n" +
                 "  <Image>\n" +
                 "    <MediaId><![CDATA["+Id+"]]></MediaId>\n" +
                 "  </Image>\n" +
                 "</xml>";
-        String msg = wxBizMsgCrypt.encryptMsg(model, String.valueOf(millis), "123456");
-        return msg;
-    }
-
-    private String MakeTextMessage(String ToUserName ,String FromUserName) throws AesException {
-        long millis = System.currentTimeMillis();
-        String model="<xml>\n" +
-                "  <ToUserName><![CDATA["+ToUserName+"]]></ToUserName>\n" +
-                "  <FromUserName><![CDATA["+FromUserName+"]]></FromUserName>\n" +
-                "  <CreateTime>"+millis+"</CreateTime>\n" +
-                "  <MsgType><![CDATA[text]]></MsgType>\n" +
-                "  <Content><![CDATA[Halo，又有一个小机灵鬼发现我们啦\n" +
-                "\n" +
-                "快来看看大家都在聊什么吧！\n" +
-                "\n" +
-                "“赶紧来看看吧！\n" +
-                "”]]></Content>\n" +
-                "</xml>";
-        return wxBizMsgCrypt.encryptMsg(model, String.valueOf(millis),"123456");
-    }
-
-    public  static String getAccessToken(){
-        RestTemplate restTemplate1 = new RestTemplate();
-        ResponseEntity<JSONObject> forEntity = restTemplate1.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa9c8c5ecfa04d4c5&secret=bd06722f270a50fef916b91729458eb2", JSONObject.class);
-        String access_token = Objects.requireNonNull(forEntity.getBody()).getString("access_token");
-        assert  access_token!=null;
-        return  access_token;
+        log.info(model);
+        return wxBizMsgCrypt.encryptMsg(model,String.valueOf(mill),nonce);
     }
 
 

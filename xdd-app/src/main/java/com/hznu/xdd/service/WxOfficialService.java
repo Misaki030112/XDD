@@ -32,7 +32,7 @@ public interface WxOfficialService {
     /**
      * 处理用户行为
      */
-    void ProcessUserAction(Map<String,String> map, HttpServletResponse response) throws AesException, IOException;
+    void ProcessUserAction(Map<String,String> map, HttpServletResponse response,MessageDto messageDto) throws AesException, IOException;
 
     /**
      * 用户关注/取关公众号事件处理

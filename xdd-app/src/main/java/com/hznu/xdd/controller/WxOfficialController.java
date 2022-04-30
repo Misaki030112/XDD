@@ -45,10 +45,10 @@ public class WxOfficialController {
            try {
                Map<String, String> map = wxOfficialService.analysisData(request, messageDto);
                log.info("解析的参数为：{}",map);
-               wxOfficialService.ProcessUserAction(map,response);
+               wxOfficialService.ProcessUserAction(map,response,messageDto);
 
            } catch (AesException | DocumentException |IOException e) {
-               log.info("消息解密失败！");
+               log.info("消息解密失败！或者消息发送失败！");
                e.printStackTrace();
            }
        }else{
