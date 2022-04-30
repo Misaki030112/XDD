@@ -31,6 +31,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+@Transactional()
 @Service
 public class UGCServiceImpl implements UGCService {
 
