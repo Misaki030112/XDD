@@ -125,6 +125,16 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
+    public UserDO getUserByOfficialWxOpenId(String wxOpenId) {
+        UserDOExample example = new UserDOExample();
+        UserDOExample.Criteria criteria = example.createCriteria();
+        criteria.andOpen_id_xiaododo_official_accountEqualTo(wxOpenId);
+        List<UserDO> userDOS = userDOMapper.selectByExample(example);
+        assert userDOS.size()==1;
+        return userDOS.get(0);
+    }
+
+    @Override
     public UserDO getUserByUnionId(String unionId) {
         UserDOExample example = new UserDOExample();
         UserDOExample.Criteria criteria = example.createCriteria();
@@ -181,7 +191,12 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         reportDO.setReport_user_id(reportDto.getReport_user_id())
                 .setReport_ugc_id(reportDto.getReport_ugc_id())
                 .setReport_to_type(reportDto.getReport_to_type())
-                .setParams(reportDto.getParams());
+                .setParams(reportDto.getParams())
+                .setCreate_user_id(userInfoUtil.getUserId())
+                .setCreate_time(new Date())
+                .setUpdate_time(new Date())
+                .setIs_delete(false)
+                .setStatus("0");
         int insert = reportDOMapper.insert(reportDO);
         return insert == 1;
     }

@@ -28,6 +28,8 @@ public interface UserService {
 
     UserDO getUserById(Integer id);
 
+    UserDO getUserByOfficialWxOpenId(String wxOpenId);
+
     UserDO getUserByUnionId(String unionId);
 
     void updateUser(UserDO userDO);
