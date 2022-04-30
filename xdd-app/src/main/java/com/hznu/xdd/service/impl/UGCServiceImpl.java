@@ -390,8 +390,7 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public synchronized boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
-        int count;
+    public boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
         voteLogDOExample voteLogDOExample = new voteLogDOExample();
         com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
@@ -420,6 +419,7 @@ public class UGCServiceImpl implements UGCService {
             if (status) {
                 voteLogDO = new voteLogDO();
                 voteLogDO.setVote_to_id(to_id);
+                voteLogDO.setUser_id(user_id);
                 voteLogDO.setVote_type("ugc");
                 voteLogDO.setIs_delete(false);
                 voteLogDO.setCreate_time(new Date());
@@ -440,7 +440,7 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public synchronized boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
+    public boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
         collectLogDOExample collectLogDOExample = new collectLogDOExample();
         com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
