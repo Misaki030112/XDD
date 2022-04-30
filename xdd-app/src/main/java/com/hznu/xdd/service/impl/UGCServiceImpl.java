@@ -390,8 +390,8 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public synchronized boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
-        int count;
+    @Transactional
+    public boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
         voteLogDOExample voteLogDOExample = new voteLogDOExample();
         com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);
@@ -440,7 +440,8 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public synchronized boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
+    @Transactional
+    public boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
         collectLogDOExample collectLogDOExample = new collectLogDOExample();
         com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
         criteria.andUser_idEqualTo(user_id);

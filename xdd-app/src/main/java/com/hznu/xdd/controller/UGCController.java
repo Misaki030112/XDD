@@ -178,7 +178,7 @@ public class UGCController {
     }
 
     @PostMapping(value = "/post/ugc/vote",produces = {"application/json;charset=UTF-8"})
-    public Result voteUGC(@RequestBody UGCDto ugcDto,
+    public synchronized Result voteUGC(@RequestBody UGCDto ugcDto,
                           Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         boolean voteUGC = ugcService.voteUGC(ugcDto.getTo_id(), ugcDto.isStatus(), userDO.getId());
@@ -190,7 +190,7 @@ public class UGCController {
     }
 
     @PostMapping(value = "/post/ugc/collect",produces = {"application/json;charset=UTF-8"})
-    public Result collectUGC(@RequestBody UGCDto ugcDto,
+    public synchronized Result collectUGC(@RequestBody UGCDto ugcDto,
                              Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
         boolean integer = ugcService.collectUGC(ugcDto.getTo_id(), ugcDto.isStatus(), userDO.getId());
