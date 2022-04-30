@@ -278,11 +278,12 @@ public class UGCServiceImpl implements UGCService {
     public UgcPageVO getHotUGC(Integer page, Integer offset,Integer user_id) {
         UgcDOExample ugcDOExample = new UgcDOExample();
         int size = ugcDOMapper.selectByExample(ugcDOExample).size();
-        ugcDOExample.page(page,offset);
+//        ugcDOExample.page(page,offset);
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         List<UGCVO> ugcvos = new ArrayList<>();
         BatchUGC(ugcDOS, ugcvos,user_id);
         ugcvos.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
+        ugcvos = ugcvos.subList(page*offset,(page + 1) *offset - 1);
         return new UgcPageVO().setList(ugcvos).setTotal(size);
     }
 
