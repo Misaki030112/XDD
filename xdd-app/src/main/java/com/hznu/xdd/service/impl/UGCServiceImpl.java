@@ -407,7 +407,12 @@ public class UGCServiceImpl implements UGCService {
             voteLogDO.setIs_delete(!status);
             voteLogDO.setUser_id(user_id);
             count = voteLogDOMapper.insert(voteLogDO);
-        }else if (status && !voteLogDOS.get(0).getIs_delete() || !status && voteLogDOS.get(0).getIs_delete()){
+            if (status){
+                ugcDO.setVote(ugcDO.getVote() + 1);
+            }else{
+                ugcDO.setVote(ugcDO.getVote() - 1);
+            }
+        }else if (status && voteLogDOS.get(0).getIs_delete() || !status && !voteLogDOS.get(0).getIs_delete()){
             int n = status ? 1 : -1;
             ugcDO.setVote(ugcDO.getVote() + n);
             ugcDOMapper.updateByPrimaryKey(ugcDO);
@@ -445,6 +450,11 @@ public class UGCServiceImpl implements UGCService {
             collectLogDO.setCollect_type("ugc");
             collectLogDO.setIs_delete(!status);
             collectLogDO.setUser_id(user_id);
+            if (status){
+                ugcDO.setCollect(ugcDO.getCollect() + 1);
+            }else{
+                ugcDO.setCollect(ugcDO.getCollect() - 1);
+            }
             count = collectLogDOMapper.insert(collectLogDO);
         }else if(status && collectLogDOs.get(0).getIs_delete() || !status && !collectLogDOs.get(0).getIs_delete()){
             if (status){
