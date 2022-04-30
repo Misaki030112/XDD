@@ -375,7 +375,7 @@ public class UGCServiceImpl implements UGCService {
         ugcCommentDO.setIs_delete(false);
         ugcCommentDO.setUser_id(user_id);
         ugcCommentDO.setUgc_id(to_id);
-        ContentUtil.sendMessage(content,restTemplate,userIdList,userDOMapper,to_id,user_id,ugcCommentDO);
+        ContentUtil.sendMessage(content,restTemplate,userIdList,userDOMapper,to_id,user_id,ugcCommentDO,"c_eXThmZYQ1GXjpygjzRD2lBZYGOR8L6WdbB1HwO1_o");
         return ugcCommentDOMapper.insert(ugcCommentDO);
     }
 
@@ -387,7 +387,7 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public Integer voteUGC(Integer to_id, boolean status,Integer user_id) {
+    public synchronized Integer voteUGC(Integer to_id, boolean status,Integer user_id) {
         int count;
         voteLogDOExample voteLogDOExample = new voteLogDOExample();
         com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
@@ -427,7 +427,7 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public Integer collectUGC(Integer to_id, boolean status, Integer user_id) {
+    public synchronized Integer collectUGC(Integer to_id, boolean status, Integer user_id) {
         int count;
         collectLogDOExample collectLogDOExample = new collectLogDOExample();
         com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();

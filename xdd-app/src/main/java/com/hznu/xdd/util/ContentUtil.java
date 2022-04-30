@@ -32,7 +32,6 @@ public class ContentUtil {
 
     private static String WxAppSecret="d992c9c01bb01269624071b165ba99f3";
 
-    private static String template_id = "c_eXThmZYQ1GXjpygjzRD2lBZYGOR8L6WdbB1HwO1_o";
 
 
 
@@ -59,7 +58,14 @@ public class ContentUtil {
         return label.equals("100");
     }
 
-    public static boolean sendMessage(String Message, RestTemplate restTemplate, List<Integer> userId, UserDOMapper userDOMapper, Integer ugcId, Integer user_id, ugcCommentDO ugcCommentDO){
+    public static boolean sendMessage(String Message,
+                                      RestTemplate restTemplate,
+                                      List<Integer> userId,
+                                      UserDOMapper userDOMapper,
+                                      Integer ugcId,
+                                      Integer user_id,
+                                      ugcCommentDO ugcCommentDO,
+                                      String template_id){
         UserDO userDO1 = userDOMapper.selectByPrimaryKey(user_id);
         String accessToken = getAccessToken(restTemplate, 2);
         for (Integer integer : userId) {
@@ -87,6 +93,13 @@ public class ContentUtil {
         }
         return true;
     }
+
+    /**
+     *
+     * @param restTemplate
+     * @param type 1：小程序 2：公众号
+     * @return
+     */
     private static String getAccessToken(RestTemplate restTemplate,int type){
         String url = getUrl(type);
         ResponseEntity<JSONObject> wxOpenid = restTemplate.getForEntity(url,JSONObject.class);
@@ -118,19 +131,3 @@ public class ContentUtil {
 
 }
 
-class Message implements Serializable {
-    private Object value;
-
-    public Message(Object value) {
-        this.value = value;
-    }
-
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-}

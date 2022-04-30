@@ -350,7 +350,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public boolean FocusUser(String wxOpenId, Integer user_id, boolean status) {
+    public synchronized boolean FocusUser(String wxOpenId, Integer user_id, boolean status) {
         try {
             UserDO actionUser = getUserByWxOpenId(wxOpenId);
             int id=actionUser.getId();
