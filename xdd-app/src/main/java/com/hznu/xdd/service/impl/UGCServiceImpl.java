@@ -177,6 +177,9 @@ public class UGCServiceImpl implements UGCService {
         if (UGCDto.getLocation() != null){
             ugcDO.setLocation(JSON.toJSONString(UGCDto.getLocation()));
         }
+        if (UGCDto.getTopic() != null){
+            ugcDO.setTopic(UGCDto.getTopic());
+        }
         Date date = new Date();
         ugcDO.setUpdate_time(date);
         return ugcDOMapper.updateByPrimaryKey(ugcDO);
