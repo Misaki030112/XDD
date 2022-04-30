@@ -102,17 +102,19 @@ public class WxOfficialServiceImpl implements WxOfficialService {
     public void ProcessUserAction(Map<String, String> map, HttpServletResponse response,MessageDto messageDto) throws AesException, IOException {
         if(map.get("MsgType").equals("event")){
             if(map.get("Event").equals("subscribe")){
-                String first="Halo，又有一个小机灵鬼发现我们啦\n" +
-                        "\n" +
-                        "快来看看大家都在聊什么吧！\n" +
-                        "\n" +
-                        "<a data-miniprogram-appid=\"wxa9d951513d7ca374\"\n" +
-                        "href=\"http://www.qq.com\""+
-                        "    data-miniprogram-path=\"/pages/initialPage/index\">\n" +
-                        "    “赶紧来看看吧！“\n"+
-                        "</a>";
-                String m1 = makeTextMessage(map.get("FromUserName"),map.get("ToUserName"), first, messageDto.getNonce());
-                response.getWriter().print(m1);
+//                String first="Halo，又有一个小机灵鬼发现我们啦\n" +
+//                        "\n" +
+//                        "快来看看大家都在聊什么吧！\n" +
+//                        "\n" +
+//                        "<a data-miniprogram-appid=\"wxa9d951513d7ca374\"\n" +
+//                        "href=\"http://www.qq.com\""+
+//                        "    data-miniprogram-path=\"/pages/initialPage/index\">\n" +
+//                        "    “赶紧来看看吧！“\n"+
+//                        "</a>";
+//                String m1 = makeTextMessage(map.get("FromUserName"),map.get("ToUserName"), first, messageDto.getNonce());
+//                response.getWriter().print(m1);
+                String s = makeImageMessage(map.get("FromUserName"), map.get("ToUserName"), "9v50sGs_H1gVZclz6TTfyzerJR605dtvXBP2PtPqCNaBe6RtDLVC1PI-Zd1sERXW", messageDto.getNonce());
+                response.getWriter().print(s);
 
                 AttentionOfficial(map,true);
             }
