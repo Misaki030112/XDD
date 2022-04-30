@@ -71,7 +71,7 @@ public class ContentUtil {
         for (Integer integer : userId) {
             UserDO userDO = userDOMapper.selectByPrimaryKey(integer);
             String open_id_xiaododo_official_account = userDO.getOpen_id_xiaododo_official_account();
-            if (!open_id_xiaododo_official_account.isEmpty() && !integer.equals(user_id)){
+            if (open_id_xiaododo_official_account != null && !open_id_xiaododo_official_account.isEmpty() && !integer.equals(user_id)){
                 HttpHeaders headers = new HttpHeaders();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
                 String format = dateFormat.format(ugcCommentDO.getCreate_time());
