@@ -95,6 +95,37 @@ public class ContentUtil {
     }
 
     /**
+     * 通用发送消息
+     * @param restTemplate
+     * @param userDO 用户信息
+     * @param json json格式 见TemplateData类
+     * @return
+     */
+    public static boolean sendMessageCommon(RestTemplate restTemplate,
+                                            UserDO userDO,
+                                            String json){
+        String accessToken = getAccessToken(restTemplate, 2);
+            String open_id_xiaododo_official_account = userDO.getOpen_id_xiaododo_official_account();
+            if (!open_id_xiaododo_official_account.isEmpty()){
+                HttpHeaders headers = new HttpHeaders();
+//                String json = TemplateData.New().setTemplate_id(template_id).setTouser(open_id_xiaododo_official_account)
+//                        .add2("appid","pagepath",WxAppId,ugcId.toString())
+//                        .add("first","有评论啦")
+//                        .add("keyword1",userDO1.getNickname())
+//                        .add("keyword2",format)
+//                        .add("keyword3",Message)
+//                        .add("remark","快去小程序看一看吧")
+//                        .build();
+                headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+                HttpEntity<String> request = new HttpEntity<>(json, headers);
+                String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken;
+                ResponseEntity<String> entity = restTemplate.postForEntity(url,
+                        request, String.class);
+            }
+        return true;
+    }
+
+    /**
      *
      * @param restTemplate
      * @param type 1：小程序 2：公众号
