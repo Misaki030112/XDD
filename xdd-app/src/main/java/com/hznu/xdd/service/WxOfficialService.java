@@ -5,6 +5,7 @@ import com.hznu.xdd.exception.AesException;
 import org.dom4j.DocumentException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public interface WxOfficialService {
     /**
      * 处理用户行为
      */
-    void ProcessUserAction(Map<String,String> map);
+    void ProcessUserAction(Map<String,String> map, HttpServletResponse response) throws AesException, IOException;
 
     /**
      * 用户关注/取关公众号事件处理

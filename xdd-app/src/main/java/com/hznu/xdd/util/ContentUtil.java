@@ -10,6 +10,7 @@ import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.pojo.ugcCommentDO;
 import com.hznu.xdd.service.WxOfficialService;
 import com.hznu.xdd.service.impl.WxOfficialServiceImpl;
+import com.hznu.xdd.utils.WXBizMsgCrypt;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -31,7 +32,6 @@ public class ContentUtil {
     private static String WxAppId="wxa9d951513d7ca374";
 
     private static String WxAppSecret="d992c9c01bb01269624071b165ba99f3";
-
 
 
 
@@ -128,6 +128,9 @@ public class ContentUtil {
         param = param.substring(0,param.length() - 1);
         return "https://api.weixin.qq.com/cgi-bin/token?"+param;
     }
+
+
+
 
 }
 

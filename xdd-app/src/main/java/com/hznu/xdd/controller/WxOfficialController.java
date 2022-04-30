@@ -38,17 +38,16 @@ public class WxOfficialController {
     }
 
     @PostMapping("/officialAccount/wx")
-    public void OfficialHandler(MessageDto messageDto,HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void OfficialHandler(MessageDto messageDto,HttpServletRequest request,HttpServletResponse response)  {
         response.setHeader("Content-type", "text/html;charset=UTF-8");
        if(wxOfficialService.verifyFromWechat(messageDto.getSignature(),messageDto.getTimestamp(),messageDto.getNonce())){
-           response.getWriter().print("");
            log.info("验证来自微信服务器成功！");
            try {
                Map<String, String> map = wxOfficialService.analysisData(request, messageDto);
                log.info("解析的参数为：{}",map);
-               wxOfficialService.ProcessUserAction(map);
+               wxOfficialService.ProcessUserAction(map,response);
 
-           } catch (AesException | DocumentException e) {
+           } catch (AesException | DocumentException |IOException e) {
                log.info("消息解密失败！");
                e.printStackTrace();
            }
