@@ -181,14 +181,24 @@ public class UGCController {
     public Result voteUGC(@RequestBody UGCDto ugcDto,
                           Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        return Result.ok(ugcService.voteUGC(ugcDto.getTo_id(),ugcDto.isStatus(),userDO.getId()),"点赞成功");
+        Integer integer = ugcService.voteUGC(ugcDto.getTo_id(), ugcDto.isStatus(), userDO.getId());
+        if (integer == 0){
+            return new Result(StatusCode.INVALID_USER_PUBLISH);
+        }else {
+            return Result.ok(integer,"点赞成功");
+        }
     }
 
     @PostMapping(value = "/post/ugc/collect",produces = {"application/json;charset=UTF-8"})
     public Result collectUGC(@RequestBody UGCDto ugcDto,
                              Authentication authentication){
         UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
-        return Result.ok(ugcService.collectUGC(ugcDto.getTo_id(),ugcDto.isStatus(),userDO.getId()),"收藏成功");
+        Integer integer = ugcService.collectUGC(ugcDto.getTo_id(), ugcDto.isStatus(), userDO.getId());
+        if (integer == 0){
+            return new Result(StatusCode.INVALID_USER_PUBLISH);
+        }else {
+            return Result.ok(integer,"收藏成功");
+        }
     }
 
     @GetMapping(value = "/get/ugc/hot",produces = {"application/json;charset=UTF-8"})
