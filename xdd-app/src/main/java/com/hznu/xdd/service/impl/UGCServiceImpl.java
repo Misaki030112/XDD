@@ -162,8 +162,8 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public Integer updateUGC(UGCDto UGCDto) {
         UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(UGCDto.getId());
-        ugcDO.setImages("");
-        ugcDO.setVideo("");
+        ugcDO.setImages(null);
+        ugcDO.setVideo(null);
         mergeUGCAttachment(UGCDto, ugcDO);
         if(UGCDto.isAnonymous()){
             ugcDO.setAnonymous(UGCDto.isAnonymous());
@@ -179,7 +179,7 @@ public class UGCServiceImpl implements UGCService {
         }
         Date date = new Date();
         ugcDO.setUpdate_time(date);
-        return ugcDOMapper.updateByPrimaryKeySelective(ugcDO);
+        return ugcDOMapper.updateByPrimaryKey(ugcDO);
     }
 
     /**
@@ -293,7 +293,7 @@ public class UGCServiceImpl implements UGCService {
         ugcDOS.forEach((txt)->{
             UGCVO ugcvo = new UGCVO();
             List<attachmentDto> attachmentDtos = new ArrayList<>();
-            if (!txt.getImages().equals("")){
+            if ( txt.getImages() != null && !txt.getImages().equals("") ){
                 String[] split = txt.getImages().split(",");
                 for (String s : split) {
                     attachmentDto attachmentDto = new attachmentDto();
@@ -301,7 +301,7 @@ public class UGCServiceImpl implements UGCService {
                     attachmentDtos.add(attachmentDto);
                 }
             }
-            if (!txt.getVideo().equals("")){
+            if (txt.getVideo() != null && !txt.getVideo().equals("")) {
                 String[] split = txt.getVideo().split(",");
                 for (String s : split) {
                     attachmentDto attachmentDto = new attachmentDto();
