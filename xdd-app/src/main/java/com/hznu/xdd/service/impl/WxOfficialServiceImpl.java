@@ -159,8 +159,9 @@ public class WxOfficialServiceImpl implements WxOfficialService {
         return UserInfoUrlPrefix+"access_token="+access_token+"&openid="+openId+"&lang=zh_CN";
     }
 
-    private String getAccessToken(){
-        ResponseEntity<JSONObject> forEntity = restTemplate.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+APPSECRET, JSONObject.class);
+    public  static String getAccessToken(){
+        RestTemplate restTemplate1 = new RestTemplate();
+        ResponseEntity<JSONObject> forEntity = restTemplate1.getForEntity("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa9c8c5ecfa04d4c5&secret=bd06722f270a50fef916b91729458eb2", JSONObject.class);
         String access_token = Objects.requireNonNull(forEntity.getBody()).getString("access_token");
         assert  access_token!=null;
         return  access_token;
