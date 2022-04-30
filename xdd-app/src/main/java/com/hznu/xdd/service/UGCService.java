@@ -25,9 +25,9 @@ public interface UGCService {
 
     Integer addComment(String content, Integer parent_id, String to_type, Integer to_id, Integer user_id);
 
-    Integer voteUGC(Integer to_id,boolean status,Integer user_id);
+    boolean voteUGC(Integer to_id,boolean status,Integer user_id);
 
-    Integer collectUGC(Integer to_id,boolean status,Integer user_id);
+    boolean collectUGC(Integer to_id,boolean status,Integer user_id);
 
     List<CommentVO> getCommentById(Integer id);
 
