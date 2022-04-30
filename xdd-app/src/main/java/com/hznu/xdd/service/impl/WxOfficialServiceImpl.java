@@ -114,21 +114,27 @@ public class WxOfficialServiceImpl implements WxOfficialService {
 
     @Override
     public void AttentionOfficial(Map<String, String> map,Boolean flag) {
+        UserDO user=null;
         String OpenId = map.get("FromUserName");
-        String accessToken = getAccessToken();
-        ResponseEntity<JSONObject> entity = restTemplate.getForEntity(getUserInfoUrl(OpenId,accessToken), JSONObject.class);
-        log.info("还没解析的数据：{}",entity);
-        OfficialUserInfoDto infoDto = Objects.requireNonNull(entity.getBody()).toJavaObject(OfficialUserInfoDto.class);
-        log.info("用户信息数据为：{}",infoDto);
-        assert infoDto!=null;
-        UserDO user = userService.getUserByUnionId(infoDto.getUnionid());
-        if(flag)
-        user.setOpen_id_xiaododo_official_account(OpenId);
-        else  user.setOpen_id_xiaododo_official_account(null);
-        userService.updateUser(user);
-        if(flag)
-        log.info("成功绑定用户关注公众号OpenID！");
-        else log.info("成功解除用户关注公众号OpenID！");
+        if(flag){
+            String accessToken = getAccessToken();
+            ResponseEntity<JSONObject> entity = restTemplate.getForEntity(getUserInfoUrl(OpenId,accessToken), JSONObject.class);
+            log.info("还没解析的数据：{}",entity);
+            OfficialUserInfoDto infoDto = Objects.requireNonNull(entity.getBody()).toJavaObject(OfficialUserInfoDto.class);
+            log.info("用户信息数据为：{}",infoDto);
+            assert infoDto!=null;
+            user = userService.getUserByUnionId(infoDto.getUnionid());
+            assert user!=null;
+            user.setOpen_id_xiaododo_official_account(OpenId);
+            userService.updateUser(user);
+            log.info("成功绑定用户关注公众号OpenID！");
+        }else{
+            user = userService.getUserByOfficialWxOpenId(OpenId);
+            assert user!=null;
+            user.setOpen_id_xiaododo_official_account(null);
+            userService.updateUser(user);
+            log.info("成功取消用户关注公众号OpenID！");
+        }
     }
 
 
