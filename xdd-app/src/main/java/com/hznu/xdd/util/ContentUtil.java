@@ -61,11 +61,11 @@ public class ContentUtil {
 
     public static boolean sendMessage(String Message, RestTemplate restTemplate, List<Integer> userId, UserDOMapper userDOMapper, Integer ugcId, Integer user_id, ugcCommentDO ugcCommentDO){
         UserDO userDO1 = userDOMapper.selectByPrimaryKey(user_id);
+        String accessToken = getAccessToken(restTemplate, 2);
         for (Integer integer : userId) {
             UserDO userDO = userDOMapper.selectByPrimaryKey(integer);
             String open_id_xiaododo_official_account = userDO.getOpen_id_xiaododo_official_account();
             if (!open_id_xiaododo_official_account.isEmpty() && !integer.equals(user_id)){
-                String accessToken = getAccessToken(restTemplate, 2);
                 HttpHeaders headers = new HttpHeaders();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
                 String format = dateFormat.format(ugcCommentDO.getCreate_time());
@@ -82,6 +82,7 @@ public class ContentUtil {
                 String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken;
                 ResponseEntity<String> entity = restTemplate.postForEntity(url,
                         request, String.class);
+
             }
         }
         return true;

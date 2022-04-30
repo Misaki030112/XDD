@@ -24,6 +24,7 @@ import com.hznu.xdd.util.ContentUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -351,6 +352,7 @@ public class UGCServiceImpl implements UGCService {
      * @param user_id 评论者id
      * @return 是否成功
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer addComment(String content, Integer parent_id, String to_type, Integer to_id, Integer user_id) {
         ArrayList<Integer> userIdList = new ArrayList<>(); //需要发送用户id列表
