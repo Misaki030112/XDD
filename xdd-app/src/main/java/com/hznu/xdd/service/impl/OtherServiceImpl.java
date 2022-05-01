@@ -19,7 +19,7 @@ public class OtherServiceImpl implements OtherService {
 
     public List<hotSearchVO> getHotSearch(){
         List<hotSearchVO> hotWordList = new ArrayList<>();
-        Set<ZSetOperations.TypedTuple<Object>> typedTupleSet = redisTemplate.opsForZSet().reverseRangeByScoreWithScores("hotWord",1,100);
+        Set<ZSetOperations.TypedTuple<Object>> typedTupleSet = redisTemplate.opsForZSet().reverseRangeWithScores("hotWord",0,9);
         Iterator<ZSetOperations.TypedTuple<Object>> iterator = typedTupleSet.iterator();
         int flag = 0;
         while (iterator.hasNext()){

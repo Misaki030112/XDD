@@ -22,6 +22,7 @@ import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.util.ContentUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -177,6 +178,9 @@ public class UGCServiceImpl implements UGCService {
         if (UGCDto.getLocation() != null){
             ugcDO.setLocation(JSON.toJSONString(UGCDto.getLocation()));
         }
+        if (UGCDto.getTopic() != null){
+            ugcDO.setTopic(UGCDto.getTopic());
+        }
         Date date = new Date();
         ugcDO.setUpdate_time(date);
         return ugcDOMapper.updateByPrimaryKey(ugcDO);
@@ -278,15 +282,26 @@ public class UGCServiceImpl implements UGCService {
      */
     @Override
     public UgcPageVO getHotUGC(Integer page, Integer offset,Integer user_id) {
-        UgcDOExample ugcDOExample = new UgcDOExample();
-        int size = ugcDOMapper.selectByExample(ugcDOExample).size();
-//        ugcDOExample.page(page,offset);
-        List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
+        List<Integer> list = new ArrayList<>();
+        Set<ZSetOperations.TypedTuple<Object>> typedTupleSet = redisTemplate.opsForZSet().reverseRangeWithScores("HotUGC",0,9);
+        Iterator<ZSetOperations.TypedTuple<Object>> iterator = typedTupleSet.iterator();
+        int flag = 0;
+        while (iterator.hasNext()){
+            flag++;
+            ZSetOperations.TypedTuple<Object> typedTuple = iterator.next();
+            Integer value = (Integer)typedTuple.getValue();
+            list.add(value);
+            if ( flag >= 10 ) break;
+        }
+        List<UgcDO> ugcDOS = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            ugcDOS.add(ugcDOMapper.selectByPrimaryKey(list.get(i)));
+        }
         List<UGCVO> ugcvos = new ArrayList<>();
         BatchUGC(ugcDOS, ugcvos,user_id);
-        ugcvos.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
+//        ugcvos.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
         ugcvos = ugcvos.subList(page*offset,(page + 1) *offset - 1);
-        return new UgcPageVO().setList(ugcvos).setTotal(size);
+        return new UgcPageVO().setList(ugcvos).setTotal(flag);
     }
 
     private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos,Integer user_id) {
