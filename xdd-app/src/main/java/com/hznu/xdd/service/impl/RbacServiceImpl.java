@@ -1,6 +1,7 @@
 package com.hznu.xdd.service.impl;
 
 import com.hznu.xdd.config.NotAuthorizationUrl;
+import com.hznu.xdd.config.UgcException;
 import com.hznu.xdd.pojo.AdminDO;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.RbacService;
@@ -24,6 +25,8 @@ public class RbacServiceImpl implements RbacService {
 
     private List<String> authorizationUrls = new ArrayList<String>();
 
+    private String[] authorizationUgcUrls = new String[]{"/post/ugc/create","/post/ugc/comment"};
+
     @Setter
     @Autowired
     private Map<String, NotAuthorizationUrl> notAuthorizationUrlMap;
@@ -41,6 +44,15 @@ public class RbacServiceImpl implements RbacService {
             }
         }
         if ((principal instanceof AdminDO||principal instanceof UserDO) && !hasPermission) {
+            for (String url : authorizationUgcUrls) {
+                if (antPathMatcher.match(url,requestURI)){
+                    UserDO userDO= (UserDO) authentication.getPrincipal();
+                    if (userDO.getPhone() == null || userDO.getPhone().isEmpty() || userDO.getVerify_method() == null || userDO.getVerify_method().isEmpty() || userDO.getAccount_status() != 2) {
+                        throw new UgcException("账号信息错误");
+                    }
+                    break;
+                }
+            }
             //当前如果是已登录的用户 就可以放权
             hasPermission = Boolean.TRUE;
         } else if (principal instanceof String

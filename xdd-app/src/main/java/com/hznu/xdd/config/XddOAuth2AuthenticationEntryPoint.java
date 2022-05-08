@@ -52,6 +52,9 @@ public class XddOAuth2AuthenticationEntryPoint extends OAuth2AuthenticationEntry
         {
             return new ResponseEntity<Object>( new Result(StatusCode.SUCCESS.getCode(),exception.getMessage()), update, HttpStatus.OK);
         }
+        if (exception instanceof UgcException){
+            return new ResponseEntity<Object>( new Result(StatusCode.INVALID_USER_PUBLISH.getCode(),exception.getMessage()), update, HttpStatus.OK);
+        }
         return new ResponseEntity<Object>(new Result(StatusCode.TOKEN_INVALID), update, HttpStatus.OK);
     }
 
