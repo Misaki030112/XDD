@@ -127,7 +127,7 @@ public class WxOfficialServiceImpl implements WxOfficialService {
                 ));
                 SendMessage(getAccessToken(),pullTextMessage(map.get("FromUserName"),"扫描下方群二维码，不用担心迷路啦"));
 
-                SendMessage(getAccessToken(),pullImageMessage(map.get("FromUserName"),"9v50sGs_H1gVZclz6TTfyzerJR605dtvXBP2PtPqCNaBe6RtDLVC1PI-Zd1sERXW"));
+                SendMessage(getAccessToken(),pullImageMessage(map.get("FromUserName"),"Tdv70_AZpBfiQc7t4bU63RTvIFba1LkQerfPciolkTsV7wtgkndcQI-TWH79NJyF"));
 
                 AttentionOfficial(map,true);
             }
