@@ -116,18 +116,15 @@ public class WxOfficialServiceImpl implements WxOfficialService {
     public void ProcessUserAction(Map<String, String> map, HttpServletResponse response,MessageDto messageDto) throws AesException, IOException {
         if(map.get("MsgType").equals("event")){
             if(map.get("Event").equals("subscribe")){
+                response.getWriter().print("");
 
-
-                String one = makeTextMessage(map.get("FromUserName"), map.get("ToUserName"),
-                        "自动回复格式：第一条  Halo，又有一个小机灵鬼发现我们啦\n" +
+                SendMessage(getAccessToken(),pullTextMessage(map.get("FromUserName"),
+                        "Halo，又有一个小机灵鬼发现我们啦\n" +
                                 "\n" +
                                 "快来看看大家都在聊什么吧！\n" +
                                 "\n" +
-                                "“赶紧来看看吧！“\n" +
-                                "<a href=\"http://www.qq.com\" data-miniprogram-appid=\"wxa9d951513d7ca374\" data-miniprogram-path=\"pages/initialPage/index\">点击跳小程序</a>"
-                        , messageDto.getNonce());
-                response.getWriter().print(one);
-
+                                "<a href=\"http://www.qq.com\" data-miniprogram-appid=\"wxa9d951513d7ca374\" data-miniprogram-path=\"pages/initialPage/index\">“赶紧来看看吧！“</a>"
+                ));
                 SendMessage(getAccessToken(),pullTextMessage(map.get("FromUserName"),"扫描下方群二维码，不用担心迷路啦"));
 
                 SendMessage(getAccessToken(),pullImageMessage(map.get("FromUserName"),"9v50sGs_H1gVZclz6TTfyzerJR605dtvXBP2PtPqCNaBe6RtDLVC1PI-Zd1sERXW"));
