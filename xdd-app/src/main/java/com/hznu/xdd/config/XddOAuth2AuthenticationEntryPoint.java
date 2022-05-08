@@ -50,7 +50,7 @@ public class XddOAuth2AuthenticationEntryPoint extends OAuth2AuthenticationEntry
         update.set("WWW-Authenticate", builder.toString());
         if(exception instanceof UnapprovedClientAuthenticationException)
         {
-            return new ResponseEntity<Object>( new Result(StatusCode.SUCCESS.getCode(),exception.getMessage()), update, HttpStatus.OK);
+            return new ResponseEntity<Result>( new Result(StatusCode.SUCCESS.getCode(),exception.getMessage()), update, HttpStatus.OK);
         }
         if (exception instanceof UgcException){
             return new ResponseEntity<Object>( new Result(StatusCode.INVALID_USER_PUBLISH.getCode(),exception.getMessage()), update, HttpStatus.OK);
