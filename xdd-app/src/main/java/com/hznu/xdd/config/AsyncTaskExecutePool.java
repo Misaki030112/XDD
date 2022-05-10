@@ -23,16 +23,16 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 public class AsyncTaskExecutePool implements AsyncConfigurer {
     @Value("${task.pool.core-pool-size}")
-    public static int corePoolSize;
+    public  int corePoolSize;
 
     @Value("${task.pool.max-pool-size}")
-    public static int maxPoolSize;
+    public  int maxPoolSize;
 
     @Value("${task.pool.keep-alive-seconds}")
-    public static int keepAliveSeconds;
+    public  int keepAliveSeconds;
 
     @Value("${task.pool.queue-capacity}")
-    public static int queueCapacity;
+    public  int queueCapacity;
 
     @Override
     public Executor getAsyncExecutor() {

@@ -28,6 +28,9 @@ public class GroupController {
     GroupService groupService;
 
     @Autowired
+    UserInfoUtil userInfoUtil;
+
+    @Autowired
     UserService userService;
 
 
@@ -88,7 +91,7 @@ public class GroupController {
     public Result groupCancel(@RequestParam("id") Integer id,
                               Authentication authentication){
         try {
-            UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+            UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
             Boolean flag = groupService.groupCancel(id, userDO.getId());
             if(flag) return Result.ok(null,"退出成功");
             else return new Result(StatusCode.INVALID_USER_PUBLISH);

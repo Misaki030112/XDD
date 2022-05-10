@@ -82,7 +82,7 @@ public class UserController implements InitializingBean {
     public Result userInfo(@RequestBody UserDto userDto,
                             Authentication authentication){
         try {
-            UserDO userDO = userService.initUserInfoByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),
+            UserDO userDO = userService.initUserInfoByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication),
                     userDto.getEncryptedData(), userDto.getIv(), userInfoUtil.getSessionKey(authentication));
             return Result.ok(userDO,"登录成功！");
         } catch (InvalidAlgorithmParameterException | BadPaddingException | NoSuchAlgorithmException | InvalidParameterSpecException e) {
@@ -96,7 +96,7 @@ public class UserController implements InitializingBean {
 
     @PostMapping(value = "/post/user/login",produces = { "application/json;charset=UTF-8" })
     public Result login(Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(userDO==null)
             return new Result(StatusCode.NO_EXIST);
         else{
@@ -141,7 +141,7 @@ public class UserController implements InitializingBean {
 
     @PostMapping(value = "/post/user/info/change",produces = { "application/json;charset=UTF-8" })
     public Result changeUserInfo(@RequestBody UserDto userDto,Authentication authentication){
-        UserDO user = userService.changeUserInfo(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),
+        UserDO user = userService.changeUserInfo(userInfoUtil.getWxOpenIdXiaododoMini(authentication),
                 userDto.getNickname(),
                 userDto.getAvatar(),
                 userDto.getSignature(),
@@ -159,38 +159,38 @@ public class UserController implements InitializingBean {
 
     @PostMapping(value="/post/user/my/voted")
     public Result getVoteUgcLog(@RequestBody UserDto userDto,Authentication authentication){
-        UserPageVO voteUgcLog = userService.getVoteUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO voteUgcLog = userService.getVoteUgcLog(userInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(voteUgcLog,"获取成功");
     }
 
     @PostMapping(value = "/post/user/my/commented")
     public Result getCommentLog(@RequestBody UserDto userDto,Authentication authentication){
-        UserPageVO commentUgcLog = userService.getCommentUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO commentUgcLog = userService.getCommentUgcLog(userInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(commentUgcLog,"获取成功");
     }
 
     @PostMapping(value = "/post/user/my/collected")
     public Result getCommentUgcLog(@RequestBody UserDto userDto,Authentication authentication){
-        UserPageVO collectUgcLog = userService.getCollectUgcLog(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO collectUgcLog = userService.getCollectUgcLog(userInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(collectUgcLog,"获取成功");
     }
 
 
     @PostMapping(value = "/post/user/focus")
     public Result getFocuseUser(@RequestBody UserDto userDto,Authentication authentication){
-        UserPageVO focusUser = userService.getFocusUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO focusUser = userService.getFocusUser(userInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(focusUser,"获取成功");
     }
 
     @PostMapping(value = "/post/user/focused")
     public Result getFocusedUser(@RequestBody UserDto userDto,Authentication authentication){
-        UserPageVO focusedUser = userService.getFocusedUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
+        UserPageVO focusedUser = userService.getFocusedUser(userInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getPage(), userDto.getOffset());
         return Result.ok(focusedUser,"获取成功");
     }
 
     @PostMapping(value = "/post/user/action/focus")
     public Result focusUser(Authentication authentication,@RequestBody UserDto userDto){
-        boolean flag = userService.FocusUser(UserInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getUser_id(), userDto.getStatus());
+        boolean flag = userService.FocusUser(userInfoUtil.getWxOpenIdXiaododoMini(authentication), userDto.getUser_id(), userDto.getStatus());
         if(flag){
             return Result.ok(null,"操作成功");
         }else return new Result(20004,"操作非法");
@@ -207,7 +207,7 @@ public class UserController implements InitializingBean {
     @GetMapping(value = "/get/user/official_account/focus")
     public Result official_account(Authentication authentication){
         UserVO userVO = new UserVO();
-        userVO.setFocus(userService.isFocusWxOffical(UserInfoUtil.getWxOpenIdXiaododoMini(authentication)));
+        userVO.setFocus(userService.isFocusWxOffical(userInfoUtil.getWxOpenIdXiaododoMini(authentication)));
         return Result.ok(userVO,"获取成功");
     }
 

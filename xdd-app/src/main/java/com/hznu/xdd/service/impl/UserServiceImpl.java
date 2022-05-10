@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         if(userDO.getCity()==null||Objects.equals(userDO.getCity(), "") )
             userDO.setCity(jsonObject.getString("city"));
         userDOMapper.updateByPrimaryKey(userDO);
+
         return userDO;
     }
 
@@ -301,6 +302,8 @@ public class UserServiceImpl implements UserService , UserDetailsService {
             user.setDistrict(district);
         if(gender!=null)
             user.setGender(gender);
+
+
         int i = userDOMapper.updateByPrimaryKey(user);
         return i>0?user:null;
     }
@@ -350,22 +353,23 @@ public class UserServiceImpl implements UserService , UserDetailsService {
     }
 
     @Override
-    public synchronized boolean FocusUser(String wxOpenId, Integer user_id, boolean status) {
-        try {
-            UserDO actionUser = getUserByWxOpenId(wxOpenId);
-            int id=actionUser.getId();
-            UserDO FocusedUser = getUserById(user_id);
+    public synchronized  boolean FocusUser(String wxOpenId, Integer user_id, boolean status) {
 
-            focusLogDOExample focusLogDOExample = new focusLogDOExample();
-            com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
-            criteria.andFocus_to_idEqualTo(user_id);
-            criteria.andUser_idEqualTo(id);
-            List<focusLogDO> focusLogDOs = focusLogDOMapper.selectByExample(focusLogDOExample);
-            focusLogDO focusLogDO=null;
+            try {
+                UserDO actionUser = getUserByWxOpenId(wxOpenId);
+                int id = actionUser.getId();
+                UserDO FocusedUser = getUserById(user_id);
+
+                focusLogDOExample focusLogDOExample = new focusLogDOExample();
+                com.hznu.xdd.domain.pojoExam.focusLogDOExample.Criteria criteria = focusLogDOExample.createCriteria();
+                criteria.andFocus_to_idEqualTo(user_id);
+                criteria.andUser_idEqualTo(id);
+                List<focusLogDO> focusLogDOs = focusLogDOMapper.selectByExample(focusLogDOExample);
+                focusLogDO focusLogDO = null;
 
                 if (focusLogDOs.size() > 0) {
                     focusLogDO = focusLogDOs.get(0);
-                    if (!status&&!focusLogDO.getIs_delete()) {
+                    if (!status && !focusLogDO.getIs_delete()) {
                         focusLogDO.setIs_delete(true);
                         focusLogDO.setUpdate_time(new Date());
                         int i = focusLogDOMapper.updateByPrimaryKey(focusLogDO);
@@ -374,7 +378,7 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                         int j = userDOMapper.updateByPrimaryKey(actionUser);
                         int k = userDOMapper.updateByPrimaryKey(FocusedUser);
                         return i > 0 && j > 0 && k > 0;
-                    } else if (status&&focusLogDO.getIs_delete()) {
+                    } else if (status && focusLogDO.getIs_delete()) {
                         focusLogDO.setIs_delete(false);
                         focusLogDO.setUpdate_time(new Date());
                         int i = focusLogDOMapper.updateByPrimaryKey(focusLogDO);
@@ -401,10 +405,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                     } else return false;
                 }
 
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return false;
-        }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+
     }
 
     @Override
@@ -552,6 +557,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 UserDO user = getUserByWxOpenId(wxOpenId);
                 user.setPhone(phoneNumber);
                 int i = userDOMapper.updateByPrimaryKey(user);
+
+                userInfoUtil.RefreshUserInRedis(user,SecurityContextHolder.getContext().getAuthentication());
+
                 return i>0;
             }catch(Exception e){
                 System.out.println(e.getMessage());
@@ -563,6 +571,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
                 String phoneNumber = jsonObject.getString("purePhoneNumber");
                 UserDO user = getUserByWxOpenId(wxOpenId);
                 user.setPhone(phoneNumber);
+
+                userInfoUtil.RefreshUserInRedis(user,SecurityContextHolder.getContext().getAuthentication());
+
                 int i = userDOMapper.updateByPrimaryKey(user);
                 return i>0;
             }catch(Exception e){
@@ -579,8 +590,12 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         if(user.getPhone()!=null&&user.getVerify_method()!=null&&!Objects.equals(user.getVerify_method(), "")){
             user.setAccount_status(2);
             userDOMapper.updateByPrimaryKey(user);
+            userInfoUtil.RefreshUserInRedis(user,SecurityContextHolder.getContext().getAuthentication());
             return 2;
         }else if(user.getPhone()!=null&&(user.getVerify_method()==null||Objects.equals(user.getVerify_method(), ""))){
+            user.setAccount_status(1);
+            userDOMapper.updateByPrimaryKey(user);
+            userInfoUtil.RefreshUserInRedis(user,SecurityContextHolder.getContext().getAuthentication());
             return 1;
         }else return 0;
     }
@@ -596,12 +611,14 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         UserDO user = getUserByWxOpenId(wxOpenId);
         user.setVerify_method("question");
         int i = userDOMapper.updateByPrimaryKeySelective(user);
+        if(i>0)
+            userInfoUtil.RefreshUserInRedis(user,SecurityContextHolder.getContext().getAuthentication());
         return i>0;
     }
 
     @Override
     public boolean isIFocusSomePeople(Integer Id) {
-        String userWxopenId = UserInfoUtil.getWxOpenIdXiaododoMini(SecurityContextHolder.getContext().getAuthentication());
+        String userWxopenId = userInfoUtil.getWxOpenIdXiaododoMini(SecurityContextHolder.getContext().getAuthentication());
         int user_id = getUserByWxOpenId(userWxopenId).getId();
 
         focusLogDOExample focusLogDOExample = new focusLogDOExample();

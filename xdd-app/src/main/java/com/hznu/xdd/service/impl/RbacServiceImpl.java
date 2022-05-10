@@ -5,6 +5,7 @@ import com.hznu.xdd.config.UgcException;
 import com.hznu.xdd.pojo.AdminDO;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.RbacService;
+import com.hznu.xdd.util.UserInfoUtil;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ import java.util.Map;
 
 @Component("rbacService")
 public class RbacServiceImpl implements RbacService {
+
+
+    @Autowired
+    private UserInfoUtil userInfoUtil;
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 

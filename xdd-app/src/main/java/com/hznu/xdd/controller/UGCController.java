@@ -30,6 +30,9 @@ public class UGCController {
     @Autowired
     UGCService ugcService;
 
+    @Autowired
+    UserInfoUtil userInfoUtil;
+
     @Resource
     RestTemplate restTemplate;
 
@@ -42,7 +45,7 @@ public class UGCController {
                             @RequestParam(value = "offset") Integer offset,
                             Authentication authentication
     ){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(null, key, label, topic, order_by,
                 page,offset,3,userDO.getId());
         if (key != null){
@@ -54,7 +57,7 @@ public class UGCController {
     @GetMapping(value = "/get/ugc/detail",produces = {"application/json;charset=UTF-8"})
     public Result getOneUGC(@RequestParam(value = "id") Integer id,Authentication authentication
     ){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(id, null, null, null, null,
                 null,null,3,userDO.getId());
         UGCVO o = (UGCVO) vo.getList().get(0);
@@ -68,7 +71,7 @@ public class UGCController {
     public Result createUGC(@RequestBody UGCDto UGCDto,
                             Authentication authentication){
         if (ContentUtil.ContentCheck(authentication,UGCDto.getContent(),restTemplate)){
-            UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+            UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
             UGCDto.setUser_id(userDO.getId());
             Integer count = ugcService.createUGC(UGCDto);
             return Result.ok(count,"创建成功");
@@ -82,7 +85,7 @@ public class UGCController {
     public Result deleteUGC(@RequestBody UGCDto ugcDto,
                             Authentication authentication){
         UgcDO ugc = ugcService.findById(ugcDto.getId());
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if (!userDO.getId().equals(ugc.getUser_id())){
             return new Result(StatusCode.VISIT_INVALID);
         }
@@ -93,7 +96,7 @@ public class UGCController {
     @PostMapping(value = "/post/ugc/update",produces = {"application/json;charset=UTF-8"})
     public Result updateUGC(@RequestBody UGCDto UGCDto,
                             Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcDO ugcDO = ugcService.findById(UGCDto.getId());
         if(!userDO.getId().equals(ugcDO.getUser_id())){
             return new Result(StatusCode.VISIT_INVALID);
@@ -116,7 +119,7 @@ public class UGCController {
                                       @RequestParam(value = "offset") Integer offset,
                                       Authentication authentication
                                       ){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
                 page, offset, 1,userDO.getId());
         return Result.ok(vo,"获取成功");
@@ -131,7 +134,7 @@ public class UGCController {
                                    @RequestParam(value = "page") Integer page,
                                    @RequestParam(value = "offset") Integer offset,
                                    Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(user_id, key, label, topic, order_by,
                 page, offset, 2,userDO.getId());
         return Result.ok(vo,"获取成功");
@@ -140,7 +143,7 @@ public class UGCController {
     @PostMapping(value = "/post/ugc/my/vote",produces = {"application/json;charset=UTF-8"})
     public Result listAllUGCByVote(@RequestBody UGCDto ugcDto,
                                    Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),2,userDO.getId());
         return Result.ok(vo,"获取成功");
@@ -149,7 +152,7 @@ public class UGCController {
     @PostMapping(value = "/post/ugc/my/publish",produces = {"application/json;charset=UTF-8"})
     public Result listAllUGCByPublish(@RequestBody UGCDto ugcDto,
                                       Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),1,userDO.getId());
         return Result.ok(vo,"获取成功");
@@ -158,7 +161,7 @@ public class UGCController {
     @PostMapping(value = "/post/ugc/my/collect",produces = {"application/json;charset=UTF-8"})
     public Result listAllUGCByCollect(@RequestBody UGCDto ugcDto,
                                       Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(userDO.getId(), ugcDto.getKey(), ugcDto.getLabel(), ugcDto.getTopic(), ugcDto.getOrder_by(),
                 ugcDto.getPage(),ugcDto.getOffset(),4,userDO.getId());
         return Result.ok(vo,"获取成功");
@@ -167,7 +170,7 @@ public class UGCController {
     @PostMapping(value = "/post/ugc/comment",produces = {"application/json;charset=UTF-8"})
     public Result addComment(@RequestBody UGCDto ugcDto,
                              Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if (ContentUtil.ContentCheck(authentication,ugcDto.getContent(),restTemplate)){
             Integer count = ugcService.addComment(ugcDto.getContent(),ugcDto.getParent_id(),ugcDto.getTo_type(),ugcDto.getTo_id(),userDO.getId());
             return Result.ok(count,"评论成功");
@@ -178,9 +181,9 @@ public class UGCController {
     }
 
     @PostMapping(value = "/post/ugc/vote",produces = {"application/json;charset=UTF-8"})
-    public synchronized Result voteUGC(@RequestBody UGCDto ugcDto,
+    public  Result voteUGC(@RequestBody UGCDto ugcDto,
                           Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         boolean voteUGC = ugcService.voteUGC(ugcDto.getTo_id(), ugcDto.isStatus(), userDO.getId());
         if (!voteUGC){
             return new Result(StatusCode.INVALID_USER_PUBLISH);
@@ -190,9 +193,9 @@ public class UGCController {
     }
 
     @PostMapping(value = "/post/ugc/collect",produces = {"application/json;charset=UTF-8"})
-    public synchronized Result collectUGC(@RequestBody UGCDto ugcDto,
+    public  Result collectUGC(@RequestBody UGCDto ugcDto,
                              Authentication authentication){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         boolean integer = ugcService.collectUGC(ugcDto.getTo_id(), ugcDto.isStatus(), userDO.getId());
         if (!integer){
             return new Result(StatusCode.INVALID_USER_PUBLISH);
@@ -206,7 +209,7 @@ public class UGCController {
                             @RequestParam(value = "offset") Integer offset,
                             Authentication authentication
     ){
-        UserDO userDO = userService.getUserByWxOpenId(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.getHotUGC(page,offset,userDO.getId());
         return Result.ok(vo,"获取成功");
     }

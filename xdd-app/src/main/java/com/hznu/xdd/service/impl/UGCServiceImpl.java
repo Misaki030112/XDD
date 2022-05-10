@@ -30,7 +30,9 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 @Service
 public class UGCServiceImpl implements UGCService {
@@ -64,6 +66,8 @@ public class UGCServiceImpl implements UGCService {
 
     @Resource
     RestTemplate restTemplate;
+
+
 
     /**
      * 获取所有评论
@@ -397,6 +401,7 @@ public class UGCServiceImpl implements UGCService {
         return ugcCommentDOMapper.insert(ugcCommentDO);
     }
 
+
     /**
      * 点赞UGC
      * @param to_id ugcid
@@ -405,46 +410,48 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
-        voteLogDOExample voteLogDOExample = new voteLogDOExample();
-        com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
-        criteria.andUser_idEqualTo(user_id);
-        criteria.andVote_to_idEqualTo(to_id);
-        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
-        List<voteLogDO> voteLogDOS = voteLogDOMapper.selectByExample(voteLogDOExample);
-        voteLogDO voteLogDO =null;
-        if (voteLogDOS.size() > 0) {
-            voteLogDO = voteLogDOS.get(0);
-            if (!status&&!voteLogDO.getIs_delete()) {
-                voteLogDO.setIs_delete(true);
-                voteLogDO.setUpdate_time(new Date());
-                int i = voteLogDOMapper.updateByPrimaryKey(voteLogDO);
-                ugcDO.setVote(ugcDO.getVote() - 1);
-                int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
-                return i > 0 && j > 0;
-            } else if (status&&voteLogDO.getIs_delete()) {
-                voteLogDO.setIs_delete(false);
-                voteLogDO.setUpdate_time(new Date());
-                int i = voteLogDOMapper.updateByPrimaryKey(voteLogDO);
-                ugcDO.setVote(ugcDO.getVote() + 1);
-                int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
-                return i > 0 && j > 0;
-            } else return false;
-        } else {
-            if (status) {
-                voteLogDO = new voteLogDO();
-                voteLogDO.setVote_to_id(to_id);
-                voteLogDO.setUser_id(user_id);
-                voteLogDO.setVote_type("ugc");
-                voteLogDO.setIs_delete(false);
-                voteLogDO.setCreate_time(new Date());
-                voteLogDO.setUpdate_time(new Date());
-                int i = voteLogDOMapper.insert(voteLogDO);
-                ugcDO.setVote(ugcDO.getVote() + 1);
-                int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
-                return i > 0 && j > 0;
-            } else return false;
-        }
+    public synchronized boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
+
+
+            voteLogDOExample voteLogDOExample = new voteLogDOExample();
+            com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
+            criteria.andUser_idEqualTo(user_id);
+            criteria.andVote_to_idEqualTo(to_id);
+            UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+            List<voteLogDO> voteLogDOS = voteLogDOMapper.selectByExample(voteLogDOExample);
+            voteLogDO voteLogDO = null;
+            if (voteLogDOS.size() > 0) {
+                voteLogDO = voteLogDOS.get(0);
+                if (!status && !voteLogDO.getIs_delete()) {
+                    voteLogDO.setIs_delete(true);
+                    voteLogDO.setUpdate_time(new Date());
+                    int i = voteLogDOMapper.updateByPrimaryKey(voteLogDO);
+                    ugcDO.setVote(ugcDO.getVote() - 1);
+                    int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
+                    return i > 0 && j > 0;
+                } else if (status && voteLogDO.getIs_delete()) {
+                    voteLogDO.setIs_delete(false);
+                    voteLogDO.setUpdate_time(new Date());
+                    int i = voteLogDOMapper.updateByPrimaryKey(voteLogDO);
+                    ugcDO.setVote(ugcDO.getVote() + 1);
+                    int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
+                    return i > 0 && j > 0;
+                } else return false;
+            } else {
+                if (status) {
+                    voteLogDO = new voteLogDO();
+                    voteLogDO.setVote_to_id(to_id);
+                    voteLogDO.setUser_id(user_id);
+                    voteLogDO.setVote_type("ugc");
+                    voteLogDO.setIs_delete(false);
+                    voteLogDO.setCreate_time(new Date());
+                    voteLogDO.setUpdate_time(new Date());
+                    int i = voteLogDOMapper.insert(voteLogDO);
+                    ugcDO.setVote(ugcDO.getVote() + 1);
+                    int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
+                    return i > 0 && j > 0;
+                } else return false;
+            }
     }
 
     /**
@@ -455,44 +462,47 @@ public class UGCServiceImpl implements UGCService {
      * @return 是否成功
      */
     @Override
-    public boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
-        collectLogDOExample collectLogDOExample = new collectLogDOExample();
-        com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
-        criteria.andUser_idEqualTo(user_id);
-        criteria.andCollect_to_idEqualTo(to_id);
-        UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
-        List<collectLogDO> collectLogDOs = collectLogDOMapper.selectByExample(collectLogDOExample);
-        collectLogDO collectLogDO = null;
-        if (collectLogDOs.size() > 0) {
-            collectLogDO = collectLogDOs.get(0);
-            if (!status&&!collectLogDO.getIs_delete()) {
-                collectLogDO.setIs_delete(true);
-                collectLogDO.setUpdate_time(new Date());
-                int i = collectLogDOMapper.updateByPrimaryKey(collectLogDO);
-                ugcDO.setVote(ugcDO.getVote() - 1);
-                int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
-                return i > 0 && j > 0;
-            } else if (status&&collectLogDO.getIs_delete()) {
-                collectLogDO.setIs_delete(false);
-                collectLogDO.setUpdate_time(new Date());
-                int i = collectLogDOMapper.updateByPrimaryKey(collectLogDO);
-                ugcDO.setVote(ugcDO.getVote() + 1);
-                int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
-                return i > 0 && j > 0;
-            } else return false;
-        } else {
-            if (status) {
-                collectLogDO = new collectLogDO();
-                collectLogDO.setCollect_to_id(to_id);
-                collectLogDO.setCollect_type("ugc");
-                collectLogDO.setIs_delete(false);
-                collectLogDO.setCreate_time(new Date());
-                collectLogDO.setUpdate_time(new Date());
-                int i = collectLogDOMapper.insert(collectLogDO);
-                ugcDO.setVote(ugcDO.getVote() + 1);
-                int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
-                return i > 0 && j > 0;
-            } else return false;
+    public synchronized boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
+
+        synchronized (user_id) {
+            collectLogDOExample collectLogDOExample = new collectLogDOExample();
+            com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
+            criteria.andUser_idEqualTo(user_id);
+            criteria.andCollect_to_idEqualTo(to_id);
+            UgcDO ugcDO = ugcDOMapper.selectByPrimaryKey(to_id);
+            List<collectLogDO> collectLogDOs = collectLogDOMapper.selectByExample(collectLogDOExample);
+            collectLogDO collectLogDO = null;
+            if (collectLogDOs.size() > 0) {
+                collectLogDO = collectLogDOs.get(0);
+                if (!status && !collectLogDO.getIs_delete()) {
+                    collectLogDO.setIs_delete(true);
+                    collectLogDO.setUpdate_time(new Date());
+                    int i = collectLogDOMapper.updateByPrimaryKey(collectLogDO);
+                    ugcDO.setVote(ugcDO.getVote() - 1);
+                    int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
+                    return i > 0 && j > 0;
+                } else if (status && collectLogDO.getIs_delete()) {
+                    collectLogDO.setIs_delete(false);
+                    collectLogDO.setUpdate_time(new Date());
+                    int i = collectLogDOMapper.updateByPrimaryKey(collectLogDO);
+                    ugcDO.setVote(ugcDO.getVote() + 1);
+                    int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
+                    return i > 0 && j > 0;
+                } else return false;
+            } else {
+                if (status) {
+                    collectLogDO = new collectLogDO();
+                    collectLogDO.setCollect_to_id(to_id);
+                    collectLogDO.setCollect_type("ugc");
+                    collectLogDO.setIs_delete(false);
+                    collectLogDO.setCreate_time(new Date());
+                    collectLogDO.setUpdate_time(new Date());
+                    int i = collectLogDOMapper.insert(collectLogDO);
+                    ugcDO.setVote(ugcDO.getVote() + 1);
+                    int j = ugcDOMapper.updateByPrimaryKey(ugcDO);
+                    return i > 0 && j > 0;
+                } else return false;
+            }
         }
     }
 

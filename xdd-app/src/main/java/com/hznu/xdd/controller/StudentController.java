@@ -50,7 +50,7 @@ public class StudentController {
     @PostMapping("/post/student/verify/email/code/send")
     public Result SendVerifyEmailCode(Authentication authentication,@RequestBody UserDto userDto){
         try {
-            mailService.SendValidCode(userDto.getEmail(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+            mailService.SendValidCode(userDto.getEmail(), userInfoUtil.getWxOpenIdXiaododoMini(authentication));
             return Result.ok(null,"提交成功");
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -60,21 +60,21 @@ public class StudentController {
 
     @PostMapping("/post/student/verify/email/code/verify")
     public Result VerifyStudentCode(@RequestBody UserDto userDto,Authentication authentication){
-        boolean flag = userService.verifyStudentByCode(userDto.getCode(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        boolean flag = userService.verifyStudentByCode(userDto.getCode(), userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag) return Result.ok("null","验证成功");
         else return new Result(20010,"验证失败");
     }
 
     @PostMapping("/post/student/verify/photo")
     public Result VerifyStudentPhoto(@RequestBody UserDto userDto, Authentication authentication){
-        boolean flag = userService.verifyStudentByPhotos(userDto.getPhotos(), UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        boolean flag = userService.verifyStudentByPhotos(userDto.getPhotos(), userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag) return Result.ok("null","提交成功");
         else return new Result(20005,"提交失败");
     }
 
     @PostMapping("/post/student/phone")
     public Result bindPhone(@RequestBody UserDto userDto,Authentication authentication){
-       if( userService.bindPhone(UserInfoUtil.getWxOpenIdXiaododoMini(authentication),userDto.getEncryptedData(),userDto.getIv(),userDto.getCode(),userInfoUtil.getSessionKey(authentication))){
+       if( userService.bindPhone(userInfoUtil.getWxOpenIdXiaododoMini(authentication),userDto.getEncryptedData(),userDto.getIv(),userDto.getCode(),userInfoUtil.getSessionKey(authentication))){
            return Result.ok(null,"绑定成功");
        }else{
            return new Result(20004,"绑定失败");
@@ -83,7 +83,7 @@ public class StudentController {
 
     @PostMapping("/post/student/verify/status")
     public Result verifyStatus(Authentication authentication){
-        int flag = userService.verifyStudent(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        int flag = userService.verifyStudent(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag==2){
             return Result.ok(null,"账号状态修改成功");
         }else if(flag==1){
@@ -96,7 +96,7 @@ public class StudentController {
 
     @PostMapping("/post/student/verify/finish/question")
     public Result Finish(Authentication authentication){
-        boolean flag = userService.finishQuestion(UserInfoUtil.getWxOpenIdXiaododoMini(authentication));
+        boolean flag = userService.finishQuestion(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         if(flag){
             return Result.ok(null,"认证方式填充成功");
         }else return new Result(20001,"认证方式填充失败");
