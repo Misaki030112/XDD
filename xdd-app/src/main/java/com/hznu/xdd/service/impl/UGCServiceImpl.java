@@ -21,6 +21,7 @@ import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.util.ContentUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.security.core.Authentication;
@@ -35,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
 @Service
+@Slf4j
 public class UGCServiceImpl implements UGCService {
 
     @Resource
@@ -412,6 +414,7 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public synchronized boolean voteUGC(Integer to_id, boolean status,Integer user_id) {
 
+            log.info("点赞UGC to_id:{},status:{},user_id:{}",to_id,status,user_id);
 
             voteLogDOExample voteLogDOExample = new voteLogDOExample();
             com.hznu.xdd.domain.pojoExam.voteLogDOExample.Criteria criteria = voteLogDOExample.createCriteria();
@@ -464,7 +467,8 @@ public class UGCServiceImpl implements UGCService {
     @Override
     public synchronized boolean collectUGC(Integer to_id, boolean status, Integer user_id) {
 
-        synchronized (user_id) {
+            log.info("收藏UGC to_id:{},status:{},user_id:{}",to_id,status,user_id);
+
             collectLogDOExample collectLogDOExample = new collectLogDOExample();
             com.hznu.xdd.domain.pojoExam.collectLogDOExample.Criteria criteria = collectLogDOExample.createCriteria();
             criteria.andUser_idEqualTo(user_id);
@@ -503,7 +507,7 @@ public class UGCServiceImpl implements UGCService {
                     return i > 0 && j > 0;
                 } else return false;
             }
-        }
+
     }
 
     /**
