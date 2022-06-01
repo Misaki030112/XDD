@@ -25,7 +25,7 @@ public class dalTest {
     public void testGenerateSQL() throws XMLParserException, IOException, InvalidConfigurationException, SQLException, InterruptedException {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-        File configFile = new File("D:\\XDD\\XDD\\xdd-app\\src\\main\\resources\\generator\\generatorConfig.xml");   //我自己的路径，可以将其更改掉
+        File configFile = new File("src/main/resources/generator/generatorConfig.xml");   //我自己的路径，可以将其更改掉
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);

@@ -37,9 +37,9 @@ spring:
 task:
   pool:
     # 核心线程池大小
-    core-pool-size: 12
+    core-pool-size: 4
     # 最大线程数
-    max-pool-size: 30
+    max-pool-size: 8
     # 活跃时间
     keep-alive-seconds: 60
     # 队列容量

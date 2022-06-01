@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hznu.xdd.dao.courseDOMapper">
-  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.courseDO">
+<mapper namespace="com.hznu.xdd.dao.courseCommentDOMapper">
+  <resultMap id="BaseResultMap" type="com.hznu.xdd.pojo.courseCommentDO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
     <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
     <result column="is_delete" jdbcType="BIT" property="is_delete" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="course_id" jdbcType="INTEGER" property="course_id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacher_id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parent_id" />
+    <result column="is_roll" jdbcType="BIT" property="is_roll" />
+    <result column="teacher_score" jdbcType="DECIMAL" property="teacher_score" />
     <result column="credit" jdbcType="DOUBLE" property="credit" />
-    <result column="is_online" jdbcType="BIT" property="is_online" />
-    <result column="school_id" jdbcType="INTEGER" property="school_id" />
-    <result column="college_id" jdbcType="INTEGER" property="college_id" />
-    <result column="campus_id" jdbcType="INTEGER" property="campus_id" />
-    <result column="teachers_id" jdbcType="VARCHAR" property="teachers_id" />
-    <result column="official_id" jdbcType="INTEGER" property="official_id" />
+    <result column="is_anonymous" jdbcType="BIT" property="is_anonymous" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,16 +75,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_time, update_time, is_delete, name, credit, is_online, school_id, college_id, 
-    campus_id, teachers_id, official_id
+    id, create_time, update_time, is_delete, user_id, course_id, content, teacher_id, 
+    parent_id, is_roll, teacher_score, credit, is_anonymous
   </sql>
-  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.courseDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hznu.xdd.domain.pojoExam.courseCommentDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from course
+    from course_comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,31 +103,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from course
+    from course_comment
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from course
+    delete from course_comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.courseDOExample">
-    delete from course
+  <delete id="deleteByExample" parameterType="com.hznu.xdd.domain.pojoExam.courseCommentDOExample">
+    delete from course_comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.courseDO" useGeneratedKeys="true">
-    insert into course (create_time, update_time, is_delete, 
-      name, credit, is_online, 
-      school_id, college_id, campus_id, 
-      teachers_id, official_id)
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.courseCommentDO" useGeneratedKeys="true">
+    insert into course_comment (create_time, update_time, is_delete, 
+      user_id, course_id, content, 
+      teacher_id, parent_id, is_roll, 
+      teacher_score, credit, is_anonymous
+      )
     values (#{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{name,jdbcType=VARCHAR}, #{credit,jdbcType=DOUBLE}, #{is_online,jdbcType=BIT}, 
-      #{school_id,jdbcType=INTEGER}, #{college_id,jdbcType=INTEGER}, #{campus_id,jdbcType=INTEGER}, 
-      #{teachers_id,jdbcType=VARCHAR}, #{official_id,jdbcType=INTEGER})
+      #{user_id,jdbcType=INTEGER}, #{course_id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{teacher_id,jdbcType=INTEGER}, #{parent_id,jdbcType=INTEGER}, #{is_roll,jdbcType=BIT}, 
+      #{teacher_score,jdbcType=DECIMAL}, #{credit,jdbcType=DOUBLE}, #{is_anonymous,jdbcType=BIT}
+      )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.courseDO" useGeneratedKeys="true">
-    insert into course
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hznu.xdd.pojo.courseCommentDO" useGeneratedKeys="true">
+    insert into course_comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="create_time != null">
         create_time,
@@ -137,29 +140,32 @@
       <if test="is_delete != null">
         is_delete,
       </if>
-      <if test="name != null">
-        name,
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="course_id != null">
+        course_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="teacher_id != null">
+        teacher_id,
+      </if>
+      <if test="parent_id != null">
+        parent_id,
+      </if>
+      <if test="is_roll != null">
+        is_roll,
+      </if>
+      <if test="teacher_score != null">
+        teacher_score,
       </if>
       <if test="credit != null">
         credit,
       </if>
-      <if test="is_online != null">
-        is_online,
-      </if>
-      <if test="school_id != null">
-        school_id,
-      </if>
-      <if test="college_id != null">
-        college_id,
-      </if>
-      <if test="campus_id != null">
-        campus_id,
-      </if>
-      <if test="teachers_id != null">
-        teachers_id,
-      </if>
-      <if test="official_id != null">
-        official_id,
+      <if test="is_anonymous != null">
+        is_anonymous,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -172,40 +178,43 @@
       <if test="is_delete != null">
         #{is_delete,jdbcType=BIT},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="course_id != null">
+        #{course_id,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher_id != null">
+        #{teacher_id,jdbcType=INTEGER},
+      </if>
+      <if test="parent_id != null">
+        #{parent_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_roll != null">
+        #{is_roll,jdbcType=BIT},
+      </if>
+      <if test="teacher_score != null">
+        #{teacher_score,jdbcType=DECIMAL},
       </if>
       <if test="credit != null">
         #{credit,jdbcType=DOUBLE},
       </if>
-      <if test="is_online != null">
-        #{is_online,jdbcType=BIT},
-      </if>
-      <if test="school_id != null">
-        #{school_id,jdbcType=INTEGER},
-      </if>
-      <if test="college_id != null">
-        #{college_id,jdbcType=INTEGER},
-      </if>
-      <if test="campus_id != null">
-        #{campus_id,jdbcType=INTEGER},
-      </if>
-      <if test="teachers_id != null">
-        #{teachers_id,jdbcType=VARCHAR},
-      </if>
-      <if test="official_id != null">
-        #{official_id,jdbcType=INTEGER},
+      <if test="is_anonymous != null">
+        #{is_anonymous,jdbcType=BIT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.courseDOExample" resultType="java.lang.Long">
-    select count(*) from course
+  <select id="countByExample" parameterType="com.hznu.xdd.domain.pojoExam.courseCommentDOExample" resultType="java.lang.Long">
+    select count(*) from course_comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update course
+    update course_comment
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -219,29 +228,32 @@
       <if test="record.is_delete != null">
         is_delete = #{record.is_delete,jdbcType=BIT},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.user_id != null">
+        user_id = #{record.user_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.course_id != null">
+        course_id = #{record.course_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacher_id != null">
+        teacher_id = #{record.teacher_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.parent_id != null">
+        parent_id = #{record.parent_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_roll != null">
+        is_roll = #{record.is_roll,jdbcType=BIT},
+      </if>
+      <if test="record.teacher_score != null">
+        teacher_score = #{record.teacher_score,jdbcType=DECIMAL},
       </if>
       <if test="record.credit != null">
         credit = #{record.credit,jdbcType=DOUBLE},
       </if>
-      <if test="record.is_online != null">
-        is_online = #{record.is_online,jdbcType=BIT},
-      </if>
-      <if test="record.school_id != null">
-        school_id = #{record.school_id,jdbcType=INTEGER},
-      </if>
-      <if test="record.college_id != null">
-        college_id = #{record.college_id,jdbcType=INTEGER},
-      </if>
-      <if test="record.campus_id != null">
-        campus_id = #{record.campus_id,jdbcType=INTEGER},
-      </if>
-      <if test="record.teachers_id != null">
-        teachers_id = #{record.teachers_id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.official_id != null">
-        official_id = #{record.official_id,jdbcType=INTEGER},
+      <if test="record.is_anonymous != null">
+        is_anonymous = #{record.is_anonymous,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -249,25 +261,26 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update course
+    update course_comment
     set id = #{record.id,jdbcType=INTEGER},
       create_time = #{record.create_time,jdbcType=TIMESTAMP},
       update_time = #{record.update_time,jdbcType=TIMESTAMP},
       is_delete = #{record.is_delete,jdbcType=BIT},
-      name = #{record.name,jdbcType=VARCHAR},
+      user_id = #{record.user_id,jdbcType=INTEGER},
+      course_id = #{record.course_id,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      teacher_id = #{record.teacher_id,jdbcType=INTEGER},
+      parent_id = #{record.parent_id,jdbcType=INTEGER},
+      is_roll = #{record.is_roll,jdbcType=BIT},
+      teacher_score = #{record.teacher_score,jdbcType=DECIMAL},
       credit = #{record.credit,jdbcType=DOUBLE},
-      is_online = #{record.is_online,jdbcType=BIT},
-      school_id = #{record.school_id,jdbcType=INTEGER},
-      college_id = #{record.college_id,jdbcType=INTEGER},
-      campus_id = #{record.campus_id,jdbcType=INTEGER},
-      teachers_id = #{record.teachers_id,jdbcType=VARCHAR},
-      official_id = #{record.official_id,jdbcType=INTEGER}
+      is_anonymous = #{record.is_anonymous,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.courseDO">
-    update course
+  <update id="updateByPrimaryKeySelective" parameterType="com.hznu.xdd.pojo.courseCommentDO">
+    update course_comment
     <set>
       <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
@@ -278,46 +291,50 @@
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=BIT},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="course_id != null">
+        course_id = #{course_id,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher_id != null">
+        teacher_id = #{teacher_id,jdbcType=INTEGER},
+      </if>
+      <if test="parent_id != null">
+        parent_id = #{parent_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_roll != null">
+        is_roll = #{is_roll,jdbcType=BIT},
+      </if>
+      <if test="teacher_score != null">
+        teacher_score = #{teacher_score,jdbcType=DECIMAL},
       </if>
       <if test="credit != null">
         credit = #{credit,jdbcType=DOUBLE},
       </if>
-      <if test="is_online != null">
-        is_online = #{is_online,jdbcType=BIT},
-      </if>
-      <if test="school_id != null">
-        school_id = #{school_id,jdbcType=INTEGER},
-      </if>
-      <if test="college_id != null">
-        college_id = #{college_id,jdbcType=INTEGER},
-      </if>
-      <if test="campus_id != null">
-        campus_id = #{campus_id,jdbcType=INTEGER},
-      </if>
-      <if test="teachers_id != null">
-        teachers_id = #{teachers_id,jdbcType=VARCHAR},
-      </if>
-      <if test="official_id != null">
-        official_id = #{official_id,jdbcType=INTEGER},
+      <if test="is_anonymous != null">
+        is_anonymous = #{is_anonymous,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.courseDO">
-    update course
+  <update id="updateByPrimaryKey" parameterType="com.hznu.xdd.pojo.courseCommentDO">
+    update course_comment
     set create_time = #{create_time,jdbcType=TIMESTAMP},
       update_time = #{update_time,jdbcType=TIMESTAMP},
       is_delete = #{is_delete,jdbcType=BIT},
-      name = #{name,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER},
+      course_id = #{course_id,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      teacher_id = #{teacher_id,jdbcType=INTEGER},
+      parent_id = #{parent_id,jdbcType=INTEGER},
+      is_roll = #{is_roll,jdbcType=BIT},
+      teacher_score = #{teacher_score,jdbcType=DECIMAL},
       credit = #{credit,jdbcType=DOUBLE},
-      is_online = #{is_online,jdbcType=BIT},
-      school_id = #{school_id,jdbcType=INTEGER},
-      college_id = #{college_id,jdbcType=INTEGER},
-      campus_id = #{campus_id,jdbcType=INTEGER},
-      teachers_id = #{teachers_id,jdbcType=VARCHAR},
-      official_id = #{official_id,jdbcType=INTEGER}
+      is_anonymous = #{is_anonymous,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

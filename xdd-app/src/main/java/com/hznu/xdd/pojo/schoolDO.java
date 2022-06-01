@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class courseDO implements Serializable {
+public class schoolDO implements Serializable {
     private Integer id;
 
     private Date create_time;
@@ -15,20 +15,6 @@ public class courseDO implements Serializable {
     private Boolean is_delete;
 
     private String name;
-
-    private Double credit;
-
-    private Boolean is_online;
-
-    private Integer school_id;
-
-    private Integer college_id;
-
-    private Integer campus_id;
-
-    private String teachers_id;
-
-    private Integer official_id;
 
     private static final long serialVersionUID = 1L;
 }

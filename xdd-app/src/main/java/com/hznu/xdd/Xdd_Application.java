@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.hznu.xdd.dao")
 public class Xdd_Application {
     public static void main(String[] args) {
+
         SpringApplication.run(Xdd_Application.class, args);
     }
+
 }

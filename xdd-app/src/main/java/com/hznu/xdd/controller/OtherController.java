@@ -13,8 +13,7 @@ import java.util.List;
 @RestController
 @Transactional(rollbackFor = Exception.class)
 public class OtherController {
-
-
+    
     @Autowired
     OtherService otherService;
 

@@ -3,10 +3,8 @@ package com.hznu.xdd.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
 public class teacherDO implements Serializable {
     private Integer id;
 
@@ -17,6 +15,10 @@ public class teacherDO implements Serializable {
     private Boolean is_delete;
 
     private String name;
+
+    private Integer school_id;
+
+    private Integer college_id;
 
     private static final long serialVersionUID = 1L;
 }
