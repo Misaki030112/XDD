@@ -22,6 +22,7 @@ public class HotUGCTimeTask {
 
     @Autowired
     RedisTemplate redisTemplate;
+
     @Scheduled(cron = "* */10 * * * ?")
     private void saveHotUGC(){
         UgcDOExample ugcDOExample = new UgcDOExample();
@@ -38,7 +39,7 @@ public class HotUGCTimeTask {
             redisTemplate.expire("HotUGC",timeOut, TimeUnit.SECONDS);
             redisTemplate.opsForZSet().add("HotUGC",item.getId(),item.getExposure() * 0.2 + item.getVote() * 0.3 + item.getComment() * 0.5);
         });
-
-//        System.out.println(size);
     }
+
+
 }
