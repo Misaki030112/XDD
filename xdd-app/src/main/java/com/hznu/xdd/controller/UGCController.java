@@ -5,20 +5,17 @@ import com.hznu.xdd.domain.Result;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.VO.CommentVO;
 import com.hznu.xdd.domain.VO.UgcPageVO;
-import com.hznu.xdd.domain.VO.UGCVO;
 import com.hznu.xdd.pojo.UgcDO;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UGCService;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.ContentUtil;
 import com.hznu.xdd.util.UserInfoUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
@@ -61,7 +58,7 @@ public class UGCController {
         UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(id, null, null, null, null,
                 null,null,3,userDO.getId());
-        UGCVO o = (UGCVO) vo.getList().get(0);
+        UgcPageVO.UGCVO o = (UgcPageVO.UGCVO) vo.getList().get(0);
         return Result.ok(o,"获取成功");
     }
 

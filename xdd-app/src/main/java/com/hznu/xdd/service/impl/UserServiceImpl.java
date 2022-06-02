@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationFilter;
 import com.hznu.xdd.dao.*;
 import com.hznu.xdd.domain.Dto.reportDto;
-import com.hznu.xdd.domain.VO.Collect_ugc_VO;
-import com.hznu.xdd.domain.VO.CommentedVO;
-import com.hznu.xdd.domain.VO.UserPageVO;
-import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
+import com.hznu.xdd.domain.VO.*;
 import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
@@ -438,9 +435,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         long total=voteLogDOS.size();
         List<voteLogDO> collect = voteLogDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
 
-        List<Vote_ugc_LogVO> vote_ugc_logVOS = new ArrayList<>();
+        List<UgcPageVO.Vote_ugc_LogVO> vote_ugc_logVOS = new ArrayList<>();
         collect.forEach((c)->{
-            Vote_ugc_LogVO vote_ugc_logVO = new Vote_ugc_LogVO();
+            UgcPageVO.Vote_ugc_LogVO vote_ugc_logVO = new UgcPageVO.Vote_ugc_LogVO();
             vote_ugc_logVO.setId(c.getId())
                     .setCreate_time(c.getCreate_time())
                     .setUser_info(userDOMapper.selectByPrimaryKey(c.getUser_id()))
@@ -522,9 +519,9 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         long total =collectLogDOS.size();
         List<collectLogDO> collect = collectLogDOS.stream().skip(page * offset).limit(offset).collect(Collectors.toList());
 
-        List<Collect_ugc_VO> collect_ugc_vos = new ArrayList<>();
+        List<UgcPageVO.Collect_ugc_VO> collect_ugc_vos = new ArrayList<>();
         collect.forEach((c)->{
-            Collect_ugc_VO collect_ugc_vo = new Collect_ugc_VO();
+            UgcPageVO.Collect_ugc_VO collect_ugc_vo = new UgcPageVO.Collect_ugc_VO();
             collect_ugc_vo.setId(c.getId())
                     .setCreate_time(c.getCreate_time())
                     .setUser_info(userDOMapper.selectByPrimaryKey(c.getUser_id()))

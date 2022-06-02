@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -16,7 +15,7 @@ public class CommentVO implements Serializable {
 
     private Integer parent_id;
 
-    private UserVO user_info;
+    private UserPageVO.UserVO user_info;
 
     private Integer vote_num;
 

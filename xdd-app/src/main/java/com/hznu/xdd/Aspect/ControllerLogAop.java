@@ -117,7 +117,6 @@ public class ControllerLogAop {
                 } else {
                     returnData = toString(returnObj);
                 }
-
             }
             log.debug("{}.{} Response: [{}]", className, methodName, returnData);
         }

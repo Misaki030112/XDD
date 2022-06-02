@@ -13,10 +13,7 @@ import com.hznu.xdd.dao.searchLogDOMapper;
 import com.hznu.xdd.domain.Dto.UGCDto;
 import com.hznu.xdd.domain.Dto.attachmentDto;
 import com.hznu.xdd.domain.Dto.locationDto;
-import com.hznu.xdd.domain.VO.CommentVO;
-import com.hznu.xdd.domain.VO.UgcPageVO;
-import com.hznu.xdd.domain.VO.UGCVO;
-import com.hznu.xdd.domain.VO.UserVO;
+import com.hznu.xdd.domain.VO.*;
 import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.UGCService;
@@ -24,16 +21,13 @@ import com.hznu.xdd.util.ContentUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 @Service
 @Slf4j
@@ -274,10 +268,14 @@ public class UGCServiceImpl implements UGCService {
         if (page != null && offset != null){
             ugcDOExample.page(page,offset);
         }
-        List<UGCVO> ugcvos = new ArrayList<>();
+        List<UgcPageVO.UGCVO> ugcvos = new ArrayList<>();
         List<UgcDO> ugcDOS = ugcDOMapper.selectByExample(ugcDOExample);
         BatchUGC(ugcDOS, ugcvos,uid);
-        return new UgcPageVO().setList(ugcvos).setTotal(size);
+//        new UgcPageVO().setList(ugcvos).setTotal(size);
+        UgcPageVO ugcPageVO = new UgcPageVO();
+        ugcPageVO.setList(ugcvos);
+        ugcPageVO.setTotal((long) size);
+        return ugcPageVO;
     }
 
     /**
@@ -303,16 +301,19 @@ public class UGCServiceImpl implements UGCService {
         for (int i = 0; i < list.size(); i++) {
             ugcDOS.add(ugcDOMapper.selectByPrimaryKey(list.get(i)));
         }
-        List<UGCVO> ugcvos = new ArrayList<>();
+        List<UgcPageVO.UGCVO> ugcvos = new ArrayList<>();
         BatchUGC(ugcDOS, ugcvos,user_id);
 //        ugcvos.sort((o1, o2) -> o2.getScore().compareTo(o1.getScore()));
         ugcvos = ugcvos.subList(page*offset,(page + 1) *offset - 1);
-        return new UgcPageVO().setList(ugcvos).setTotal(flag);
+        UgcPageVO ugcPageVO = new UgcPageVO();
+        ugcPageVO.setList(ugcvos);
+        ugcPageVO.setTotal((long) flag);
+        return ugcPageVO;
     }
 
-    private void BatchUGC(List<UgcDO> ugcDOS, List<UGCVO> ugcvos,Integer user_id) {
+    private void BatchUGC(List<UgcDO> ugcDOS, List<UgcPageVO.UGCVO> ugcvos, Integer user_id) {
         ugcDOS.forEach((txt)->{
-            UGCVO ugcvo = new UGCVO();
+            UgcPageVO.UGCVO ugcvo = new UgcPageVO.UGCVO();
             List<attachmentDto> attachmentDtos = new ArrayList<>();
             if ( txt.getImages() != null && !txt.getImages().equals("") ){
                 String[] split = txt.getImages().split(",");
@@ -355,7 +356,7 @@ public class UGCServiceImpl implements UGCService {
             criteria3.andIs_deleteEqualTo(false);
             ugcvo.setIs_collect(collectLogDOMapper.selectByExample(collectLogDOExample).size() != 0);
             UserDO userDO = userDOMapper.selectByPrimaryKey(txt.getUser_id());
-            UserVO userVO = new UserVO();
+            UserPageVO.UserVO userVO = new UserPageVO.UserVO();
             userVO.setId(userDO.getId());
             userVO.setAvatar(userDO.getAvatar());
             userVO.setNickname(userDO.getNickname());
@@ -531,7 +532,7 @@ public class UGCServiceImpl implements UGCService {
             CommentVO commentVO = new CommentVO();
             commentVO.setCreate_time(item.getCreate_time());
             commentVO.setVote_num(item.getVote());
-            commentVO.setUser_info(new UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(item.getUser_id()));
+            commentVO.setUser_info(new UserPageVO.UserVO().setAvatar(userDOS.get(0).getAvatar()).setNickname(userDOS.get(0).getNickname()).setId(item.getUser_id()));
             commentVO.setContent(item.getContent());
             commentVO.setId(item.getId());
             commentVO.setParent_id(item.getParent_id());
@@ -568,7 +569,10 @@ public class UGCServiceImpl implements UGCService {
         int size = topicDOMapper.selectByExample(topicDOExample).size();
         topicDOExample.page(page,offset);
         List<topicDO> topicDOS = topicDOMapper.selectByExample(topicDOExample);
-        return new UgcPageVO().setList(topicDOS).setTotal(size);
+        UgcPageVO ugcPageVO = new UgcPageVO();
+        ugcPageVO.setList(topicDOS);
+        ugcPageVO.setTotal((long) size);
+        return ugcPageVO;
     }
 
     /**
@@ -585,7 +589,10 @@ public class UGCServiceImpl implements UGCService {
         int size = labelDOMapper.selectByExample(labelDOExample).size();
         labelDOExample.page(page,offset);
         List<labelDO> labelDOS = labelDOMapper.selectByExample(labelDOExample);
-        return new UgcPageVO().setList(labelDOS).setTotal(size);
+        UgcPageVO ugcPageVO = new UgcPageVO();
+        ugcPageVO.setList(labelDOS);
+        ugcPageVO.setTotal((long) size);
+        return ugcPageVO;
     }
 
 

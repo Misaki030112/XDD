@@ -225,4 +225,11 @@
       school_id = #{school_id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByCampusNameAndSchoolName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select c.id as campus_id from campus as c where c.name=#{campus}
+     <if test="school != '' ">
+       and c.school_id=(select s.id as school_id from school as s where s.name=#{school});
+     </if>                                       
+  </select>
 </mapper>

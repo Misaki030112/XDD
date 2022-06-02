@@ -3,12 +3,11 @@ package com.hznu.xdd.controller;
 import com.hznu.xdd.base.StatusCode;
 import com.hznu.xdd.domain.Dto.GroupDto;
 import com.hznu.xdd.domain.Result;
-import com.hznu.xdd.domain.VO.UserVO;
+import com.hznu.xdd.domain.VO.UserPageVO;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.GroupService;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +61,7 @@ public class GroupController {
 
     @GetMapping("/get/group/user")
     public Result getGroupUser(@RequestParam("id") Integer id){
-        List<UserVO> groupUser = groupService.getGroupUser(id);
+        List<UserPageVO.UserVO> groupUser = groupService.getGroupUser(id);
         return Result.ok(groupUser,"获取成功");
     }
 

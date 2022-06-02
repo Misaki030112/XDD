@@ -10,8 +10,6 @@ import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.service.UserService;
 import com.hznu.xdd.util.UserInfoUtil;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -97,7 +95,7 @@ public class UserController {
         if(userDO==null)
             return new Result(StatusCode.NO_EXIST);
         else{
-            UserInfoVO userInfoVO=new UserInfoVO();
+            UserPageVO.UserInfoVO userInfoVO=new UserPageVO.UserInfoVO();
             BeanUtils.copyProperties(userDO,userInfoVO);
             return Result.ok(userInfoVO,"登录成功");
         }
@@ -111,7 +109,7 @@ public class UserController {
             return new Result(StatusCode.NO_EXIST);
         else {
 
-            UserFocusInfoVO userFocusInfoVO = new UserFocusInfoVO(new UserInfoVO(userDO));
+            UserPageVO.UserFocusInfoVO userFocusInfoVO = new UserPageVO.UserFocusInfoVO(new UserPageVO.UserInfoVO(userDO));
             userFocusInfoVO.setIs_focus(userService.isIFocusSomePeople(id));
             return Result.ok(userFocusInfoVO,"登录成功");
         }
@@ -122,8 +120,8 @@ public class UserController {
     @GetMapping(value="/get/user",produces = { "application/json;charset=UTF-8" })
     public Result searchUserByName(@RequestParam("key") String key,@RequestParam("page") Integer page,@RequestParam("offset") Integer offset){
         List<UserDO> userDOS = userService.searchUserByNickName(key,page,offset);
-        List<UserFocusInfoVO> userFocusInfoVOS = new ArrayList<>();
-        userDOS.forEach(u->{userFocusInfoVOS.add(new UserFocusInfoVO(new UserInfoVO(u)));});
+        List<UserPageVO.UserFocusInfoVO> userFocusInfoVOS = new ArrayList<>();
+        userDOS.forEach(u->{userFocusInfoVOS.add(new UserPageVO.UserFocusInfoVO(new UserPageVO.UserInfoVO(u)));});
         return Result.ok(new ListVO(userFocusInfoVOS),"获取成功");
     }
 
@@ -203,7 +201,7 @@ public class UserController {
 
     @GetMapping(value = "/get/user/official_account/focus")
     public Result official_account(Authentication authentication){
-        UserVO userVO = new UserVO();
+        UserPageVO.UserVO userVO = new UserPageVO.UserVO();
         userVO.setFocus(userService.isFocusWxOffical(userInfoUtil.getWxOpenIdXiaododoMini(authentication)));
         return Result.ok(userVO,"获取成功");
     }
