@@ -2,6 +2,8 @@ package com.hznu.xdd.dao;
 
 import com.hznu.xdd.pojo.courseCommentDO;
 import com.hznu.xdd.domain.pojoExam.courseCommentDOExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,10 @@ public interface courseCommentDOMapper {
     int updateByPrimaryKeySelective(courseCommentDO record);
 
     int updateByPrimaryKey(courseCommentDO record);
+
+    BigDecimal getAverageComment(courseCommentDO record);
+
+    BigDecimal getAverageCredit(courseCommentDO record);
+
+    List<Integer> getDiffCourse(courseCommentDO record);
 }

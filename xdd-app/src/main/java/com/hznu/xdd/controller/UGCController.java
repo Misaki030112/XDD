@@ -49,7 +49,7 @@ public class UGCController {
         UserDO userDO = userService.getUserByWxOpenId(userInfoUtil.getWxOpenIdXiaododoMini(authentication));
         UgcPageVO vo = ugcService.listPublishUGCById(null, key, label, topic, order_by,
                 page,offset,3,userDO.getId());
-        if (key != null){
+        if (key != null && !key.equals("")){
             ugcService.saveSearch(key,userDO.getId());
         }
         return Result.ok(vo,"获取成功");
