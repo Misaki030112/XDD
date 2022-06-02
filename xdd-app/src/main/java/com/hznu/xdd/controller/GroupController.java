@@ -23,16 +23,14 @@ import java.util.List;
 @Controller
 @Transactional(rollbackFor = Exception.class)
 public class GroupController {
-
-    @Autowired
-    GroupService groupService;
-
-    @Autowired
-    UserInfoUtil userInfoUtil;
-
-    @Autowired
-    UserService userService;
-
+    private final GroupService groupService;
+    private final UserInfoUtil userInfoUtil;
+    private final  UserService userService;
+    public GroupController(GroupService groupService, UserInfoUtil userInfoUtil, UserService userService) {
+        this.groupService = groupService;
+        this.userInfoUtil = userInfoUtil;
+        this.userService = userService;
+    }
 
     @PostMapping("/post/group/add")
     public Result addGroup(@RequestBody @Valid GroupDto groupDto){
@@ -45,11 +43,7 @@ public class GroupController {
            return new Result(StatusCode.INVALID_USER_PUBLISH);
         }
     }
-
-//    @PostMapping("/post/group/update")
-//    public Result updateGroup(@RequestBody @Valid GroupDto groupDto){
-//
-//    }
+    
 
     @PostMapping("/post/group/delete")
     public Result deleteGroup(@RequestBody GroupDto groupDto){
@@ -63,10 +57,7 @@ public class GroupController {
         }
     }
 
-
-
-
-
+    
 
 
     @GetMapping("/get/group/user")

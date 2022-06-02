@@ -22,17 +22,18 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class StudentController {
 
-    @Autowired
-    StudentService studentService;
+    
+    private final StudentService studentService;
+    private final MailService mailService;
+    private final UserService userService;
+    private final UserInfoUtil userInfoUtil;
 
-    @Autowired
-    MailService mailService;
-
-    @Autowired
-    UserService userService;
-    @Autowired
-    UserInfoUtil userInfoUtil;
-
+    public StudentController(StudentService studentService, MailService mailService, UserService userService, UserInfoUtil userInfoUtil) {
+        this.studentService = studentService;
+        this.mailService = mailService;
+        this.userService = userService;
+        this.userInfoUtil = userInfoUtil;
+    }
 
     @GetMapping("/get/student/verify")
     public Result verifyMethods(){

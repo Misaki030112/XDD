@@ -14,8 +14,12 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class OtherController {
     
-    @Autowired
-    OtherService otherService;
+   
+    private final OtherService otherService;
+
+    public OtherController(OtherService otherService) {
+        this.otherService = otherService;
+    }
 
     @GetMapping(value = {"/get/recent_search"},produces = {"application/json;charset=UTF-8"})
     public Result getRecentSearch(){

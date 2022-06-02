@@ -37,22 +37,19 @@ import java.util.List;
 
 @RestController
 @Transactional(rollbackFor = Exception.class)
-public class UserController implements InitializingBean {
+public class UserController {
+    private final UserService userService;
+    private final UserInfoUtil userInfoUtil;
+    private final ClientDetailsService clientDetailsService;
+    private final AuthorizationServerTokenServices authorizationServerTokenServices;
+    private final OAuth2RequestFactory oAuth2RequestFactory;
 
-    @Autowired
-    UserService userService;
-    @Autowired
-    UserInfoUtil userInfoUtil;
-    @Autowired
-    private ClientDetailsService clientDetailsService;
-    @Autowired
-    private AuthorizationServerTokenServices authorizationServerTokenServices;
-    private OAuth2RequestFactory oAuth2RequestFactory;
-
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        oAuth2RequestFactory = new DefaultOAuth2RequestFactory(clientDetailsService);
+    public UserController(UserService userService, UserInfoUtil userInfoUtil, ClientDetailsService clientDetailsService, AuthorizationServerTokenServices authorizationServerTokenServices) {
+        this.userService = userService;
+        this.userInfoUtil = userInfoUtil;
+        this.clientDetailsService = clientDetailsService;
+        this.authorizationServerTokenServices = authorizationServerTokenServices;
+        this.oAuth2RequestFactory = new DefaultOAuth2RequestFactory(clientDetailsService);
     }
 
 

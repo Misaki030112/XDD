@@ -24,17 +24,18 @@ import java.util.List;
 @RestController
 @Transactional(rollbackFor = Exception.class)
 public class UGCController {
-    @Autowired
-    UserService userService;
+    
+    private final UserService userService;
+    private final UGCService ugcService;
+    private final UserInfoUtil userInfoUtil;
+    private final RestTemplate restTemplate;
 
-    @Autowired
-    UGCService ugcService;
-
-    @Autowired
-    UserInfoUtil userInfoUtil;
-
-    @Resource
-    RestTemplate restTemplate;
+    public UGCController(UserService userService, UGCService ugcService, UserInfoUtil userInfoUtil, RestTemplate restTemplate) {
+        this.userService = userService;
+        this.ugcService = ugcService;
+        this.userInfoUtil = userInfoUtil;
+        this.restTemplate = restTemplate;
+    }
 
     @GetMapping(value = {"/get/ugc"},produces = {"application/json;charset=UTF-8"})
     public Result getAllUGC(@RequestParam(value = "key",required = false) String key,

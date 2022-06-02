@@ -20,8 +20,12 @@ import java.util.Map;
 @Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class WxOfficialController {
-    @Autowired
-    WxOfficialService wxOfficialService;
+    
+    private final WxOfficialService wxOfficialService;
+
+    public WxOfficialController(WxOfficialService wxOfficialService) {
+        this.wxOfficialService = wxOfficialService;
+    }
 
     @GetMapping ("/officialAccount/wx")
     public void InitOfficialHandler(MessageDto messageDto, HttpServletResponse response) throws IOException {
