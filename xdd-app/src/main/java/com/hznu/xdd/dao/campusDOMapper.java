@@ -27,4 +27,7 @@ public interface campusDOMapper {
     int updateByPrimaryKeySelective(campusDO record);
 
     int updateByPrimaryKey(campusDO record);
+    
+    
+    int selectByCampusNameAndSchoolName(String campus,String school);
 }

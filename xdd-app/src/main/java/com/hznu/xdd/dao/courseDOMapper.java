@@ -27,4 +27,8 @@ public interface courseDOMapper {
     int updateByPrimaryKeySelective(courseDO record);
 
     int updateByPrimaryKey(courseDO record);
+    
+
+    
+    
 }

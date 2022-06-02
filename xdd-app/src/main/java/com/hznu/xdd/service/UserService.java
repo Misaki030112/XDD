@@ -1,10 +1,7 @@
 package com.hznu.xdd.service;
 
 import com.hznu.xdd.domain.Dto.reportDto;
-import com.hznu.xdd.domain.VO.Collect_ugc_VO;
-import com.hznu.xdd.domain.VO.CommentedVO;
 import com.hznu.xdd.domain.VO.UserPageVO;
-import com.hznu.xdd.domain.VO.Vote_ugc_LogVO;
 import com.hznu.xdd.pojo.UserDO;
 import org.springframework.security.core.Authentication;
 

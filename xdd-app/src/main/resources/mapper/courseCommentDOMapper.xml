@@ -349,10 +349,17 @@
   </select>
   <select id="getAverageCredit" parameterType="com.hznu.xdd.pojo.courseCommentDO" resultType="decimal">
     select avg(credit) AS average_credit from course_comment
-      where course_id = #{course_id,jdbcType=INTEGER} and teacher_id = #{teacher_id,jdbcType=INTEGER}
+      where course_id = #{course_id,jdbcType=INTEGER}
+      <if test="teacher_id != null">
+        and teacher_id=#{teacher_id,jdbcType=INTEGER}
+      </if>
   </select>
   <select id="getDiffCourse" parameterType="com.hznu.xdd.pojo.courseCommentDO" resultType="INTEGER">
     select distinct teacher_id from course_comment
       where course_id = #{course_id,jdbcType=INTEGER}
   </select>
+  <select id="countByCourseId" parameterType="java.lang.Integer" resultType="java.lang.Long">
+    select count(*) from course_comment where course_id=#{course}
+  </select>
+  
 </mapper>

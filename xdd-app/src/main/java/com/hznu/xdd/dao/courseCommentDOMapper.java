@@ -35,4 +35,6 @@ public interface courseCommentDOMapper {
     BigDecimal getAverageCredit(courseCommentDO record);
 
     List<Integer> getDiffCourse(courseCommentDO record);
+    
+    long countByCourseId(Integer course);
 }

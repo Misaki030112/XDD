@@ -210,4 +210,8 @@
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+<select id="selectIdBySchoolName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select s.id as school_id from school as s where s.name = #{name}
+</select>
 </mapper>

@@ -6,8 +6,7 @@ import com.hznu.xdd.dao.UserDOMapper;
 import com.hznu.xdd.dao.groupDOMapper;
 import com.hznu.xdd.dao.groupJoinLogDOMapper;
 import com.hznu.xdd.domain.Dto.GroupDto;
-import com.hznu.xdd.domain.VO.UserVO;
-import com.hznu.xdd.domain.pojoExam.groupDOExample;
+import com.hznu.xdd.domain.VO.UserPageVO;
 import com.hznu.xdd.domain.pojoExam.groupJoinLogDOExample;
 import com.hznu.xdd.pojo.UserDO;
 import com.hznu.xdd.pojo.groupDO;
@@ -15,7 +14,6 @@ import com.hznu.xdd.pojo.groupJoinLogDO;
 import com.hznu.xdd.service.GroupService;
 import com.hznu.xdd.util.UserInfoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -84,15 +82,15 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<UserVO> getGroupUser(Integer id) {
+    public List<UserPageVO.UserVO> getGroupUser(Integer id) {
         groupJoinLogDOExample groupJoinLogDOExample = new groupJoinLogDOExample();
         com.hznu.xdd.domain.pojoExam.groupJoinLogDOExample.Criteria criteria = groupJoinLogDOExample.createCriteria();
         criteria.andGroup_idEqualTo(id).andIs_cancelEqualTo(false).andIs_deleteEqualTo(false);
         List<groupJoinLogDO> groupJoinLogDOS = groupJoinLogDOMapper.selectByExample(groupJoinLogDOExample);
-        ArrayList<UserVO> userVOS = new ArrayList<UserVO>();
+        ArrayList<UserPageVO.UserVO> userVOS = new ArrayList<UserPageVO.UserVO>();
         groupJoinLogDOS.forEach((ele)->{
             UserDO userDO = userDOMapper.selectByPrimaryKey(ele.getUser_id());
-            UserVO userVO = new UserVO();
+            UserPageVO.UserVO userVO = new UserPageVO.UserVO();
             userVO.setGender(userDO.getGender())
                     .setNickname(userDO.getNickname())
                     .setAvatar(userDO.getAvatar())
