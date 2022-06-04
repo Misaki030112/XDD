@@ -1145,3 +1145,5 @@ ms     %     Task name
 00023  100%  CourseController#getHotSearchKeys
 00000  000%  PrintResponse
 
+2022-06-04 15:34:30.546 [Thread-16] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+2022-06-04 15:34:30.548 [Thread-16] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
