@@ -272,7 +272,7 @@ public class CourseServiceImpl implements CourseService {
                     .setTime(courseCommentDO.getCreate_time())
                     .setIs_anonymous(courseCommentDO.getIs_anonymous());
             if (!courseCommentDO.getIs_anonymous()){
-                UserDO userDO = userDOMapper.selectByPrimaryKey(courseCommentDO.getId());
+                UserDO userDO = userDOMapper.selectByPrimaryKey(courseCommentDO.getUser_id());
                 courseCommentVO.setUser_info(new UserPageVO.UserVO().setId(userDO.getId()).setNickname(userDO.getNickname()).setGender(userDO.getGender()));
             }
             courseCommentVOS.add(courseCommentVO);
