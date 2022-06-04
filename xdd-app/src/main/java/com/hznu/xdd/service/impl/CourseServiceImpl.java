@@ -8,6 +8,7 @@ import com.hznu.xdd.domain.pojoExam.*;
 import com.hznu.xdd.domain.pojoExam.courseDOExample.Criteria;
 import com.hznu.xdd.pojo.*;
 import com.hznu.xdd.service.CourseService;
+import com.hznu.xdd.util.HotSearchUtil;
 import com.hznu.xdd.util.UserInfoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,12 @@ public class CourseServiceImpl implements CourseService {
    private final UserDOMapper userDOMapper;
    private final UserInfoUtil userInfoUtil;
    private final campusDOMapper campusDOMapper;
+   private final HotSearchUtil hotSearchUtil;
+   
+   private static final String HOT_COURSE_SEARCH="hot_courses_search";
+   
     public CourseServiceImpl(com.hznu.xdd.dao.courseDOMapper courseDOMapper, courseCommentDOMapper courseCommentMapper, com.hznu.xdd.dao.teacherDOMapper teacherDOMapper, com.hznu.xdd.dao.collegeDOMapper collegeDOMapper,
-                             com.hznu.xdd.dao.schoolDOMapper schoolDOMapper, UserDOMapper userDOMapper,UserInfoUtil userInfoUtil, campusDOMapper campusDOMapper) {
+                             com.hznu.xdd.dao.schoolDOMapper schoolDOMapper, UserDOMapper userDOMapper,UserInfoUtil userInfoUtil, campusDOMapper campusDOMapper,HotSearchUtil hotSearchUtil) {
         this.courseDOMapper = courseDOMapper;
         this.courseCommentMapper = courseCommentMapper;
         this.teacherDOMapper = teacherDOMapper;
@@ -40,6 +45,7 @@ public class CourseServiceImpl implements CourseService {
         this.userDOMapper = userDOMapper;
         this.userInfoUtil=userInfoUtil;
         this.campusDOMapper=campusDOMapper;
+        this.hotSearchUtil=hotSearchUtil;
     }
 
     @Override
@@ -77,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
             courseDO.setName(courseDto.getCourse());
             courseDO.setSchool_id(collegeDO.getSchool_id());
             //campusId无法确定
-            int i = courseDOMapper.insert(courseDO);
+            int i = courseDOMapper.insertSelective(courseDO);
             return i>0;
         }else{
             courseDO courseDO = courseDOS.get(0);
@@ -102,25 +108,59 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public CoursePageVo getHotKeys() {
+        List<String> hotSearch = new ArrayList<>();
+        hotSearchUtil.getHotByRedis(HOT_COURSE_SEARCH, 20).forEach(h->hotSearch.add((String) h));
+        CoursePageVo coursePageVo = new CoursePageVo();
+        coursePageVo.setTotal((long) hotSearch.size());
+        coursePageVo.setList(hotSearch);
+        return coursePageVo;
+    }
+
+
+    /**
+     * 注意热搜存活天数  7天
+     * @param courseSearchDto
+     * @return
+     */
+    @Override
     public CoursePageVo searchCourse(CourseDto.CourseSearchDto courseSearchDto) {
-        if(!courseSearchDto.getKey().equals("")){
-            
-        }
+        CoursePageVo coursePageVo = new CoursePageVo();
         Integer college_id=null;
         Integer campus_id=null;
         Integer school_id=null;
         Integer teacher_id=null;
         if(!courseSearchDto.getTeacher().equals("")){
             teacher_id=teacherDOMapper.selectTeacherIdByTeacherNameAndSchoolNameAndCollegeName(courseSearchDto.getTeacher(),courseSearchDto.getSchool(),courseSearchDto.getCollege());
+            if(teacher_id==null){
+                coursePageVo.setTotal(0L);
+                coursePageVo.setList(new ArrayList<>());
+                return coursePageVo;
+            }
         }
         if(!courseSearchDto.getCampus().equals("")){
             campus_id=campusDOMapper.selectByCampusNameAndSchoolName(courseSearchDto.getCampus(),courseSearchDto.getSchool());
+            if(campus_id==null){
+                coursePageVo.setTotal(0L);
+                coursePageVo.setList(new ArrayList<>());
+                return coursePageVo;
+            }
         }
         if(!courseSearchDto.getSchool().equals("")){
             school_id=schoolDOMapper.selectIdBySchoolName(courseSearchDto.getSchool());
+            if(school_id==null){
+                coursePageVo.setTotal(0L);
+                coursePageVo.setList(new ArrayList<>());
+                return coursePageVo;
+            }
         }
         if(!courseSearchDto.getCollege().equals("")){
             college_id=collegeDOMapper.selectCollegeIdAndSchoolName(courseSearchDto.getCollege(), courseSearchDto.getSchool());
+            if(college_id==null){
+                coursePageVo.setTotal(0L);
+                coursePageVo.setList(new ArrayList<>());
+                return coursePageVo;
+            }
         }
         
         courseDOExample courseDOExample = new courseDOExample();
@@ -137,7 +177,9 @@ public class CourseServiceImpl implements CourseService {
         if(school_id!=null){
             criteria.andSchool_idEqualTo(school_id);
         }
+        StringBuilder courseIdS = new StringBuilder();
         if(!courseSearchDto.getKey().equals("")){
+            courseIdS.append(courseSearchDto.getKey()+":");
             criteria.andNameLike("%"+courseSearchDto.getKey()+"%");
         }
         courseDOExample.setOrderByClause(courseSearchDto.getOrder_by());
@@ -145,8 +187,9 @@ public class CourseServiceImpl implements CourseService {
 
         List<courseDO> courseDOS = courseDOMapper.selectByExample(courseDOExample);
 
-        CoursePageVo coursePageVo = new CoursePageVo();
+
         List<CoursePageVo.CourseSearchVO> searchVOS = new ArrayList<>();
+        
         courseDOS.forEach(c->{
             CoursePageVo.CourseSearchVO searchVO = new CoursePageVo.CourseSearchVO();
             searchVO.setCollege(collegeDOMapper.selectByPrimaryKey(c.getCollege_id()).getName());
@@ -155,12 +198,28 @@ public class CourseServiceImpl implements CourseService {
             searchVO.setId(c.getId());
             searchVO.setCount_student(courseCommentMapper.countByCourseId(c.getId()));
             searchVOS.add(searchVO);
+            courseIdS.append(c.getId()+",");
         });
+        courseIdS.deleteCharAt(courseIdS.length() - 1);
+
+        /**
+         * 热搜存储7天的时间
+         */
+        if(!courseSearchDto.getKey().equals("")){
+            hotSearchUtil.saveToRedis(HOT_COURSE_SEARCH,courseIdS.toString(),7);
+        }
+        
         coursePageVo.setTotal((long) courseDOS.size());
         coursePageVo.setList(searchVOS);
         
+        
+
         return coursePageVo;
     }
+    
+    
+    
+    
 
 
     @Override

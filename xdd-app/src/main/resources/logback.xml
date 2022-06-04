@@ -32,12 +32,12 @@
         </triggeringPolicy>
         <!--临界值日志过滤级别配置 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 只打印DEBUG日志 -->
-            <level>DEBUG</level>
+            <level>INFO</level>
         </filter>
     </appender>
 
     <!-- 日志输出级别 -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE"/>
     </root>

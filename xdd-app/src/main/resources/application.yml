@@ -21,9 +21,7 @@ validCode:
   time: 300    # 5分钟
 
 
-logging:
-  level:
-    root: DEBUG
+  
 
 
 

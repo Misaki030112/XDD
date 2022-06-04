@@ -5,15 +5,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class HotSearchUtil {
 
-    @Resource
-    RedisTemplate redisTemplate;
+    
+    private final RedisTemplate redisTemplate;
+
+    public HotSearchUtil(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public static long NumberOfDaysEndUnixTime(int NumberOfDays) {
         Calendar calendar = Calendar.getInstance();
@@ -38,6 +41,7 @@ public class HotSearchUtil {
         long timeOut = (calendar.getTimeInMillis()-NumberOfDaysEndUnixTime(exist_day)) / 1000;
         redisTemplate.expire(key_name,timeOut, TimeUnit.SECONDS);
         redisTemplate.opsForZSet().incrementScore(key_name,key_value,1);
+        
     }
 
     /**

@@ -42,7 +42,7 @@ public class ControllerLogAop {
     public Object controller(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         final Method method = signature.getMethod();
-        if(method == null||!log.isDebugEnabled()){
+        if(method == null){
             return joinPoint.proceed();
         }
         String className = joinPoint.getTarget().getClass().getSimpleName();
@@ -61,9 +61,9 @@ public class ControllerLogAop {
         watch.start("PrintResponse");
         printResponseLog(request, className, methodName, returnObj);
         watch.stop();
-        if (log.isDebugEnabled()) {
-            log.debug("Usage:\n{}", watch.prettyPrint());
-        }
+       
+            log.info("Usage:\n{}", watch.prettyPrint());
+        
         return returnObj;
     }
     
@@ -72,13 +72,13 @@ public class ControllerLogAop {
 
     private void printRequestLog(HttpServletRequest request, String clazzName, String methodName,
                                  Object[] args) throws JsonProcessingException {
-        log.debug("Request URL: [{}], URI: [{}], Request Method: [{}], IP: [{}]",
+        log.info("Request URL: [{}], URI: [{}], Request Method: [{}], IP: [{}]",
                 request.getRequestURL(),
                 request.getRequestURI(),
                 request.getMethod(),
                 ServletUtils.getClientIP(request));
 
-        if (args == null || !log.isDebugEnabled()) {
+        if (args == null ) {
             return;
         }
 
@@ -96,7 +96,7 @@ public class ControllerLogAop {
 
         if (!shouldNotLog) {
             String requestBody = JSON.toJSONString(args);
-            log.debug("{}.{} Parameters: [{}]", clazzName, methodName, requestBody);
+            log.info("{}.{} Parameters: [{}]", clazzName, methodName, requestBody);
         }
     }
 
@@ -104,7 +104,7 @@ public class ControllerLogAop {
 
 
     private void printResponseLog(HttpServletRequest request,String className,String methodName,Object returnObj){
-        if (log.isDebugEnabled()) {
+        
             String returnData = "";
             if (returnObj != null) {
                 if (returnObj instanceof ResponseEntity) {
@@ -118,8 +118,8 @@ public class ControllerLogAop {
                     returnData = toString(returnObj);
                 }
             }
-            log.debug("{}.{} Response: [{}]", className, methodName, returnData);
-        }
+            log.info("{}.{} Response: [{}]", className, methodName, returnData);
+        
     }
 
 

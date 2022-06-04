@@ -4,6 +4,7 @@ import com.hznu.xdd.pojo.schoolDO;
 import com.hznu.xdd.domain.pojoExam.schoolDOExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 public interface schoolDOMapper {
     long countByExample(schoolDOExample example);
@@ -27,9 +28,9 @@ public interface schoolDOMapper {
     int updateByPrimaryKeySelective(schoolDO record);
 
     int updateByPrimaryKey(schoolDO record);
-    
-    
-    int selectIdBySchoolName(String name);
+
+
+    Integer selectIdBySchoolName(@Param("name") String name);
     
     
 }

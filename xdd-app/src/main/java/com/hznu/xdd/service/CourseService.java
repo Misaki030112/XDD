@@ -4,6 +4,8 @@ import com.hznu.xdd.domain.Dto.CourseCommentDto;
 import com.hznu.xdd.domain.Dto.CourseDto;
 import com.hznu.xdd.domain.VO.CoursePageVo;
 
+import java.util.List;
+
 /**
  * 选课业务接口
  */
@@ -12,6 +14,8 @@ public interface CourseService {
     boolean  addCourse(CourseDto courseDto);
     
     boolean commentCourse(CourseCommentDto courseCommentDto);
+    
+    CoursePageVo getHotKeys();
     
     CoursePageVo searchCourse(CourseDto.CourseSearchDto courseSearchDto);
     

@@ -44,7 +44,11 @@ public class CourseController {
     }
     
     
-    
+    @GetMapping("/get/course/hot_search")
+    public Result getHotSearchKeys(){
+        CoursePageVo hotKeys = courseService.getHotKeys();
+        return Result.ok(hotKeys,"获取成功");
+    }
 
     @GetMapping(value = "/get/course/course",produces = {"application/json;charset=UTF-8"})
     public Result getTeacherAllCourse(@RequestParam("teacher_id") Integer teacher_id){

@@ -29,6 +29,6 @@ public interface teacherDOMapper {
     int updateByPrimaryKey(teacherDO record);
     
     
-    int selectTeacherIdByTeacherNameAndSchoolNameAndCollegeName(String teacher,String school,String college);
+    Integer selectTeacherIdByTeacherNameAndSchoolNameAndCollegeName(@Param("teacher")String teacher,@Param("school")String school,@Param("college")String college);
     
 }

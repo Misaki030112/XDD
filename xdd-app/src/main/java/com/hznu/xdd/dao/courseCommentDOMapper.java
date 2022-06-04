@@ -36,5 +36,5 @@ public interface courseCommentDOMapper {
 
     List<Integer> getDiffCourse(courseCommentDO record);
     
-    long countByCourseId(Integer course);
+    Long countByCourseId(Integer course);
 }

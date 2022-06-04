@@ -29,5 +29,5 @@ public interface collegeDOMapper {
     int updateByPrimaryKey(collegeDO record);
 
 
-    int selectCollegeIdAndSchoolName(String college ,String school);
+    Integer selectCollegeIdAndSchoolName(@Param("college") String college ,@Param("school") String school);
 }
