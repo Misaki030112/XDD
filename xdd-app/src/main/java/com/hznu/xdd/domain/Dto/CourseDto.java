@@ -14,6 +14,8 @@ public class CourseDto {
     @NotNull
     private Integer college_id;
     @NotNull
+    private Integer school_id;
+    @NotNull
     private String course;
     
     

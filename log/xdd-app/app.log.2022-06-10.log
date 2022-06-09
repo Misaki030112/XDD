@@ -1,0 +1,107 @@
+2022-06-10 00:56:26.251 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$de53a9bf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-10 00:56:26.821 [main] INFO  com.hznu.xdd.Xdd_Application - The following profiles are active: test
+2022-06-10 00:56:29.129 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-06-10 00:56:29.133 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-06-10 00:56:29.203 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 51ms. Found 0 repository interfaces.
+2022-06-10 00:56:29.575 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=334c5501-7902-3cf8-9896-048e326ef0a5
+2022-06-10 00:56:29.612 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'asyncTaskExecutePool' of type [com.hznu.xdd.config.AsyncTaskExecutePool$$EnhancerBySpringCGLIB$$97b1245] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-10 00:56:29.736 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c239a6c2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-10 00:56:29.965 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$de53a9bf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-06-10 00:56:30.358 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8991 (http)
+2022-06-10 00:56:30.375 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8991"]
+2022-06-10 00:56:30.385 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-06-10 00:56:30.385 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.19]
+2022-06-10 00:56:30.518 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-06-10 00:56:30.518 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 3662 ms
+2022-06-10 00:56:30.760 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2022-06-10 00:56:31.132 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2022-06-10 00:56:34.147 [main] INFO  o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/oauth/token'], Ant [pattern='/oauth/token_key'], Ant [pattern='/oauth/check_token']]], [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@10a0a1e, org.springframework.security.web.context.SecurityContextPersistenceFilter@6b751cb1, org.springframework.security.web.header.HeaderWriterFilter@35becbd4, org.springframework.security.web.authentication.logout.LogoutFilter@56881196, org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter@61eab26b, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@5a7e81, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@fde487b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2fd4312a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2976ef56, org.springframework.security.web.session.SessionManagementFilter@30fa8a6b, org.springframework.security.web.access.ExceptionTranslationFilter@2beee3e8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3dc55719]
+2022-06-10 00:56:34.162 [main] INFO  o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: OrRequestMatcher [requestMatchers=[any request]], [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5891b7c5, org.springframework.security.web.context.SecurityContextPersistenceFilter@1da5c19d, org.springframework.security.web.header.HeaderWriterFilter@3a709cc7, org.springframework.security.web.authentication.logout.LogoutFilter@25e6c22a, org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter@5f3ddc86, com.hznu.xdd.config.weixin.WeiXinMiniProgramAuthenticationFilter@4fc3529, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3e4f2300, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@e706aa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@38e46765, org.springframework.security.web.session.SessionManagementFilter@19a7906c, org.springframework.security.web.access.ExceptionTranslationFilter@6e49b011, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1686ed85]
+2022-06-10 00:56:34.182 [main] INFO  o.s.security.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@846b47, org.springframework.security.web.context.SecurityContextPersistenceFilter@eb1d475, org.springframework.security.web.header.HeaderWriterFilter@129b69b2, org.springframework.security.web.csrf.CsrfFilter@1d622556, org.springframework.security.web.authentication.logout.LogoutFilter@5d58dc61, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1c8e8fed, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@11adab6d, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@3c3ab672, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@681d704e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@389008d1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@718f3088, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3e6acec2, org.springframework.security.web.session.SessionManagementFilter@12be4f83, org.springframework.security.web.access.ExceptionTranslationFilter@22c29aa8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3a7469ca]
+2022-06-10 00:56:34.482 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2022-06-10 00:56:35.575 [main] WARN  o.s.b.a.freemarker.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+2022-06-10 00:56:35.696 [main] INFO  o.s.b.actuate.endpoint.web.EndpointLinksResolver - Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-06-10 00:56:35.764 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+2022-06-10 00:56:36.694 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8991"]
+2022-06-10 00:56:36.763 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8991 (http) with context path ''
+2022-06-10 00:56:36.767 [main] INFO  com.hznu.xdd.Xdd_Application - Started Xdd_Application in 12.055 seconds (JVM running for 15.052)
+2022-06-10 00:56:37.778 [RMI TCP Connection(3)-172.27.1.183] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-10 00:56:37.779 [RMI TCP Connection(3)-172.27.1.183] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2022-06-10 00:56:37.800 [RMI TCP Connection(3)-172.27.1.183] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 21 ms
+2022-06-10 00:56:38.489 [parallel-1] INFO  io.lettuce.core.EpollProvider - Starting without optional epoll library
+2022-06-10 00:56:38.493 [parallel-1] INFO  io.lettuce.core.KqueueProvider - Starting without optional kqueue library
+2022-06-10 00:57:07.985 [http-nio-8991-exec-1] WARN  o.s.security.crypto.bcrypt.BCryptPasswordEncoder - Encoded password does not look like BCrypt
+2022-06-10 00:58:45.356 [http-nio-8991-exec-3] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Request URL: [http://127.0.0.1:8991/get/teacher], URI: [/get/teacher], Request Method: [GET], IP: [127.0.0.1]
+2022-06-10 00:58:45.360 [http-nio-8991-exec-3] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllTeacher Parameters: [[1,1]]
+2022-06-10 00:58:45.386 [http-nio-8991-exec-3] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllTeacher Response: [{"code":20000,"data":{"list":[{"college_id":1,"id":1,"name":"梁锡坤","school_id":1},{"college_id":1,"id":2,"name":"朱江萍","school_id":1},{"college_id":1,"id":5,"name":"虞歌","school_id":1},{"college_id":1,"id":6,"name":"姚遥","school_id":1},{"college_id":1,"id":7,"name":"潘奇","school_id":1}],"total":5},"message":"获取成功"}]
+2022-06-10 00:58:45.387 [http-nio-8991-exec-3] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Usage:
+StopWatch '/get/teacher': running time (millis) = 33
+-----------------------------------------
+ms     %     Task name
+-----------------------------------------
+00006  018%  PrintRequest
+00014  042%  CourseController#getAllTeacher
+00013  039%  PrintResponse
+
+2022-06-10 00:58:57.470 [http-nio-8991-exec-4] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Request URL: [http://127.0.0.1:8991/get/teacher], URI: [/get/teacher], Request Method: [GET], IP: [127.0.0.1]
+2022-06-10 00:58:57.479 [http-nio-8991-exec-4] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllTeacher Response: [{"code":20000,"data":{"list":[{"college_id":1,"id":1,"name":"梁锡坤","school_id":1},{"college_id":1,"id":2,"name":"朱江萍","school_id":1},{"college_id":1,"id":5,"name":"虞歌","school_id":1},{"college_id":1,"id":6,"name":"姚遥","school_id":1},{"college_id":1,"id":7,"name":"潘奇","school_id":1}],"total":5},"message":"获取成功"}]
+2022-06-10 00:58:57.479 [http-nio-8991-exec-4] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Usage:
+StopWatch '/get/teacher': running time (millis) = 9
+-----------------------------------------
+ms     %     Task name
+-----------------------------------------
+00000  000%  PrintRequest
+00009  100%  CourseController#getAllTeacher
+00000  000%  PrintResponse
+
+2022-06-10 01:00:03.406 [http-nio-8991-exec-6] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Request URL: [http://127.0.0.1:8991/get/college], URI: [/get/college], Request Method: [GET], IP: [127.0.0.1]
+2022-06-10 01:00:03.406 [http-nio-8991-exec-6] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Parameters: [[1]]
+2022-06-10 01:00:03.416 [http-nio-8991-exec-6] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Response: [{"code":20000,"data":{"list":[{"college_id":1,"id":1,"name":"信息科学与技术学院","school_id":1},{"college_id":2,"id":2,"name":"教育学院","school_id":1},{"college_id":3,"id":3,"name":"公共管理学院","school_id":1},{"college_id":4,"id":4,"name":"沈钧儒法学院","school_id":1},{"college_id":5,"id":5,"name":"经亨颐教育学院","school_id":1},{"college_id":6,"id":6,"name":"文化创意与传媒学院","school_id":1},{"college_id":7,"id":7,"name":"美术学院","school_id":1},{"college_id":8,"id":8,"name":"阿里巴巴商学院","school_id":1},{"college_id":9,"id":9,"name":"音乐学院","school_id":1},{"college_id":10,"id":10,"name":"生命与环境科学学院","school_id":1},{"college_id":11,"id":11,"name":"经济学院","school_id":1},{"college_id":12,"id":12,"name":"马克思主义学院","school_id":1},{"college_id":13,"id":13,"name":"体育学院","school_id":1},{"college_id":14,"id":14,"name":"人文学院","school_id":1},{"college_id":15,"id":15,"name":"外国语学院","school_id":1},{"college_id":16,"id":16,"name":"数学学院","school_id":1},{"college_id":17,"id":17,"name":"物理学院","school_id":1},{"college_id":18,"id":18,"name":"材料与化学化工学院","school_id":1},{"college_id":19,"id":19,"name":"哈尔科夫学院","school_id":1},{"college_id":20,"id":20,"name":"医学部—基础医学院","school_id":1},{"college_id":21,"id":21,"name":"医学部—药学院","school_id":1},{"college_id":22,"id":22,"name":"医学部—公共卫生学院","school_id":1},{"college_id":23,"id":23,"name":"医学部—护理学院","school_id":1},{"college_id":24,"id":24,"name":"医学部—临床医学院","school_id":1},{"college_id":25,"id":25,"name":"医学部—口腔医学院","school_id":1},{"college_id":26,"id":26,"name":"弘一大师丰子恺研究中心(艺术教育研究院)","school_id":1}],"total":26},"message":"获取成功"}]
+2022-06-10 01:00:03.416 [http-nio-8991-exec-6] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Usage:
+StopWatch '/get/college': running time (millis) = 10
+-----------------------------------------
+ms     %     Task name
+-----------------------------------------
+00000  000%  PrintRequest
+00010  100%  CourseController#getAllCollege
+00000  000%  PrintResponse
+
+2022-06-10 01:00:13.752 [http-nio-8991-exec-7] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Request URL: [http://127.0.0.1:8991/get/college], URI: [/get/college], Request Method: [GET], IP: [127.0.0.1]
+2022-06-10 01:00:13.752 [http-nio-8991-exec-7] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Parameters: [[0]]
+2022-06-10 01:00:13.758 [http-nio-8991-exec-7] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Response: [{"code":20000,"data":{"list":[],"total":0},"message":"获取成功"}]
+2022-06-10 01:00:13.758 [http-nio-8991-exec-7] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Usage:
+StopWatch '/get/college': running time (millis) = 6
+-----------------------------------------
+ms     %     Task name
+-----------------------------------------
+00000  000%  PrintRequest
+00006  100%  CourseController#getAllCollege
+00000  000%  PrintResponse
+
+2022-06-10 01:00:19.074 [http-nio-8991-exec-8] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Request URL: [http://127.0.0.1:8991/get/college], URI: [/get/college], Request Method: [GET], IP: [127.0.0.1]
+2022-06-10 01:00:19.097 [http-nio-8991-exec-8] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Response: [{"code":20000,"data":{"list":[{"college_id":1,"id":1,"name":"信息科学与技术学院","school_id":1},{"college_id":2,"id":2,"name":"教育学院","school_id":1},{"college_id":3,"id":3,"name":"公共管理学院","school_id":1},{"college_id":4,"id":4,"name":"沈钧儒法学院","school_id":1},{"college_id":5,"id":5,"name":"经亨颐教育学院","school_id":1},{"college_id":6,"id":6,"name":"文化创意与传媒学院","school_id":1},{"college_id":7,"id":7,"name":"美术学院","school_id":1},{"college_id":8,"id":8,"name":"阿里巴巴商学院","school_id":1},{"college_id":9,"id":9,"name":"音乐学院","school_id":1},{"college_id":10,"id":10,"name":"生命与环境科学学院","school_id":1},{"college_id":11,"id":11,"name":"经济学院","school_id":1},{"college_id":12,"id":12,"name":"马克思主义学院","school_id":1},{"college_id":13,"id":13,"name":"体育学院","school_id":1},{"college_id":14,"id":14,"name":"人文学院","school_id":1},{"college_id":15,"id":15,"name":"外国语学院","school_id":1},{"college_id":16,"id":16,"name":"数学学院","school_id":1},{"college_id":17,"id":17,"name":"物理学院","school_id":1},{"college_id":18,"id":18,"name":"材料与化学化工学院","school_id":1},{"college_id":19,"id":19,"name":"哈尔科夫学院","school_id":1},{"college_id":20,"id":20,"name":"医学部—基础医学院","school_id":1},{"college_id":21,"id":21,"name":"医学部—药学院","school_id":1},{"college_id":22,"id":22,"name":"医学部—公共卫生学院","school_id":1},{"college_id":23,"id":23,"name":"医学部—护理学院","school_id":1},{"college_id":24,"id":24,"name":"医学部—临床医学院","school_id":1},{"college_id":25,"id":25,"name":"医学部—口腔医学院","school_id":1},{"college_id":26,"id":26,"name":"弘一大师丰子恺研究中心(艺术教育研究院)","school_id":1}],"total":26},"message":"获取成功"}]
+2022-06-10 01:00:19.098 [http-nio-8991-exec-8] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Usage:
+StopWatch '/get/college': running time (millis) = 23
+-----------------------------------------
+ms     %     Task name
+-----------------------------------------
+00001  004%  PrintRequest
+00022  096%  CourseController#getAllCollege
+00000  000%  PrintResponse
+
+2022-06-10 01:00:24.270 [http-nio-8991-exec-10] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Request URL: [http://127.0.0.1:8991/get/college], URI: [/get/college], Request Method: [GET], IP: [127.0.0.1]
+2022-06-10 01:00:24.270 [http-nio-8991-exec-10] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Parameters: [[1]]
+2022-06-10 01:00:24.277 [http-nio-8991-exec-10] INFO  com.hznu.xdd.Aspect.ControllerLogAop - CourseController.getAllCollege Response: [{"code":20000,"data":{"list":[{"college_id":1,"id":1,"name":"信息科学与技术学院","school_id":1},{"college_id":2,"id":2,"name":"教育学院","school_id":1},{"college_id":3,"id":3,"name":"公共管理学院","school_id":1},{"college_id":4,"id":4,"name":"沈钧儒法学院","school_id":1},{"college_id":5,"id":5,"name":"经亨颐教育学院","school_id":1},{"college_id":6,"id":6,"name":"文化创意与传媒学院","school_id":1},{"college_id":7,"id":7,"name":"美术学院","school_id":1},{"college_id":8,"id":8,"name":"阿里巴巴商学院","school_id":1},{"college_id":9,"id":9,"name":"音乐学院","school_id":1},{"college_id":10,"id":10,"name":"生命与环境科学学院","school_id":1},{"college_id":11,"id":11,"name":"经济学院","school_id":1},{"college_id":12,"id":12,"name":"马克思主义学院","school_id":1},{"college_id":13,"id":13,"name":"体育学院","school_id":1},{"college_id":14,"id":14,"name":"人文学院","school_id":1},{"college_id":15,"id":15,"name":"外国语学院","school_id":1},{"college_id":16,"id":16,"name":"数学学院","school_id":1},{"college_id":17,"id":17,"name":"物理学院","school_id":1},{"college_id":18,"id":18,"name":"材料与化学化工学院","school_id":1},{"college_id":19,"id":19,"name":"哈尔科夫学院","school_id":1},{"college_id":20,"id":20,"name":"医学部—基础医学院","school_id":1},{"college_id":21,"id":21,"name":"医学部—药学院","school_id":1},{"college_id":22,"id":22,"name":"医学部—公共卫生学院","school_id":1},{"college_id":23,"id":23,"name":"医学部—护理学院","school_id":1},{"college_id":24,"id":24,"name":"医学部—临床医学院","school_id":1},{"college_id":25,"id":25,"name":"医学部—口腔医学院","school_id":1},{"college_id":26,"id":26,"name":"弘一大师丰子恺研究中心(艺术教育研究院)","school_id":1}],"total":26},"message":"获取成功"}]
+2022-06-10 01:00:24.277 [http-nio-8991-exec-10] INFO  com.hznu.xdd.Aspect.ControllerLogAop - Usage:
+StopWatch '/get/college': running time (millis) = 7
+-----------------------------------------
+ms     %     Task name
+-----------------------------------------
+00001  014%  PrintRequest
+00006  086%  CourseController#getAllCollege
+00000  000%  PrintResponse
+
+2022-06-10 01:00:52.581 [Thread-28] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+2022-06-10 01:00:52.583 [Thread-28] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2022-06-10 01:00:53.727 [Thread-28] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2022-06-10 01:00:53.732 [Thread-28] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

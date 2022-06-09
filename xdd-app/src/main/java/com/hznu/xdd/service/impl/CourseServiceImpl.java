@@ -334,10 +334,56 @@ public class CourseServiceImpl implements CourseService {
                 long l = courseCommentMapper.countByExample(courseCommentDOExample);
                 teacherCourseVO.setComment(value_comment + "/" + l);
                 teacherCourseVO.setAvg_credit(value_credit + "/" + l);
+                teacherCourseVO.setId(teacherDOS.get(0).getId());
                 teacherCourseVOS.add(teacherCourseVO);
             }
         coursePageVo.setList(teacherCourseVOS);
         }
+        return coursePageVo;
+    }
+
+    @Override
+    public CoursePageVo getAllTeacher(Integer college_id,Integer school_id) {
+        CoursePageVo coursePageVo = new CoursePageVo();
+        teacherDOExample teacherDOExample = new teacherDOExample();
+        com.hznu.xdd.domain.pojoExam.teacherDOExample.Criteria criteria = teacherDOExample.createCriteria();
+        if (college_id != null){
+            criteria.andCollege_idEqualTo(college_id);
+        }
+        if (school_id != null){
+            criteria.andSchool_idEqualTo(school_id);
+        }
+        criteria.andIs_deleteEqualTo(false);
+        List<teacherDO> teacherDOS = teacherDOMapper.selectByExample(teacherDOExample);
+        ArrayList<CoursePageVo.DetailVO> teacherDetailVOS = new ArrayList<>();
+        for (teacherDO teacherDO : teacherDOS) {
+            CoursePageVo.DetailVO teacherDetailVO = new CoursePageVo.DetailVO();
+            teacherDetailVO.setId(teacherDO.getId()).setName(teacherDO.getName()).setCollege_id(teacherDO.getCollege_id()).setSchool_id(teacherDO.getSchool_id());
+            teacherDetailVOS.add(teacherDetailVO);
+        }
+        coursePageVo.setList(teacherDetailVOS);
+        coursePageVo.setTotal((long) teacherDetailVOS.size());
+        return coursePageVo;
+    }
+
+    @Override
+    public CoursePageVo getAllCollege(Integer school_id) {
+        CoursePageVo coursePageVo = new CoursePageVo();
+        collegeDOExample collegeDOExample = new collegeDOExample();
+        com.hznu.xdd.domain.pojoExam.collegeDOExample.Criteria criteria = collegeDOExample.createCriteria();
+        if (school_id != null){
+            criteria.andSchool_idEqualTo(school_id);
+        }
+        criteria.andIs_deleteEqualTo(false);
+        List<collegeDO> collegeDOS = collegeDOMapper.selectByExample(collegeDOExample);
+        ArrayList<CoursePageVo.DetailVO> detailVOS = new ArrayList<>();
+        for (collegeDO collegeDO : collegeDOS) {
+            CoursePageVo.DetailVO detailVO = new CoursePageVo.DetailVO();
+            detailVO.setId(collegeDO.getId()).setName(collegeDO.getName()).setCollege_id(collegeDO.getId()).setSchool_id(collegeDO.getSchool_id());
+            detailVOS.add(detailVO);
+        }
+        coursePageVo.setList(detailVOS);
+        coursePageVo.setTotal((long) detailVOS.size());
         return coursePageVo;
     }
 }
