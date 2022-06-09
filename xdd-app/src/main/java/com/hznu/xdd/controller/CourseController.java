@@ -50,7 +50,7 @@ public class CourseController {
         return Result.ok(hotKeys,"获取成功");
     }
 
-    @GetMapping(value = "/get/course/course",produces = {"application/json;charset=UTF-8"})
+    @GetMapping(value = "/get/teacher/course",produces = {"application/json;charset=UTF-8"})
     public Result getTeacherAllCourse(@RequestParam("teacher_id") Integer teacher_id){
         CoursePageVo allCourse = courseService.getTeacherAllCourse(teacher_id);
         return Result.ok(allCourse,"获取成功");

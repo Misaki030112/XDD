@@ -227,7 +227,7 @@ public class CourseServiceImpl implements CourseService {
         CoursePageVo coursePageVo = new CoursePageVo();
         courseDOExample courseDOExample = new courseDOExample();
         Criteria criteria = courseDOExample.createCriteria();
-        criteria.andTeachers_idLike("%" + teacher_id +"%");
+        criteria.andTeachers_idLike("%" + teacher_id +"%").andIs_deleteEqualTo(false);
         long count = courseDOMapper.countByExample(courseDOExample);
         coursePageVo.setTotal(count);
         List<courseDO> courseDOS = courseDOMapper.selectByExample(courseDOExample);
@@ -238,13 +238,19 @@ public class CourseServiceImpl implements CourseService {
             teacherCourseVO.setName(courseDO.getName());
             courseCommentDOExample courseCommentDOExample = new courseCommentDOExample();
             com.hznu.xdd.domain.pojoExam.courseCommentDOExample.Criteria courseCommentDOExampleCriteria = courseCommentDOExample.createCriteria();
-            courseCommentDOExampleCriteria.andCourse_idEqualTo(courseDO.getId()).andTeacher_idEqualTo(teacher_id);
-            courseCommentDO courseCommentDO = new courseCommentDO().setCourse_id(courseDO.getId()).setTeacher_id(teacher_id);
-            BigDecimal averageComment = courseCommentMapper.getAverageComment(courseCommentDO);
-            BigDecimal averageCredit = courseCommentMapper.getAverageCredit(courseCommentDO);
-            long l = courseCommentMapper.countByExample(courseCommentDOExample);
+            courseCommentDOExampleCriteria.andCourse_idEqualTo(courseDO.getId()).andTeacher_idEqualTo(teacher_id).andIs_deleteEqualTo(false);
+            courseCommentDO courseCommentDO = new courseCommentDO().setCourse_id(courseDO.getId()).setTeacher_id(teacher_id).setIs_delete(false);
+            BigDecimal averageComment = new BigDecimal(0);
+            BigDecimal averageCredit = new BigDecimal(0);
+            if (courseCommentMapper.getAverageComment(courseCommentDO) != null){
+                averageComment = courseCommentMapper.getAverageComment(courseCommentDO);
+            }
+            if (courseCommentMapper.getAverageCredit(courseCommentDO) != null){
+                averageCredit = courseCommentMapper.getAverageCredit(courseCommentDO);
+            }
             double value_comment = averageComment.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             double value_credit = averageCredit.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+            long l = courseCommentMapper.countByExample(courseCommentDOExample);
             teacherCourseVO.setComment(value_comment + "/" + l);
             teacherCourseVO.setAvg_credit(value_credit + "/" + l);
             teacherCourseVOS.add(teacherCourseVO);
@@ -258,7 +264,7 @@ public class CourseServiceImpl implements CourseService {
         CoursePageVo coursePageVo = new CoursePageVo();
         courseCommentDOExample courseCommentDOExample = new courseCommentDOExample();
         com.hznu.xdd.domain.pojoExam.courseCommentDOExample.Criteria criteria = courseCommentDOExample.createCriteria();
-        criteria.andCourse_idEqualTo(course_id);
+        criteria.andCourse_idEqualTo(course_id).andIs_deleteEqualTo(false);
         long l = courseCommentMapper.countByExample(courseCommentDOExample);
         coursePageVo.setTotal(l);
         courseCommentDOExample.setOrderByClause("create_time desc");
@@ -285,7 +291,7 @@ public class CourseServiceImpl implements CourseService {
     public CoursePageVo.CourseDetailVO getCourseDetail(Integer course_id) {
         courseDOExample courseDOExample = new courseDOExample();
         Criteria criteria = courseDOExample.createCriteria();
-        criteria.andIdEqualTo(course_id);
+        criteria.andIdEqualTo(course_id).andIs_deleteEqualTo(false);
         List<courseDO> courseDOS = courseDOMapper.selectByExample(courseDOExample);
         if (!courseDOS.isEmpty()){
             CoursePageVo.CourseDetailVO courseDetailVO = new CoursePageVo.CourseDetailVO();
@@ -293,12 +299,12 @@ public class CourseServiceImpl implements CourseService {
             courseDetailVO.setId(courseDO.getId()).setName(courseDO.getName());
             collegeDOExample collegeDOExample = new collegeDOExample();
             com.hznu.xdd.domain.pojoExam.collegeDOExample.Criteria criteria1 = collegeDOExample.createCriteria();
-            criteria1.andIdEqualTo(courseDO.getCollege_id());
+            criteria1.andIdEqualTo(courseDO.getCollege_id()).andIs_deleteEqualTo(false);
             List<collegeDO> collegeDOS = collegeDOMapper.selectByExample(collegeDOExample);
             courseDetailVO.setCollege(collegeDOS.isEmpty() ? null : collegeDOS.get(0).getName());
             schoolDOExample schoolDOExample = new schoolDOExample();
             com.hznu.xdd.domain.pojoExam.schoolDOExample.Criteria criteria2 = schoolDOExample.createCriteria();
-            criteria2.andIdEqualTo(courseDO.getSchool_id());
+            criteria2.andIdEqualTo(courseDO.getSchool_id()).andIs_deleteEqualTo(false);
             List<schoolDO> schoolDOS = schoolDOMapper.selectByExample(schoolDOExample);
             courseDetailVO.setSchool(schoolDOS.isEmpty() ? null : schoolDOS.get(0).getName());
             return courseDetailVO;
@@ -310,35 +316,55 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CoursePageVo getCourseAllTeacher(Integer course_id) {
         CoursePageVo coursePageVo = new CoursePageVo();
-        courseCommentDO courseCommentDO = new courseCommentDO().setCourse_id(course_id);
-        List<Integer> diffCourse = courseCommentMapper.getDiffCourse(courseCommentDO);
-        coursePageVo.setTotal((long) diffCourse.size());
+        courseDOExample courseDOExample = new courseDOExample();
+        Criteria criteria2 = courseDOExample.createCriteria();
+        criteria2.andIdEqualTo(course_id).andIs_deleteEqualTo(false);
+        List<courseDO> courseDOS = courseDOMapper.selectByExample(courseDOExample);
+        String teachers_id;
+        if (courseDOS.size() == 0){
+            coursePageVo.setTotal(0L);
+            coursePageVo.setList(new ArrayList<>());
+            return coursePageVo;
+        }else {
+            teachers_id = courseDOS.get(0).getTeachers_id();
+        }
+        String[] split = teachers_id.split(",");
+        coursePageVo.setTotal((long) split.length);
         ArrayList<CoursePageVo.TeacherCourseVO> teacherCourseVOS = new ArrayList<>();
-        for (Integer integer : diffCourse) {
-            CoursePageVo.TeacherCourseVO teacherCourseVO = new CoursePageVo.TeacherCourseVO();
+        for (String s : split) {
+            int i = Integer.parseInt(s);
+            courseCommentDO courseCommentDO = new courseCommentDO().setCourse_id(course_id).setIs_delete(false).setTeacher_id(i);
+            List<Integer> diffCourse = courseCommentMapper.getDiffCourse(courseCommentDO);
             teacherDOExample teacherDOExample = new teacherDOExample();
             com.hznu.xdd.domain.pojoExam.teacherDOExample.Criteria criteria = teacherDOExample.createCriteria();
-            criteria.andIdEqualTo(integer);
+            criteria.andIdEqualTo(i).andIs_deleteEqualTo(false);
             List<teacherDO> teacherDOS = teacherDOMapper.selectByExample(teacherDOExample);
             if (!teacherDOS.isEmpty()){
+                CoursePageVo.TeacherCourseVO teacherCourseVO = new CoursePageVo.TeacherCourseVO();
                 teacherCourseVO.setName(teacherDOS.get(0).getName());
                 courseCommentDO commentDO = new courseCommentDO();
                 commentDO.setCourse_id(course_id).setTeacher_id(teacherDOS.get(0).getId());
-                BigDecimal averageComment = courseCommentMapper.getAverageComment(commentDO);
-                BigDecimal averageCredit = courseCommentMapper.getAverageCredit(commentDO);
+                BigDecimal averageComment = new BigDecimal(0);
+                BigDecimal averageCredit = new BigDecimal(0);
+                if (courseCommentMapper.getAverageComment(commentDO) != null){
+                    averageComment = courseCommentMapper.getAverageComment(commentDO);
+                }
+                if (courseCommentMapper.getAverageCredit(commentDO) != null){
+                    averageCredit = courseCommentMapper.getAverageCredit(commentDO);
+                }
                 double value_comment = averageComment.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 double value_credit = averageCredit.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
                 courseCommentDOExample courseCommentDOExample = new courseCommentDOExample();
                 com.hznu.xdd.domain.pojoExam.courseCommentDOExample.Criteria criteria1 = courseCommentDOExample.createCriteria();
-                criteria1.andTeacher_idEqualTo(teacherDOS.get(0).getId()).andCourse_idEqualTo(course_id);
+                criteria1.andTeacher_idEqualTo(teacherDOS.get(0).getId()).andCourse_idEqualTo(course_id).andIs_deleteEqualTo(false);
                 long l = courseCommentMapper.countByExample(courseCommentDOExample);
                 teacherCourseVO.setComment(value_comment + "/" + l);
                 teacherCourseVO.setAvg_credit(value_credit + "/" + l);
                 teacherCourseVO.setId(teacherDOS.get(0).getId());
                 teacherCourseVOS.add(teacherCourseVO);
             }
-        coursePageVo.setList(teacherCourseVOS);
         }
+        coursePageVo.setList(teacherCourseVOS);
         return coursePageVo;
     }
 
