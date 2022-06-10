@@ -22,6 +22,15 @@ public class CoursePageVo extends BasePageVO{
 
     @Data
     @Accessors(chain = true)
+    public static class DetailVO {
+        private Integer id;
+        private String name;
+        private Integer college_id;
+        private Integer school_id;
+    }
+
+    @Data
+    @Accessors(chain = true)
     public static class CourseCommentVO {
         private Integer id;
         private String content;

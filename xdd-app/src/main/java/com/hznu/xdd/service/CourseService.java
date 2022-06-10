@@ -26,6 +26,10 @@ public interface CourseService {
     CoursePageVo.CourseDetailVO getCourseDetail(Integer course_id);
 
     CoursePageVo getCourseAllTeacher(Integer course_id);
+
+    CoursePageVo getAllTeacher(Integer college_id,Integer school_id);
+
+    CoursePageVo getAllCollege(Integer school_id);
     
     
     

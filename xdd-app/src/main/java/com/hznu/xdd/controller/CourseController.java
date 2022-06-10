@@ -50,7 +50,7 @@ public class CourseController {
         return Result.ok(hotKeys,"获取成功");
     }
 
-    @GetMapping(value = "/get/course/course",produces = {"application/json;charset=UTF-8"})
+    @GetMapping(value = "/get/teacher/course",produces = {"application/json;charset=UTF-8"})
     public Result getTeacherAllCourse(@RequestParam("teacher_id") Integer teacher_id){
         CoursePageVo allCourse = courseService.getTeacherAllCourse(teacher_id);
         return Result.ok(allCourse,"获取成功");
@@ -78,5 +78,18 @@ public class CourseController {
     public Result getCourseAllTeacher(@RequestParam("course_id") Integer course_id){
         CoursePageVo courseAllTeacher = courseService.getCourseAllTeacher(course_id);
         return Result.ok(courseAllTeacher,"获取成功");
+    }
+
+    @GetMapping(value = "/get/teacher",produces = {"application/json;charset=UTF-8"})
+    public Result getAllTeacher(@RequestParam("college_id") Integer college_id,
+                                @RequestParam("school_id") Integer school_id){
+        CoursePageVo allTeacher = courseService.getAllTeacher(college_id,school_id);
+        return Result.ok(allTeacher,"获取成功");
+    }
+
+    @GetMapping(value = "/get/college",produces = {"application/json;charset=UTF-8"})
+    public Result getAllCollege(@RequestParam("school_id") Integer school_id){
+        CoursePageVo allCollege = courseService.getAllCollege(school_id);
+        return Result.ok(allCollege,"获取成功");
     }
 }
