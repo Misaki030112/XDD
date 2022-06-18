@@ -5,7 +5,9 @@ import com.hznu.xdd.domain.Result;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -54,6 +56,12 @@ public class XddOAuth2AuthenticationEntryPoint extends OAuth2AuthenticationEntry
         }
         if (exception instanceof UgcException){
             return new ResponseEntity<Object>( new Result(StatusCode.INVALID_USER_PUBLISH.getCode(),exception.getMessage()), update, HttpStatus.OK);
+        }
+        if(exception.getCause() instanceof InvalidTokenException){
+            return new ResponseEntity<Object>(new Result(StatusCode.TOKEN_INVALID), update, HttpStatus.OK);
+        }
+        if(exception.getCause() instanceof InsufficientAuthenticationException){
+            return new ResponseEntity<Object>(new Result(StatusCode.NO_TOKEN), update, HttpStatus.OK);
         }
         return new ResponseEntity<Object>(new Result(StatusCode.TOKEN_INVALID), update, HttpStatus.OK);
     }
